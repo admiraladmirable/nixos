@@ -19,7 +19,7 @@
     history.ignoreSpace = true;
 
     completionInit = ''
-      zstyle :compinstall filename '/home/senoraraton/.config/zsh/.zshrc'
+      zstyle :compinstall filename '/home/rick-topl/.config/zsh/.zshrc'
       zstyle ':vcs_info:git:*' formats '[%b]'
       autoload -Uz compinit
       autoload -U colors && colors
@@ -46,7 +46,7 @@
       aucompile = "arduino-cli compile --fqbn arduino:avr:uno $1";
       audeploy = "arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno $1";
       aumonitor = "arduino-cli monitor -p /dev/ttyACM0";
-      nixbuild = "sudo nixos-rebuild switch --flake \"/home/senoraraton/.config/nixos#\"";
+      nixbuild = "sudo nixos-rebuild switch --flake \"/home/rick-topl/.config/nixos/home#\"";
       n = "nvim";
       k = "kubectl";
       pc = "podman-compose";

@@ -4,7 +4,7 @@ with lib;
   options.games.enable = mkEnableOption "Enable games";
 
   config = mkIf config.games.enable {
-    users.users.senoraraton = {
+    users.users.rick-topl = {
       packages = with pkgs; [
         pcsx2
         tintin

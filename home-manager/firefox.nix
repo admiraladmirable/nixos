@@ -6,7 +6,7 @@
     enable = true;
     package = pkgs.firefox-esr;
 
-    profiles.senoraraton = {
+    profiles.rick-topl = {
 
       search.force = true;
 
