@@ -18,10 +18,10 @@
 
   outputs = { nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
-      buddha = nixpkgs.lib.nixosSystem {
+      work = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/buddha.nix
+          ./hosts/work.nix
           ./modules
           { nixpkgs.config.allowUnfree = true; }
           home-manager.nixosModules.home-manager
@@ -33,21 +33,21 @@
           }
         ];
       };
-      moksha = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/moksha.nix
-          ./modules
-          { nixpkgs.config.allowUnfree = true; }
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.senoraraton= import ./home-manager/default.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
-        ];
-      };
+      # moksha = nixpkgs.lib.nixosSystem {
+      #   system = "x86_64-linux";
+      #   modules = [
+      #     ./hosts/moksha.nix
+      #     ./modules
+      #     { nixpkgs.config.allowUnfree = true; }
+      #     home-manager.nixosModules.home-manager
+      #     {
+      #       home-manager.useGlobalPkgs = true;
+      #       home-manager.useUserPackages = true;
+      #       home-manager.users.senoraraton= import ./home-manager/default.nix;
+      #       home-manager.extraSpecialArgs = { inherit inputs; };
+      #     }
+      #   ];
+      # };
     };
   };
 }
