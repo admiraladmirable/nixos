@@ -10,7 +10,8 @@
     docker.enable = true;
     games.enable = true;
     xorg.enable = true;
-    kde.enable = true;
+    # kde.enable = true;
+    hyprland.enable = true;
     k8.enable = true;
     users.defaultUserShell = pkgs.zsh;
 
