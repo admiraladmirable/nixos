@@ -3,8 +3,8 @@
 {
   programs.git = {
     enable = true;
-    userName = "Claus Mouse";
-    userEmail = "11484197-senoraraton@users.noreply.gitlab.com";
+    userName = "admiraladmirable";
+    userEmail = "rick.morrow1204@gmail.com";
     aliases = {
       undo = "reset HEAD~1 --mixed";
     };
