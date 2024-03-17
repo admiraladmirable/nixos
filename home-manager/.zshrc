@@ -35,7 +35,7 @@ alias aucompile='arduino-cli compile --fqbn arduino:avr:uno $1'
 alias audeploy='arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno $1'
 alias aumonitor='arduino-cli monitor -p /dev/ttyACM0'
 alias nixconf='sudo -E -s nvim ~/.config/nixos'
-alias nixbuild='sudo nixos-rebuild switch --flake "/home/rick-topl/.config#rick-topl"'
+alias nixbuild='sudo nixos-rebuild switch --flake "/home/rick-topl/.config/nixos#work"'
 alias anynixsh='any-nix-shell zsh --info-right | source /dev/stdin'
 alias n="nvim"
 alias k="kubectl"
@@ -99,4 +99,4 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=~/.npm-packages/bin:$PATH
 export NODE_PATH=~/.npm-packages/lib/node_modules
 
-echo -e "\e[1;35m$(figlet 'Hack the Planet')\e[0m"
+echo -e "\e[1;35m$(figlet 'I'm sorry Rick, I can't let you do that.')\e[0m"
