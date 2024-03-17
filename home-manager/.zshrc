@@ -7,7 +7,7 @@ bindkey -v
 REPORTTIME=20
 setopt +o nomatch
 
-zstyle :compinstall filename '/home/senoraraton/.zshrc'
+zstyle :compinstall filename '/home/rick-topl/.zshrc'
 zstyle ':vcs_info:git:*' formats '[%b]'
 autoload -Uz compinit
 autoload -U colors && colors
@@ -35,7 +35,7 @@ alias aucompile='arduino-cli compile --fqbn arduino:avr:uno $1'
 alias audeploy='arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno $1'
 alias aumonitor='arduino-cli monitor -p /dev/ttyACM0'
 alias nixconf='sudo -E -s nvim ~/.config/nixos'
-alias nixbuild='sudo nixos-rebuild switch --flake "/home/senoraraton/.config#rick-topl"'
+alias nixbuild='sudo nixos-rebuild switch --flake "/home/rick-topl/.config#rick-topl"'
 alias anynixsh='any-nix-shell zsh --info-right | source /dev/stdin'
 alias n="nvim"
 alias k="kubectl"
@@ -90,7 +90,7 @@ zle -N zle-keymap-select
 export LANG=en_US.UTF-8
 export TERM=kitty
 export EDITOR=nvim
-export LUA_PATH=/home/senoraraton/.config/nvim/lua/senoraraton/?.lua
+export LUA_PATH=/home/rick-topl/.config/nvim/lua/rick-topl/?.lua
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

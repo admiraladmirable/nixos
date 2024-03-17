@@ -20,7 +20,7 @@
       work = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/work.nix
+          ./hosts/work/work.nix
           ./modules
           { nixpkgs.config.allowUnfree = true; }
           home-manager.nixosModules.home-manager

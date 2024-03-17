@@ -10,5 +10,10 @@ with lib; {
 
     services.xserver.displayManager.sddm.enable = true;
     services.xserver.desktopManager.plasma5.enable = true;
+
+    # Also enable xrdp for plasma x11
+    services.xrdp.enable = true;
+    services.xrdp.defaultWindowManager = "startplasma-x11";
+    services.xrdp.openFirewall = true;
   };
 }

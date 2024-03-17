@@ -8,6 +8,6 @@ with lib; {
     #./tui
     ./games.nix
     ./nvim
-    ./deluge.nix
+    # ./deluge.nix
   ];
 }

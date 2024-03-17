@@ -3,13 +3,12 @@
 {
   imports =
     [       
-      ../modules
-      /etc/nixos/hardware-configuration.nix
+      ../../modules
+      ./hardware-configuration.nix
     ];
     programs.zsh.enable=true;
     docker.enable = true;
     games.enable = true;
-    deluge.enable = true;
     xorg.enable = true;
     kde.enable = true;
     k8.enable = true;
