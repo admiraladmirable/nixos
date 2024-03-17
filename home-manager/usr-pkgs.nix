@@ -12,5 +12,6 @@
       ranger
       deluge
       npins
+      rustdesk-server
     ];
 }
