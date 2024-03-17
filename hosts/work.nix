@@ -33,7 +33,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "work";
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -149,8 +149,8 @@
   nix.gc.dates = "daily";
   nix.gc.options = "--delete-older-than 7d";
 
-  networking.extraHosts =
-  ''127.0.0.1 scaleosaurus.com'';
+  # networking.extraHosts =
+  # ''127.0.0.1 scaleosaurus.com'';
 
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
