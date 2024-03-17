@@ -15,7 +15,6 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-
   outputs = { nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
       work = nixpkgs.lib.nixosSystem {
@@ -28,26 +27,11 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.rick-topl= import ./home-manager/default.nix;
+            home-manager.users.rick-topl = import ./home-manager/default.nix;
             home-manager.extraSpecialArgs = { inherit inputs; };
           }
         ];
       };
-      # moksha = nixpkgs.lib.nixosSystem {
-      #   system = "x86_64-linux";
-      #   modules = [
-      #     ./hosts/moksha.nix
-      #     ./modules
-      #     { nixpkgs.config.allowUnfree = true; }
-      #     home-manager.nixosModules.home-manager
-      #     {
-      #       home-manager.useGlobalPkgs = true;
-      #       home-manager.useUserPackages = true;
-      #       home-manager.users.senoraraton= import ./home-manager/default.nix;
-      #       home-manager.extraSpecialArgs = { inherit inputs; };
-      #     }
-      #   ];
-      # };
     };
   };
 }

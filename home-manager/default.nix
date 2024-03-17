@@ -12,5 +12,6 @@
    ./usr-pkgs.nix
    ./zathura.nix
    ./hyprland.nix
+   ./vscode.nix
   ];
 }

@@ -12,7 +12,5 @@
       ranger
       deluge
       npins
-      arduino-cli
-      pavucontrol
     ];
 }
