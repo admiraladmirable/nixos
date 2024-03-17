@@ -7,8 +7,8 @@
       jnoortheen.nix-ide
       donjayamanne.githistory
       eamodio.gitlens
-      GulajavaMinistudio.mayukaithemevsc
-      nhoizey.gremlins
+      # GulajavaMinistudio.mayukaithemevsc
+      # nhoizey.gremlins
       scalameta.metals
     ];
   };
