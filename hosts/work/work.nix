@@ -6,7 +6,7 @@
       ../../modules
       ./hardware-configuration.nix
     ];
-    programs.zsh.enable=true;
+    # programs.zsh.enable=true;
     docker.enable = true;
     games.enable = true;
     xorg.enable = true;
@@ -14,7 +14,7 @@
     gui.hyprland.enable = true;
     xrdp.enable = true;
     k8.enable = true;
-    users.defaultUserShell = pkgs.zsh;
+    users.defaultUserShell = pkgs.bash;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -144,7 +144,7 @@
     nmap
     bat
   rustdesk-server
-  rustdesk-flutter
+  rustdesk
   ];
 
   # systemd.tmpfiles.rules = [
