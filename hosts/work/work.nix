@@ -144,6 +144,7 @@
     nmap
     bat
   rustdesk-server
+  rustdesk-flutter
   ];
 
   # systemd.tmpfiles.rules = [
