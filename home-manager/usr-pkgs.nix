@@ -15,6 +15,7 @@
       # Topl dev dependencies
       sbt
       jdk17
+      scala
       metals
       coursier
       terraform
