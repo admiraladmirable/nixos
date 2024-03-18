@@ -14,7 +14,7 @@
     gui.hyprland.enable = true;
     xrdp.enable = true;
     k8.enable = true;
-    users.defaultUserShell = pkgs.bash;
+    # users.defaultUserShell = pkgs.bash;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -145,6 +145,8 @@
     bat
   rustdesk-server
   rustdesk
+  slack
+  xclip
   ];
 
   # systemd.tmpfiles.rules = [

@@ -12,5 +12,13 @@
       ranger
       npins
       docker-compose
+      # Topl dev dependencies
+      sbt
+      metals
+      coursier
+      terraform
+      terragrunt
+      checkov
+      (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
     ];
 }

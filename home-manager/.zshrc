@@ -25,15 +25,11 @@ alias less='less -R'
 alias watch='watch --color'
 #alias sudoe='sudo -E -s'
 #alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias tb="nc termbin.com 9999"
 alias pingtest="ping -c 5 google.com"
 alias pingdns="dig 8.8.8.8 & ping -c 5 8.8.8.8"
 alias gitlog="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'"
 alias gitlines="git ls-files | xargs wc -l"
 alias dirsize='du -sh $PWD/*'
-alias aucompile='arduino-cli compile --fqbn arduino:avr:uno $1'
-alias audeploy='arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno $1'
-alias aumonitor='arduino-cli monitor -p /dev/ttyACM0'
 alias nixconf='sudo -E -s nvim ~/.config/nixos'
 alias nixbuild='sudo nixos-rebuild switch --flake "/home/rick-topl/.config/nixos#work"'
 alias anynixsh='any-nix-shell zsh --info-right | source /dev/stdin'
