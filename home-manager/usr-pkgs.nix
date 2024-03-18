@@ -12,5 +12,6 @@
       ranger
       npins
       docker-compose
+      rustdesk-flutter
     ];
 }
