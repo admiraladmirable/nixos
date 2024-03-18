@@ -29,7 +29,6 @@
       '';
 
     shellAliases = {
-      foo = "bar";
       ls = "ls -h --color=auto --group-directories-first";
       ll = "ls -alF";
       l = "ls -A";
@@ -37,22 +36,17 @@
       less = "less -R";
       watch = "watch --color";
       sudoe = "sudo -E -s";
-      tb = "nc termbin.com 9999";
       pingt = "ping -c 5 google.com";
       pingd = "ping -c 5 8.8.8.8";
       gitlog = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
       gitlines = "git ls-files | xargs wc -l";
       dirsize = "du -sh $PWD/*";
-      aucompile = "arduino-cli compile --fqbn arduino:avr:uno $1";
-      audeploy = "arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno $1";
-      aumonitor = "arduino-cli monitor -p /dev/ttyACM0";
-      nixbuild = "sudo nixos-rebuild switch --flake \"/home/rick-topl/.config/nixos/home#\"";
+      nixbuild = "sudo nixos-rebuild switch --flake \"/home/rick-topl/.config/nixos#\"";
       n = "nvim";
       k = "kubectl";
       pc = "podman-compose";
       kpods="kubectl get pods --all-namespaces | grep -v 'kube-system'";
       kbox="kubectl run temp-pod --rm -i --tty --image=busybox -- /bin/sh";
-      click = "echo GRANT_ENTRY_ACCESS | nc -u 10.21.1.113 3339";
       nixconf = "~nixconf";
       cat = "bat --paging=never";
     };
@@ -103,7 +97,7 @@
         zle -N zle-line-finish
         zle -N zle-keymap-select
 
-        echo -e "\e[1;35m$(figlet 'Hack the Planet')\e[0m"
+        # echo -e "\e[1;35m$(figlet 'Hack the Planet')\e[0m"
 
         eval "$(direnv hook zsh)"
       '';
