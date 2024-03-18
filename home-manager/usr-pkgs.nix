@@ -11,5 +11,6 @@
       figlet
       ranger
       npins
+      docker-compose
     ];
 }

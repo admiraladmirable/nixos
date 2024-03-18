@@ -146,64 +146,64 @@
   rustdesk-server
   ];
 
-  systemd.tmpfiles.rules = [
-      "d /opt/rustdesk 0700 root root"
-      "d /var/log/rustdesk 0700 root root"
-      # optional (only for [Erase Your Darlings](https://grahamc.com/blog/erase-your-darlings) or [tmpfs as root](https://elis.nu/blog/2020/05/nixos-tmpfs-as-root/) setups):
-      "L /opt/rustdesk/db_v2.sqlite3 - - - - /persist/opt/rustdesk/db_v2.sqlite3"
-      "L /opt/rustdesk/db_v2.sqlite3-shm - - - - /persist/opt/rustdesk/db_v2.sqlite3-shm"
-      "L /opt/rustdesk/db_v2.sqlite3-wal - - - - /persist/opt/rustdesk/db_v2.sqlite3-wal"
-      "L /opt/rustdesk/id_ed25519 - - - - /persist/opt/rustdesk/id_ed25519"
-      "L /opt/rustdesk/id_ed25519.pub - - - - /persist/opt/rustdesk/id_ed25519.pub"
-    ];
+  # systemd.tmpfiles.rules = [
+  #     "d /opt/rustdesk 0700 root root"
+  #     "d /var/log/rustdesk 0700 root root"
+  #     # optional (only for [Erase Your Darlings](https://grahamc.com/blog/erase-your-darlings) or [tmpfs as root](https://elis.nu/blog/2020/05/nixos-tmpfs-as-root/) setups):
+  #     "L /opt/rustdesk/db_v2.sqlite3 - - - - /persist/opt/rustdesk/db_v2.sqlite3"
+  #     "L /opt/rustdesk/db_v2.sqlite3-shm - - - - /persist/opt/rustdesk/db_v2.sqlite3-shm"
+  #     "L /opt/rustdesk/db_v2.sqlite3-wal - - - - /persist/opt/rustdesk/db_v2.sqlite3-wal"
+  #     "L /opt/rustdesk/id_ed25519 - - - - /persist/opt/rustdesk/id_ed25519"
+  #     "L /opt/rustdesk/id_ed25519.pub - - - - /persist/opt/rustdesk/id_ed25519.pub"
+  #   ];
 
-    systemd.services.rustdesksignal = {
-      description = "Rustdesk Signal Server (hbbs)";
-      documentation = [ 
-        "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
-        "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
-      ];
-      after = [ "network-pre.target" ];
-      wants = [ "network-pre.target" ];
-      partOf = [ "rustdeskrelay.service" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "simple";
-        LimitNOFILE=1000000;
-        WorkingDirectory="/opt/rustdesk";
-        StandardOutput="append:/var/log/rustdesk/hbbs.log";
-        StandardError="append:/var/log/rustdesk/hbbs.error";
-        ExecStart="${pkgs.rustdesk-server}/bin/hbbs -k _";
-        Restart="always";
-        RestartSec=10;
-      };
+  #   systemd.services.rustdesksignal = {
+  #     description = "Rustdesk Signal Server (hbbs)";
+  #     documentation = [ 
+  #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
+  #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
+  #     ];
+  #     after = [ "network-pre.target" ];
+  #     wants = [ "network-pre.target" ];
+  #     partOf = [ "rustdeskrelay.service" ];
+  #     wantedBy = [ "multi-user.target" ];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       LimitNOFILE=1000000;
+  #       WorkingDirectory="/opt/rustdesk";
+  #       StandardOutput="append:/var/log/rustdesk/hbbs.log";
+  #       StandardError="append:/var/log/rustdesk/hbbs.error";
+  #       ExecStart="${pkgs.rustdesk-server}/bin/hbbs -r localhost:21117";
+  #       Restart="always";
+  #       RestartSec=10;
+  #     };
+  #     #script = with pkgs; ''
+  #     #'';
+  #   };
+
+  #   systemd.services.rustdeskrelay = {
+  #     description = "Rustdesk Relay Server (hbbr)";
+  #     documentation = [ 
+  #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
+  #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
+  #     ];
+  #     after = [ "network-pre.target" ];
+  #     wants = [ "network-pre.target" ];
+  #     partOf = [ "rustdesksignal.service" ];
+  #     wantedBy = [ "multi-user.target" ];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       LimitNOFILE=1000000;
+  #       WorkingDirectory="/opt/rustdesk";
+  #       StandardOutput="append:/var/log/rustdesk/hbbr.log";
+  #       StandardError="append:/var/log/rustdesk/hbbr.error";
+  #       ExecStart="${pkgs.rustdesk-server}/bin/hbbr";
+  #       Restart="always";
+  #       RestartSec=10;
+  #     };
       #script = with pkgs; ''
       #'';
-    };
-
-    systemd.services.rustdeskrelay = {
-      description = "Rustdesk Relay Server (hbbr)";
-      documentation = [ 
-        "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
-        "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
-      ];
-      after = [ "network-pre.target" ];
-      wants = [ "network-pre.target" ];
-      partOf = [ "rustdesksignal.service" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "simple";
-        LimitNOFILE=1000000;
-        WorkingDirectory="/opt/rustdesk";
-        StandardOutput="append:/var/log/rustdesk/hbbr.log";
-        StandardError="append:/var/log/rustdesk/hbbr.error";
-        ExecStart="${pkgs.rustdesk-server}/bin/hbbr -k _";
-        Restart="always";
-        RestartSec=10;
-      };
-      #script = with pkgs; ''
-      #'';
-    };
+    # };
 
   nix.settings.auto-optimise-store = true;
   nix.gc.automatic = true;
