@@ -144,6 +144,7 @@
     poppler_utils
     nmap
     bat
+  rustdesk-server
   ];
 
   nix.settings.auto-optimise-store = true;

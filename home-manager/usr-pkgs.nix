@@ -10,8 +10,6 @@
       any-nix-shell
       figlet
       ranger
-      deluge
       npins
-      rustdesk-server
     ];
 }
