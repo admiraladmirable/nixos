@@ -14,6 +14,7 @@
       docker-compose
       # Topl dev dependencies
       sbt
+      jdk17
       metals
       coursier
       terraform
