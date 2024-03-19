@@ -1,9 +1,6 @@
 { lib, config, nixpkgs, ...}:
-with lib; {
-  imports = [
-  ]; 
+with lib;
 {
-  
   options.xrdp.enable = mkEnableOption "Enable xrdp";
 
   config = mkIf config.xrdp.enable {
