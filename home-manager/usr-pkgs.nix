@@ -13,7 +13,8 @@
       npins
       docker-compose
       # Topl dev dependencies
-      sbt.override { jre = pkgs.graalvm-ce; }
+      graalvm-ce
+      (sbt.override { jre = pkgs.graalvm-ce; })
       # jdk17
       scala
       # metals
