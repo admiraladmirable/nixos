@@ -15,7 +15,7 @@
       # Topl dev dependencies
       graalvm-ce
       (sbt.override { jre = pkgs.graalvm-ce; })
-      (scala.override { jre = pkgs.graalvm-ce; })
+      (scala_2_13.override { jre = pkgs.graalvm-ce; })
       # metals
       coursier
       terraform
