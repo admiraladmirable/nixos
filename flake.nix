@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +15,7 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { nixpkgs, home-manager, nixpkgs-unstable, ... }@inputs: {
+  outputs = inputs@{ nixpkgs, home-manager, nixpkgs-unstable, ... }: {
     nixosConfigurations = {
       work = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -29,7 +28,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.rick-topl = import ./home-manager/default.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; inherit nixpkgs; inherit nixpkgs-unstable; };
+            home-manager.extraSpecialArgs = { inherit inputs; inherit nixpkgs; };
           }
         ];
       };

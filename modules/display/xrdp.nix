@@ -1,7 +1,4 @@
-{ lib, config, nixpkgs-unstable, ...}:
-with lib; {
-  imports = [
-  ];
+{ lib, config, nixpkgs, ...}: {
   
   options.xrdp.enable = mkEnableOption "Enable xrdp";
 
