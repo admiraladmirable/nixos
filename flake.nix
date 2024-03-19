@@ -15,7 +15,7 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, nixpkgs-unstable, ... }: {
+  outputs = inputs@{ nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       work = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
