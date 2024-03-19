@@ -13,7 +13,7 @@
       npins
       docker-compose
       # Topl dev dependencies
-      # sbt
+      sbt
       # jdk17
       scala
       # metals
