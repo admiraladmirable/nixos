@@ -10,6 +10,7 @@
     npins
     docker-compose
     newsflash
+    alejandra
     # Topl dev dependencies
     graalvm-ce
     (sbt.override {jre = pkgs.graalvm-ce;})

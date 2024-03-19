@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    ../../modules
+    ../../modules/nixos
     ./hardware-configuration.nix
   ];
   # programs.zsh.enable=true;

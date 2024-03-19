@@ -31,7 +31,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.rick-topl = import ./home-manager/default.nix;
+            home-manager.users.rick-topl = import ./modules/home-manager/default.nix;
             home-manager.extraSpecialArgs = {
               inherit inputs;
               inherit nixpkgs;

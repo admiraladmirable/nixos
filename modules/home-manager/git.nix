@@ -11,11 +11,15 @@
       undo = "reset HEAD~1 --mixed";
     };
     extraConfig = {
+      credential.helper = "${
+          pkgs.git.override { withLibsecret = true; }
+        }/bin/git-credential-libsecret";
       color = {
         ui = "auto";
       };
       push = {
         default = "simple";
+        autoSetupRemote = "true";
       };
     };
   };
