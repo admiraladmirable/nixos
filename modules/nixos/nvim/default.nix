@@ -66,7 +66,7 @@
             #"vim-dispatch"
             #"vim-dispatch-neovim"
             #"cmp-conjure"
-          ]) (import ../../npins));
+          ]) (import ../../../npins));
       withPython3 = true;
       extraPython3Packages = _: [];
       viAlias = false;
