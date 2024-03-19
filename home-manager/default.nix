@@ -13,5 +13,6 @@
    ./zathura.nix
    ./hyprland.nix
    ./vscode.nix
+   ./java.nix
   ];
 }

@@ -1,4 +1,4 @@
-{ lib, config, ...}:
+{ lib, config, nixpkgs-unstable, ...}:
 with lib; {
   imports = [
   ];
