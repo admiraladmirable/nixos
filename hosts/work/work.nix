@@ -1,20 +1,22 @@
-{ config, pkgs, lib, ...}:
-
 {
-  imports =
-    [       
-      ../../modules
-      ./hardware-configuration.nix
-    ];
-    # programs.zsh.enable=true;
-    docker.enable = true;
-    games.enable = true;
-    xorg.enable = true;
-    kde.enable = true;
-    gui.hyprland.enable = true;
-    xrdp.enable = true;
-    k8.enable = true;
-    # users.defaultUserShell = pkgs.bash;
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
+  imports = [
+    ../../modules
+    ./hardware-configuration.nix
+  ];
+  # programs.zsh.enable=true;
+  docker.enable = true;
+  games.enable = true;
+  xorg.enable = true;
+  kde.enable = true;
+  gui.hyprland.enable = true;
+  xrdp.enable = true;
+  k8.enable = true;
+  # users.defaultUserShell = pkgs.bash;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -63,8 +65,8 @@
 
   networking.firewall = {
     enable = false;
-    allowedTCPPorts = [ 2049 4000 4001 4002 5050 5432 5433 20048 31190];
-    allowedUDPPorts = [ 2049 4000 4001 4002 5050 5432 5433 20048 31190];
+    allowedTCPPorts = [2049 4000 4001 4002 5050 5432 5433 20048 31190];
+    allowedUDPPorts = [2049 4000 4001 4002 5050 5432 5433 20048 31190];
   };
 
   #boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 1;
@@ -92,38 +94,38 @@
   users.users.rick-topl = {
     isNormalUser = true;
     description = "Rick Morrow - Work";
-    extraGroups = [ "networkmanager" "wheel" "docker" "dialout" ];
+    extraGroups = ["networkmanager" "wheel" "docker" "dialout"];
   };
 
   fonts.packages = with pkgs; [
     source-code-pro
   ];
   environment.systemPackages = with pkgs; [
-	git
-	wget
+    git
+    wget
     bc
     autoconf
     automake
-	tmux
-	pciutils
-	usbutils
-	unzip
-	fzf
+    tmux
+    pciutils
+    usbutils
+    unzip
+    fzf
     libtool
-	zsh
-	gnumake
+    zsh
+    gnumake
     cmake
-	gcc
+    gcc
     gdb
-	python3Full
+    python3Full
     go
-	rustc
-	cargo
-	nodejs
+    rustc
+    cargo
+    nodejs
     podman
     podman-compose
     libjpeg
-	feh
+    feh
     lsof
     htop
     wireshark
@@ -143,10 +145,10 @@
     poppler_utils
     nmap
     bat
-  rustdesk-server
-  rustdesk
-  slack
-  xclip
+    rustdesk-server
+    rustdesk
+    slack
+    xclip
   ];
 
   # systemd.tmpfiles.rules = [
@@ -162,7 +164,7 @@
 
   #   systemd.services.rustdesksignal = {
   #     description = "Rustdesk Signal Server (hbbs)";
-  #     documentation = [ 
+  #     documentation = [
   #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
   #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
   #     ];
@@ -186,7 +188,7 @@
 
   #   systemd.services.rustdeskrelay = {
   #     description = "Rustdesk Relay Server (hbbr)";
-  #     documentation = [ 
+  #     documentation = [
   #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
   #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
   #     ];
@@ -204,9 +206,9 @@
   #       Restart="always";
   #       RestartSec=10;
   #     };
-      #script = with pkgs; ''
-      #'';
-    # };
+  #script = with pkgs; ''
+  #'';
+  # };
 
   nix.settings.auto-optimise-store = true;
   nix.gc.automatic = true;

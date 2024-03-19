@@ -1,6 +1,9 @@
-{ config, lib, ...}:
-with lib;
 {
+  config,
+  lib,
+  ...
+}:
+with lib; {
   options.docker.enable = mkEnableOption "Enable docker/podman";
 
   config = mkIf config.docker.enable {

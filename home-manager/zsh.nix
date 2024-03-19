@@ -1,11 +1,13 @@
-{ pkgs, inputs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.direnv = {
-        enable = true;
-        enableZshIntegration = true;
-        nix-direnv.enable = true;
-    };
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
   programs.zsh = {
     enable = true;
     autocd = true;
@@ -26,7 +28,7 @@
       autoload -Uz vcs_info
       precmd() {vcs_info}
       compinit
-      '';
+    '';
 
     shellAliases = {
       ls = "ls -h --color=auto --group-directories-first";
@@ -45,8 +47,8 @@
       n = "nvim";
       k = "kubectl";
       pc = "podman-compose";
-      kpods="kubectl get pods --all-namespaces | grep -v 'kube-system'";
-      kbox="kubectl run temp-pod --rm -i --tty --image=busybox -- /bin/sh";
+      kpods = "kubectl get pods --all-namespaces | grep -v 'kube-system'";
+      kbox = "kubectl run temp-pod --rm -i --tty --image=busybox -- /bin/sh";
       nixconf = "~nixconf";
       cat = "bat --paging=never";
     };
@@ -58,53 +60,52 @@
       PATH = "~/.npm-packages/bin:$PATH";
       NODE_PATH = "~/.npm-packages/lib/node_modules";
       RPROMPT = "%F{57}\${vcs_info_msg_0_}%f%b";
-      DIRENV_LOG_FORMAT="";
-      READNULLCMD="bat_read_null";
-      BAT_THEME="Solarized (dark)";
+      DIRENV_LOG_FORMAT = "";
+      READNULLCMD = "bat_read_null";
+      BAT_THEME = "Solarized (dark)";
     };
 
-    initExtra = 
-      ''
-        setopt extendedglob nomatch 
-        setopt EXTENDED_HISTORY
-        setopt INC_APPEND_HISTORY
-        setopt HIST_FIND_NO_DUPS
-        unsetopt beep
-        bindkey -v
-        bindkey -r '^W'
-        REPORTTIME=20
-        setopt +o nomatch
-        setopt PROMPT_SUBST
-        export KEYTIMEOUT=1
-        bat_read_null() { bat --paging=never }; 
-        
-        PS1='%T%F{33}|%n%{$reset_color%}@%F{13}%m|%f%{$fg[green]%}%~%{$reset_color%}%{$fg[white]%}''${vim_mode}%'
+    initExtra = ''
+      setopt extendedglob nomatch
+      setopt EXTENDED_HISTORY
+      setopt INC_APPEND_HISTORY
+      setopt HIST_FIND_NO_DUPS
+      unsetopt beep
+      bindkey -v
+      bindkey -r '^W'
+      REPORTTIME=20
+      setopt +o nomatch
+      setopt PROMPT_SUBST
+      export KEYTIMEOUT=1
+      bat_read_null() { bat --paging=never };
 
-        
-        vim_ins_mode="%{$fg[green]%}|%{$reset_color%}"
-        vim_cmd_mode="%{$fg[red]%}|%{$reset_color%}"
+      PS1='%T%F{33}|%n%{$reset_color%}@%F{13}%m|%f%{$fg[green]%}%~%{$reset_color%}%{$fg[white]%}''${vim_mode}%'
+
+
+      vim_ins_mode="%{$fg[green]%}|%{$reset_color%}"
+      vim_cmd_mode="%{$fg[red]%}|%{$reset_color%}"
+      vim_mode=$vim_ins_mode
+
+      function zle-keymap-select {
+        vim_mode="''${''${KEYMAP/vicmd/''${vim_cmd_mode}}/(main|viins)/''${vim_ins_mode}}"
+      zle reset-prompt
+      }
+
+      function zle-line-finish {
         vim_mode=$vim_ins_mode
+      }
 
-        function zle-keymap-select {
-          vim_mode="''${''${KEYMAP/vicmd/''${vim_cmd_mode}}/(main|viins)/''${vim_ins_mode}}"
-        zle reset-prompt
-        }
+      zle -N zle-line-finish
+      zle -N zle-keymap-select
 
-        function zle-line-finish {
-          vim_mode=$vim_ins_mode
-        }
+      # echo -e "\e[1;35m$(figlet 'Hack the Planet')\e[0m"
 
-        zle -N zle-line-finish
-        zle -N zle-keymap-select
-
-        # echo -e "\e[1;35m$(figlet 'Hack the Planet')\e[0m"
-
-        eval "$(direnv hook zsh)"
-      '';
-      dirHashes = {
-        dl = "$HOME/Downloads";
-        nixconf = "$HOME/.config/nixos";
-        bins = "$HOME/bins";
-      };
+      eval "$(direnv hook zsh)"
+    '';
+    dirHashes = {
+      dl = "$HOME/Downloads";
+      nixconf = "$HOME/.config/nixos";
+      bins = "$HOME/bins";
+    };
   };
 }

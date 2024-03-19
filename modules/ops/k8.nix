@@ -1,7 +1,10 @@
-
-{ config, lib, pkgs, ...}:
-with lib;
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; {
   options.k8.enable = mkEnableOption "Enable k8";
 
   config = mkIf config.k8.enable {

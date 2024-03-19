@@ -1,13 +1,15 @@
-{ pkgs, inputs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.vscode = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
       jnoortheen.nix-ide
       donjayamanne.githistory
       eamodio.gitlens
-      # 
+      #
       # nhoizey.gremlins
       scalameta.metals
     ];

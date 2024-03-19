@@ -1,6 +1,9 @@
-{ config, lib, ...}:
-with lib;
 {
+  config,
+  lib,
+  ...
+}:
+with lib; {
   options.deluge.enable = mkEnableOption "Enable deluge service";
 
   config = mkIf config.deluge.enable {
@@ -8,7 +11,7 @@ with lib;
       enable = true;
       openFirewall = true;
       web = {
-        enable=true;
+        enable = true;
         openFirewall = true;
       };
     };

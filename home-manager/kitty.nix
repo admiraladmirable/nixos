@@ -1,6 +1,8 @@
-{ pkgs, inputs, ... }:
-
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.kitty = {
     enable = true;
     font.name = "Source Code Pro Medium";

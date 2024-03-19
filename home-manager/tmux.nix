@@ -1,7 +1,9 @@
-{ pkgs, inputs, ... }:
-
 {
-  programs.tmux = { 
+  pkgs,
+  inputs,
+  ...
+}: {
+  programs.tmux = {
     enable = true;
     clock24 = true;
     mouse = false;
@@ -15,6 +17,6 @@
     ];
     extraConfig = ''
       set -g @plugin 'dracula/tmux'
-      '';
+    '';
   };
 }
