@@ -1,5 +1,5 @@
 {...}: {
-  home.stateVersion = "24.05";
+  home.stateVersion = "23.05";
   imports = [
     ./git.nix
     ./zsh.nix
