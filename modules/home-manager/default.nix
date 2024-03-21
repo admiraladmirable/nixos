@@ -11,5 +11,6 @@
     ./hyprland.nix
     ./vscode.nix
     ./java.nix
+    ./direnv.nix
   ];
 }

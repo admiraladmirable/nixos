@@ -11,7 +11,6 @@
     docker-compose
     newsflash
     alejandra
-    direnv
     # Topl dev dependencies
     graalvm-ce
     (sbt.override {jre = pkgs.graalvm-ce;})
