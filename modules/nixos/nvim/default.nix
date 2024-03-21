@@ -95,7 +95,7 @@
           gofumpt
           gotools
           go-outline
-          gocode
+          gopls
           gopkgs
           godef
           golint
