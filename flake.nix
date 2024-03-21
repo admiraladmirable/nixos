@@ -36,6 +36,7 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
               inherit nixpkgs;
+              inherit nixpkgs-unstable;
             };
           }
         ];
