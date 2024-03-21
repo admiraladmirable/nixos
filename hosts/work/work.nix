@@ -59,8 +59,8 @@
   };
 
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    xkb.variant = "";
   };
 
   networking.firewall = {
