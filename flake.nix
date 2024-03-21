@@ -12,12 +12,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nil-lsp.url = "gitlab:oxalica/nil";
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
   outputs = inputs @ {
     nixpkgs,
     home-manager,
+    nil-lsp,
     ...
   }: {
     nixosConfigurations = {
