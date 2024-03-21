@@ -19,6 +19,7 @@
   outputs = inputs @ {
     nixpkgs,
     home-manager,
+    nixpkgs-unstable,
     ...
   }: {
     nixosConfigurations = {
