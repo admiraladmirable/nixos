@@ -1,39 +1,33 @@
-{
-  lib,
-  config,
-  ...
-}:
+{ lib, config, ... }:
 with lib; {
   options.gui.hyprland = {
     enable = mkEnableOption "hyprland window manager";
     light-theme = mkEnableOption "light theme";
   };
 
-  config = let
-    cfg = config.gui.hyprland;
-  in
-    mkIf cfg.enable {
-      programs.hyprland.enable = true;
+  config = let cfg = config.gui.hyprland;
+  in mkIf cfg.enable {
+    programs.hyprland.enable = true;
 
-      home-manager.sharedModules = [
-        ({
-          lib,
-          config,
-          osConfig,
-          pkgs,
-          ...
-        }:
-          with lib; {
-            options.gui.hyprland.enable = mkEnableOption "hyprland window manager";
+    home-manager.sharedModules = [
+      ({ lib, config, osConfig, pkgs, ... }:
+        with lib; {
+          options.gui.hyprland.enable =
+            mkEnableOption "hyprland window manager";
 
-            config.wayland.windowManager.hyprland = mkIf config.gui.hyprland.enable {
+          config.wayland.windowManager.hyprland =
+            mkIf config.gui.hyprland.enable {
               enable = true;
               recommendedEnvironment = true;
               extraConfig = let
                 osCfg = osConfig.gui.hyprland;
                 playerctl = "${pkgs.playerctl}/bin/playerctl";
-                raw-browser-open = "${pkgs.raw-browser-open}/bin/raw-browser-open";
-                monitorString = with osConfig.machine.monitor; "${name},${toString width}x${toString height}@${toString refreshRate},0x0,${toString scale}";
+                raw-browser-open =
+                  "${pkgs.raw-browser-open}/bin/raw-browser-open";
+                monitorString = with osConfig.machine.monitor;
+                  "${name},${toString width}x${toString height}@${
+                    toString refreshRate
+                  },0x0,${toString scale}";
                 brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
                 wpctl = "${pkgs.wireplumber}/bin/wpctl";
                 wlrctl = "${pkgs.wlrctl}/bin/wlrctl";
@@ -46,36 +40,28 @@ with lib; {
 
                 step = toString 5;
 
-                vrr = toString (
-                  if osConfig.machine.monitor.variableRefreshRate
-                  then 1
-                  else 0
-                );
+                vrr = toString
+                  (if osConfig.machine.monitor.variableRefreshRate then
+                    1
+                  else
+                    0);
 
                 activeBorder =
-                  if osCfg.light-theme
-                  then "0xfffbf1c7"
-                  else "0xff3c3836";
+                  if osCfg.light-theme then "0xfffbf1c7" else "0xff3c3836";
 
                 inactiveBorder =
-                  if osCfg.light-theme
-                  then "0xffebdbb2"
-                  else "0xff282828";
+                  if osCfg.light-theme then "0xffebdbb2" else "0xff282828";
 
                 groupBorder =
-                  if osCfg.light-theme
-                  then "0xffd5c4a1"
-                  else "0xff504945";
+                  if osCfg.light-theme then "0xffd5c4a1" else "0xff504945";
 
                 groupBorderActive =
-                  if osCfg.light-theme
-                  then "0xffbdae93"
-                  else "0xff665c54";
+                  if osCfg.light-theme then "0xffbdae93" else "0xff665c54";
 
-                background =
-                  if osCfg.light-theme
-                  then "##d5c4a1" # NOTE: This escapes the hashtag (thanks Hyprland...)
-                  else "##141414";
+                background = if osCfg.light-theme then
+                  "##d5c4a1" # NOTE: This escapes the hashtag (thanks Hyprland...)
+                else
+                  "##141414";
               in ''
                 monitor=${monitorString}
 
@@ -269,7 +255,7 @@ with lib; {
                 exec=${swaybg} -c "${background}"
               '';
             };
-          })
-      ];
-    };
+        })
+    ];
+  };
 }

@@ -1,9 +1,4 @@
-{
-  lib,
-  config,
-  nixpkgs-unstable,
-  ...
-}:
+{ lib, config, nixpkgs-unstable, ... }:
 with lib; {
   options.xrdp.enable = mkEnableOption "Enable xrdp";
 

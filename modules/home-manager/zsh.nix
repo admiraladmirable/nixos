@@ -1,8 +1,4 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{ pkgs, inputs, ... }: {
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -40,10 +36,12 @@
       sudoe = "sudo -E -s";
       pingt = "ping -c 5 google.com";
       pingd = "ping -c 5 8.8.8.8";
-      gitlog = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
+      gitlog =
+        "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
       gitlines = "git ls-files | xargs wc -l";
       dirsize = "du -sh $PWD/*";
-      nixbuild = "sudo nixos-rebuild switch --flake \"/home/rick-topl/.config/nixos#\"";
+      nixbuild =
+        ''sudo nixos-rebuild switch --flake "/home/rick-topl/.config/nixos#"'';
       n = "nvim";
       k = "kubectl";
       pc = "podman-compose";
