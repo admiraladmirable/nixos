@@ -11,6 +11,7 @@
     docker-compose
     newsflash
     alejandra
+    nixfmt
     # Topl dev dependencies
     graalvm-ce
     (sbt.override {jre = pkgs.graalvm-ce;})
