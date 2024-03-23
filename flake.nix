@@ -12,7 +12,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nil-lsp.url = "github:oxalica/nil";
     hyprland.url = "github:hyprwm/Hyprland";
   };
 

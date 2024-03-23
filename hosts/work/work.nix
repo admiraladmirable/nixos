@@ -139,6 +139,7 @@
     rustdesk
     slack
     xclip
+    nil
   ];
 
   # systemd.tmpfiles.rules = [
