@@ -140,6 +140,7 @@
     slack
     xclip
     nil
+    input-leap
   ];
 
   # systemd.tmpfiles.rules = [
