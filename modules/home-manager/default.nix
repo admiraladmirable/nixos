@@ -2,7 +2,7 @@
   home.stateVersion = "23.05";
   imports = [
     ./git.nix
-    ./zsh.nix
+    #./zsh.nix
     #./tmux.nix
     ./kitty.nix
     ./firefox.nix
