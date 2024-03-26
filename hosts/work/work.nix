@@ -102,16 +102,15 @@
     unzip
     fzf
     libtool
-    zsh
     gnumake
     cmake
     gcc
     gdb
-    python3Full
-    go
-    rustc
-    cargo
-    nodejs
+    # python3Full
+    # go
+    # rustc
+    # cargo
+    # nodejs
     podman
     podman-compose
     libjpeg
@@ -128,15 +127,15 @@
     lolcat
     pulseaudio
     file
-    nodePackages.npm
-    python310Packages.pip
-    sqlite
+    # nodePackages.npm
+    # python310Packages.pip
+    # sqlite
     traceroute
     poppler_utils
     nmap
     bat
-    rustdesk-server
-    rustdesk
+    # rustdesk-server
+    # rustdesk
     slack
     xclip
     nil
