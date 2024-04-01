@@ -7,7 +7,10 @@ with lib; {
     xorg.enable = mkDefault true;
 
     services.xserver.displayManager.sddm.enable = true;
-    services.xserver.desktopManager.plasma5.enable = true;
+    # services.xserver.desktopManager.plasma5.enable = true;
+    # Plasma 6
+    services.xserver.displayManager.sddm.wayland.enable = true;
+    services.desktopManager.plasma6.enable = true;
 
     # Also enable xrdp for plasma x11
     services.xrdp.enable = true;
