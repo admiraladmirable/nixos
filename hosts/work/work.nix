@@ -85,7 +85,7 @@
 
   users.users.rick-topl = {
     isNormalUser = true;
-    description = "Rick Morrow - Work";
+    description = "Rick Morrow";
     extraGroups = [ "networkmanager" "wheel" "docker" "dialout" ];
   };
 
