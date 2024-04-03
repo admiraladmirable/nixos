@@ -2,9 +2,7 @@
   description = "NixOS configuration";
 
   inputs = {
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/staging-next"; # temp fix for CVE
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -18,7 +16,7 @@
     lan-mouse.url = "github:feschber/lan-mouse";
   };
 
-  outputs = inputs@{ nixpkgs, nixpkgs-unstable, home-manager, ... }: {
+  outputs = inputs@{ nixpkgs, home-manager, ... }: {
     nixosConfigurations = {
       work = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
