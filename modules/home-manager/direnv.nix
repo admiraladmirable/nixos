@@ -1,7 +1,16 @@
 { pkgs, inputs, ... }: {
-  programs.direnv = {
-    enable = true;
-    enableBashIntegration = true;
-    nix-direnv.enable = true;
+  programs = {
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      nix-direnv.enable = true;
+    };
+
+    bash = {
+      enable = true;
+      sessionVariables = {
+        PROMPT_COMMAND = "history -a; $PROMPT_COMMAND";
+      };
+    };
   };
 }
