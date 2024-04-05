@@ -10,6 +10,8 @@
       enable = true;
       sessionVariables = {
         PROMPT_COMMAND = "history -a; $PROMPT_COMMAND";
+        EDITOR="nvim";
+        KUBE_EDITOR="nvim";
       };
     };
   };
