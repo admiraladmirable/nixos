@@ -6,7 +6,7 @@ with lib; {
     ./ops/QEMU.nix
     ./ops/docker.nix
     #./tui
-    ./games.nix
+    # ./games.nix
     ./nvim
     # ./deluge.nix
   ];
