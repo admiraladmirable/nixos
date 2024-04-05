@@ -2,7 +2,7 @@
   imports = [ ../../modules/nixos ./hardware-configuration.nix ];
   # programs.zsh.enable=true;
   docker.enable = true;
-  games.enable = true;
+  # games.enable = true;
   xorg.enable = true;
   kde.enable = true;
   gui.hyprland.enable = true;
