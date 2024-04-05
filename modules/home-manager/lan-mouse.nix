@@ -1,4 +1,5 @@
-{ inputs, ... }: {
+{ inputs, ... }:
+{
   # add the home manager module
   imports = [ inputs.lan-mouse.homeManagerModules.default ];
 

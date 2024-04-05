@@ -1,5 +1,6 @@
 { lib, config, ... }:
-with lib; {
+with lib;
+{
   imports = [ ./xorg.nix ];
   options.kde.enable = mkEnableOption "Enable KDE w/ Xorg";
 

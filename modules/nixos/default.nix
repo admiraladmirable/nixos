@@ -1,5 +1,6 @@
 { lib, ... }:
-with lib; {
+with lib;
+{
   imports = [
     ./display
     ./ops/k8.nix

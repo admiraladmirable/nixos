@@ -1,5 +1,6 @@
 { config, lib, ... }:
-with lib; {
+with lib;
+{
   options.docker.enable = mkEnableOption "Enable docker/podman";
 
   config = mkIf config.docker.enable {
@@ -13,6 +14,10 @@ with lib; {
     #       defaultNetwork.settings.dns_enabled = true;
     #     };
     # };
-    virtualisation = { docker = { enable = true; }; };
+    virtualisation = {
+      docker = {
+        enable = true;
+      };
+    };
   };
 }

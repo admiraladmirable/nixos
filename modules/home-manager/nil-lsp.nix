@@ -1,3 +1,4 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+{
   imports = [ inputs.nil-lsp.homeManagerModules.default ];
 }

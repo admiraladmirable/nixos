@@ -1,5 +1,6 @@
 { config, lib, ... }:
-with lib; {
+with lib;
+{
   options.deluge.enable = mkEnableOption "Enable deluge service";
 
   config = mkIf config.deluge.enable {

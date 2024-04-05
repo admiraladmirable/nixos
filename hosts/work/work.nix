@@ -1,5 +1,14 @@
-{ config, pkgs, lib, ... }: {
-  imports = [ ../../modules/nixos ./hardware-configuration.nix ];
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
+  imports = [
+    ../../modules/nixos
+    ./hardware-configuration.nix
+  ];
   # programs.zsh.enable=true;
   docker.enable = true;
   # games.enable = true;
@@ -57,8 +66,28 @@
 
   networking.firewall = {
     enable = false;
-    allowedTCPPorts = [ 2049 4000 4001 4002 5050 5432 5433 20048 31190 ];
-    allowedUDPPorts = [ 2049 4000 4001 4002 5050 5432 5433 20048 31190 ];
+    allowedTCPPorts = [
+      2049
+      4000
+      4001
+      4002
+      5050
+      5432
+      5433
+      20048
+      31190
+    ];
+    allowedUDPPorts = [
+      2049
+      4000
+      4001
+      4002
+      5050
+      5432
+      5433
+      20048
+      31190
+    ];
   };
 
   #boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 1;
@@ -89,7 +118,12 @@
   users.users.rick-topl = {
     isNormalUser = true;
     description = "Rick Morrow";
-    extraGroups = [ "networkmanager" "wheel" "docker" "dialout" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "dialout"
+    ];
   };
 
   fonts.packages = with pkgs; [ source-code-pro ];
