@@ -96,7 +96,7 @@
   services.printing.enable = true;
 
   # Disable SSH for now.
-  services.openssh.enable = lib.mkForce false;
+  # services.openssh.enable = lib.mkForce false;
 
   # Enable sound with pipewire.
   sound.enable = true;
