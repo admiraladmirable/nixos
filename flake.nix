@@ -38,6 +38,24 @@
             }
           ];
         };
+        desktop = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/desktop/desktop.nix
+            ./modules/nixos
+            { nixpkgs.config.allowUnfree = true; }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.rick-topl = import ./modules/home-manager/default.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                inherit nixpkgs;
+              };
+            }
+          ];
+        };
       };
     };
 }
