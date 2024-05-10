@@ -39,7 +39,7 @@
   boot.initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device = "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
 
   # Networking
-  networking.hostName = "rick-desktop";
+  networking.hostName = "desktop";
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -70,6 +70,10 @@
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
 
+  # Linux Kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in 
+
+  # Nvidia GPU Drivers
   hardware.nvidia = {
     modesetting.enable = true;
     # powerManagement.enable = true;
@@ -120,6 +124,15 @@
   };
 
   fonts.packages = with pkgs; [ source-code-pro ];
+
+  environment.variables = {
+    FLAKE = "/home/rick-desktop/.config/nixos/";
+  };
+
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
+
   environment.systemPackages = with pkgs; [
     git
     wget
@@ -159,6 +172,12 @@
     slack
     xclip
     nil
+    vesktop
+    obsidian
+    spotify
+    protonup
+    mangohud
+    nh
   ];
 
   nix.settings.auto-optimise-store = true;
@@ -175,8 +194,8 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 57621 ];
+  networking.firewall.allowedUDPPorts = [ 5353 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 }
