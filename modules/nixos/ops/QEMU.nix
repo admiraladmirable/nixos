@@ -14,7 +14,7 @@ with lib;
       "overlay"
     ];
     virtualisation.libvirtd.enable = true;
-    users.users.rick-topl.extraGroups = [ "libvirtd" ];
+    users.users.rick-desktop.extraGroups = [ "libvirtd" ];
 
     environment.systemPackages = with pkgs; [
       libvirt

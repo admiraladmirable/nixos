@@ -115,7 +115,7 @@
     #media-session.enable = true;
   };
 
-  users.users.rick-topl = {
+  users.users.rick-desktop = {
     isNormalUser = true;
     description = "Rick Morrow";
     extraGroups = [

@@ -7,7 +7,7 @@ bindkey -v
 REPORTTIME=20
 setopt +o nomatch
 
-zstyle :compinstall filename '/home/rick-topl/.zshrc'
+zstyle :compinstall filename '/home/rick-desktop/.zshrc'
 zstyle ':vcs_info:git:*' formats '[%b]'
 autoload -Uz compinit
 autoload -U colors && colors
@@ -31,7 +31,7 @@ alias gitlog="git log --graph --abbrev-commit --decorate --format=format:'%C(bol
 alias gitlines="git ls-files | xargs wc -l"
 alias dirsize='du -sh $PWD/*'
 alias nixconf='sudo -E -s nvim ~/.config/nixos'
-alias nixbuild='sudo nixos-rebuild switch --flake "/home/rick-topl/.config/nixos#work"'
+alias nixbuild='sudo nixos-rebuild switch --flake "/home/rick-desktop/.config/nixos#work"'
 alias anynixsh='any-nix-shell zsh --info-right | source /dev/stdin'
 alias n="nvim"
 alias k="kubectl"
@@ -86,7 +86,7 @@ zle -N zle-keymap-select
 export LANG=en_US.UTF-8
 export TERM=kitty
 export EDITOR=nvim
-export LUA_PATH=/home/rick-topl/.config/nvim/lua/rick-topl/?.lua
+export LUA_PATH=/home/rick-desktop/.config/nvim/lua/rick-desktop/?.lua
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
