@@ -9,6 +9,7 @@ with lib;
     #./tui
     ./games.nix
     ./nvim
+    ./steam.nix
     # ./deluge.nix
   ];
 }
