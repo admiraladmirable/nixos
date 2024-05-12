@@ -9,14 +9,15 @@
     ../../modules/nixos
     ./hardware-configuration.nix
   ];
-
-  # Enabled Modules
+  # programs.zsh.enable=true;
   docker.enable = true;
+  # games.enable = true;
   xorg.enable = true;
   kde.enable = true;
-  gui.hyprland.enable = true;
+  #$ gui.hyprland.enable = true;
+  xrdp.enable = true;
   k8.enable = true;
-  steam.enable = true;
+  # users.defaultUserShell = pkgs.bash;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -33,13 +34,11 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device = "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
+  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  # Networking
-  networking.hostName = "desktop";
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -60,31 +59,35 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
-
-  # Linux Kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in 
-
-  # Nvidia GPU Drivers
-  hardware.nvidia = {
-    modesetting.enable = true;
-    # powerManagement.enable = true;
-    # powerManagement.finegrained = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
-
   services.xserver = {
     xkb.layout = "us";
     xkb.variant = "";
+  };
+
+  networking.firewall = {
+    enable = false;
+    allowedTCPPorts = [
+      2049
+      4000
+      4001
+      4002
+      5050
+      5432
+      5433
+      20048
+      31190
+    ];
+    allowedUDPPorts = [
+      2049
+      4000
+      4001
+      4002
+      5050
+      5432
+      5433
+      20048
+      31190
+    ];
   };
 
   #boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 1;
@@ -124,15 +127,6 @@
   };
 
   fonts.packages = with pkgs; [ source-code-pro ];
-
-  environment.variables = {
-    FLAKE = "/home/rick-desktop/.config/nixos/";
-  };
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
-
   environment.systemPackages = with pkgs; [
     git
     wget
@@ -172,13 +166,66 @@
     slack
     xclip
     nil
-    vesktop
-    obsidian
-    spotify
-    protonup
-    mangohud
-    nh
   ];
+
+  # systemd.tmpfiles.rules = [
+  #     "d /opt/rustdesk 0700 root root"
+  #     "d /var/log/rustdesk 0700 root root"
+  #     # optional (only for [Erase Your Darlings](https://grahamc.com/blog/erase-your-darlings) or [tmpfs as root](https://elis.nu/blog/2020/05/nixos-tmpfs-as-root/) setups):
+  #     "L /opt/rustdesk/db_v2.sqlite3 - - - - /persist/opt/rustdesk/db_v2.sqlite3"
+  #     "L /opt/rustdesk/db_v2.sqlite3-shm - - - - /persist/opt/rustdesk/db_v2.sqlite3-shm"
+  #     "L /opt/rustdesk/db_v2.sqlite3-wal - - - - /persist/opt/rustdesk/db_v2.sqlite3-wal"
+  #     "L /opt/rustdesk/id_ed25519 - - - - /persist/opt/rustdesk/id_ed25519"
+  #     "L /opt/rustdesk/id_ed25519.pub - - - - /persist/opt/rustdesk/id_ed25519.pub"
+  #   ];
+
+  #   systemd.services.rustdesksignal = {
+  #     description = "Rustdesk Signal Server (hbbs)";
+  #     documentation = [
+  #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
+  #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
+  #     ];
+  #     after = [ "network-pre.target" ];
+  #     wants = [ "network-pre.target" ];
+  #     partOf = [ "rustdeskrelay.service" ];
+  #     wantedBy = [ "multi-user.target" ];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       LimitNOFILE=1000000;
+  #       WorkingDirectory="/opt/rustdesk";
+  #       StandardOutput="append:/var/log/rustdesk/hbbs.log";
+  #       StandardError="append:/var/log/rustdesk/hbbs.error";
+  #       ExecStart="${pkgs.rustdesk-server}/bin/hbbs -r localhost:21117";
+  #       Restart="always";
+  #       RestartSec=10;
+  #     };
+  #     #script = with pkgs; ''
+  #     #'';
+  #   };
+
+  #   systemd.services.rustdeskrelay = {
+  #     description = "Rustdesk Relay Server (hbbr)";
+  #     documentation = [
+  #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
+  #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
+  #     ];
+  #     after = [ "network-pre.target" ];
+  #     wants = [ "network-pre.target" ];
+  #     partOf = [ "rustdesksignal.service" ];
+  #     wantedBy = [ "multi-user.target" ];
+  #     serviceConfig = {
+  #       Type = "simple";
+  #       LimitNOFILE=1000000;
+  #       WorkingDirectory="/opt/rustdesk";
+  #       StandardOutput="append:/var/log/rustdesk/hbbr.log";
+  #       StandardError="append:/var/log/rustdesk/hbbr.error";
+  #       ExecStart="${pkgs.rustdesk-server}/bin/hbbr";
+  #       Restart="always";
+  #       RestartSec=10;
+  #     };
+  #script = with pkgs; ''
+  #'';
+  # };
 
   nix.settings.auto-optimise-store = true;
   nix.gc.automatic = true;
@@ -187,15 +234,4 @@
 
   # networking.extraHosts =
   # ''127.0.0.1 scaleosaurus.com'';
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 57621 ];
-  networking.firewall.allowedUDPPorts = [ 5353 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 }

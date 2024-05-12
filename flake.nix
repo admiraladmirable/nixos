@@ -23,7 +23,7 @@
       work = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/work/work.nix
+          ./hosts/work
           ./modules/nixos
           { nixpkgs.config.allowUnfree = true; }
           home-manager.nixosModules.home-manager
@@ -42,7 +42,7 @@
       desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./hosts/desktop/desktop.nix
+          ./hosts/desktop
           ./modules/nixos
           { nixpkgs.config.allowUnfree = true; }
           home-manager.nixosModules.home-manager
