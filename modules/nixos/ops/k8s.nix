@@ -6,9 +6,9 @@
 }:
 with lib;
 {
-  options.k8.enable = mkEnableOption "Enable k8";
+  options.k8s.enable = mkEnableOption "Enable k8s";
 
-  config = mkIf config.k8.enable {
+  config = mkIf config.k8s.enable {
     services.k3s.enable = true;
     services.k3s.role = "server";
     users.users.rick-desktop = {

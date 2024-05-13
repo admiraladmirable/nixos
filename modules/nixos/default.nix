@@ -6,10 +6,9 @@ with lib;
     ./ops/k8.nix
     ./ops/QEMU.nix
     ./ops/docker.nix
-    #./tui
     ./games.nix
     ./nvim
     ./steam.nix
-    # ./deluge.nix
+    ./deluge.nix
   ];
 }

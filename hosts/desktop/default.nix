@@ -14,7 +14,8 @@
   docker.enable = true;
   xorg.enable = true;
   kde.enable = true;
-  k8.enable = true;
+  hyprland.enable = true;
+  k8s.enable = true;
   steam.enable = true;
 
   # This value determines the NixOS release from which the default
@@ -67,10 +68,10 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # Linux Kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in 
+  boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
 
   # Nvidia GPU Drivers
   hardware.nvidia = {
