@@ -31,6 +31,7 @@
       nixosConfigurations = {
         work = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
           modules = [
             ./hosts/work
             ./modules/nixos
@@ -49,6 +50,7 @@
         };
         desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
           modules = [
             ./hosts/desktop
             ./modules/nixos

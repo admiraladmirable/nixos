@@ -1,4 +1,4 @@
-{ pkgs, inputs, lib, ... }:
+{ pkgs, inputs, config, lib, ... }:
 with lib;
 {
   options.hyprland.enable = mkEnableOption "Enable Hyprland NixOS Module";

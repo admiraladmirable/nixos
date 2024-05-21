@@ -3,19 +3,18 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   imports = [
     ../../modules/nixos
     ./hardware-configuration.nix
   ];
 
   # Enabled Modules
-  docker.enable = true;
+  docker.enable = false;
   xorg.enable = true;
   kde.enable = true;
-  hyprland.enable = true;
-  k8s.enable = true;
+  hyprland.enable = false;
+  k8s.enable = false;
   steam.enable = true;
 
   # This value determines the NixOS release from which the default
@@ -68,18 +67,28 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
 
   # Linux Kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
+  # boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
 
   # Nvidia GPU Drivers
   hardware.nvidia = {
     modesetting.enable = true;
-    # powerManagement.enable = true;
-    # powerManagement.finegrained = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = {
+      config.boot.kernelPackages.nvidiaPackages.mkDriver = {
+        version = "555.42.02";
+        sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
+        sha256_aarch64 = lib.fakeSha256;
+        openSha256 = lib.fakeSha256;
+        settingsSha256 = lib.fakeSha256; 
+        persistencedSha256 = lib.fakeSha256;
+      };
+    };
   };
 
   services.xserver = {
@@ -123,7 +132,7 @@
     ];
   };
 
-  fonts.packages = with pkgs; [ source-code-pro ];
+  fonts.packages = with pkgs; [source-code-pro];
 
   environment.variables = {
     FLAKE = "/home/rick-desktop/.config/nixos/";
@@ -172,12 +181,15 @@
     slack
     xclip
     nil
-    vesktop
+    discord
     obsidian
     spotify
     protonup
     mangohud
     nh
+    lutris
+    bottles
+    # (import ../packages/kenku-fm.nix)
   ];
 
   nix.settings.auto-optimise-store = true;
@@ -194,8 +206,8 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 57621 ];
-  networking.firewall.allowedUDPPorts = [ 5353 ];
+  networking.firewall.allowedTCPPorts = [57621 1119 54545 54546 54547 54548 54549 28890 28891 28892 28893 28894 6112 6113 6114];
+  networking.firewall.allowedUDPPorts = [5353];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 }

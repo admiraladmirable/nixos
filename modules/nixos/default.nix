@@ -3,7 +3,7 @@ with lib;
 {
   imports = [
     ./display
-    ./ops/k8.nix
+    ./ops/k8s.nix
     ./ops/QEMU.nix
     ./ops/docker.nix
     ./games.nix
