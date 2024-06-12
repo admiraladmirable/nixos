@@ -75,7 +75,7 @@
   # Nvidia GPU Drivers
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
@@ -112,7 +112,7 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -185,11 +185,19 @@
     protonup
     mangohud
     nh
-    lutris
+    (lutris.override {
+      extraLibraries =  pkgs: [
+        # List library dependencies here
+        winetricks
+        wine
+      ];
+    })
     bottles
     audacity
     gimp
     yt-dlp
+    easyeffects
+    nethack
     # (import ../packages/kenku-fm.nix)
   ];
 
