@@ -59,11 +59,10 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable OpenGL
-  hardware.opengl = {
+  # Enable OpenGL/Graphics
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   # Load nvidia driver for Xorg and Wayland
@@ -78,13 +77,14 @@
     powerManagement.enable = true;
     powerManagement.finegrained = false;
     nvidiaSettings = true;
+    # package = config.boot.kernelPackages.nvidiaPackages.production;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
     # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
     #     version = "555.42.02";
     #     sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
     #     sha256_aarch64 = lib.fakeSha256;
     #     openSha256 = lib.fakeSha256;
-    #     settingsSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA="; 
+    #     settingsSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
     #     persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
     # };
   };
@@ -198,7 +198,7 @@
     yt-dlp
     easyeffects
     nethack
-    # (import ../packages/kenku-fm.nix)
+    # (import ../../packages/kenku-fm.nix)
   ];
 
   nix.settings.auto-optimise-store = true;
