@@ -12,7 +12,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
     lan-mouse.url = "github:feschber/lan-mouse";
   };
 
