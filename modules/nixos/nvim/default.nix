@@ -112,7 +112,7 @@ let
               #C
               clang
               clang-tools
-              cpplint
+              # cpplint
               cppcheck
               checkmake
               vscode-extensions.ms-vscode.cpptools

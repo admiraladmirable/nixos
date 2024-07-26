@@ -24,7 +24,7 @@
     # coursier
     terraform
     terragrunt
-    checkov
+    # checkov
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     jetbrains.idea-community
   ];

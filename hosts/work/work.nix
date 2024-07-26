@@ -14,8 +14,8 @@
   # games.enable = true;
   xorg.enable = true;
   kde.enable = true;
-  gui.hyprland.enable = true;
-  xrdp.enable = true;
+  # gui.hyprland.enable = false;
+  # xrdp.enable = false;
   k8.enable = true;
   # users.defaultUserShell = pkgs.bash;
 
@@ -99,7 +99,7 @@
   # services.openssh.enable = lib.mkForce false;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -128,6 +128,7 @@
 
   fonts.packages = with pkgs; [ source-code-pro ];
   environment.systemPackages = with pkgs; [
+    kdePackages.xdg-desktop-portal-kde
     git
     wget
     bc
@@ -166,6 +167,7 @@
     slack
     xclip
     nil
+    syft
   ];
 
   # systemd.tmpfiles.rules = [

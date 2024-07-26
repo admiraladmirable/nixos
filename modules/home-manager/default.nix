@@ -8,7 +8,7 @@
     ./firefox.nix
     ./usr-pkgs.nix
     ./zathura.nix
-    ./hyprland.nix
+    # ./hyprland.nix
     ./vscode.nix
     ./direnv.nix
     ./lan-mouse.nix
