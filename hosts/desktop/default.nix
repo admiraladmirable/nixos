@@ -10,11 +10,9 @@
   ];
 
   # Enabled Modules
-  docker.enable = false;
-  xorg.enable = true;
+  docker.enable = true;
   kde.enable = true;
-  hyprland.enable = false;
-  k8s.enable = false;
+  k8s.enable = true;
   steam.enable = true;
 
   # This value determines the NixOS release from which the default
@@ -30,16 +28,22 @@
     extraOptions = "experimental-features = nix-command flakes";
   };
 
-  hardware.enableRedistributableFirmware = true;
-
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device = "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    
+    kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
+    initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device = "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
+  };
 
   # Networking
-  networking.hostName = "desktop";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "desktop";
+    networkmanager.enable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -60,64 +64,60 @@
   };
 
   # Enable OpenGL/Graphics
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+
+    enableRedistributableFirmware = true;
+    pulseaudio.enable = false;
+
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      powerManagement.finegrained = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      # package = config.boot.kernelPackages.nvidiaPackages.beta;
+      # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      #     version = "555.42.02";
+      #     sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
+      #     sha256_aarch64 = lib.fakeSha256;
+      #     openSha256 = lib.fakeSha256;
+      #     settingsSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
+      #     persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
+      # };
+    };
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services = {
+    xserver = {
+      videoDrivers = ["nvidia"];
+      xkb.layout = "us";
+      xkb.variant = "";
+    };
 
-  # Linux Kernel
-  # boot.kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
+    printing.enable = true;
 
-  # Nvidia GPU Drivers
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
-    powerManagement.finegrained = false;
-    nvidiaSettings = true;
-    # package = config.boot.kernelPackages.nvidiaPackages.production;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
-    # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-    #     version = "555.42.02";
-    #     sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
-    #     sha256_aarch64 = lib.fakeSha256;
-    #     openSha256 = lib.fakeSha256;
-    #     settingsSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-    #     persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-    # };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      jack.enable = true;
+
+      # use the example session manager (no others are packaged yet so this is enabled by default,
+      # no need to redefine it in your config for now)
+      #media-session.enable = true;
+    };
   };
-
-  services.xserver = {
-    xkb.layout = "us";
-    xkb.variant = "";
-  };
-
-  #boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 1;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Disable SSH for now.
-  # services.openssh.enable = lib.mkForce false;
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  # sound.enable = true;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
 
   users.users.rick-desktop = {
     isNormalUser = true;
@@ -134,6 +134,7 @@
 
   environment.variables = {
     FLAKE = "/home/rick-desktop/.config/nixos/";
+    MOZ_ENABLE_WAYLAND = 0;
   };
 
   environment.sessionVariables = {
@@ -141,6 +142,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    kdePackages.xdg-desktop-portal-kde
     git
     wget
     bc
@@ -201,22 +203,20 @@
     # (import ../../packages/kenku-fm.nix)
   ];
 
-  nix.settings.auto-optimise-store = true;
-  nix.gc.automatic = true;
-  nix.gc.dates = "daily";
-  nix.gc.options = "--delete-older-than 30d";
+  nix = {
+    settings.auto-optimise-store = true;
 
-  # networking.extraHosts =
-  # ''127.0.0.1 scaleosaurus.com'';
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 30d";
+    };
+  };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [57621 1119 54545 54546 54547 54548 54549 28890 28891 28892 28893 28894 6112 6113 6114];
-  networking.firewall.allowedUDPPorts = [5353];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  networking.firewall = {
+      allowedTCPPorts = [57621 1119 54545 54546 54547 54548 54549 28890 28891 28892 28893 28894 6112 6113 6114 6443 10250 ];
+      allowedUDPPorts = [5353];
+      enable = false;
+  };
 }

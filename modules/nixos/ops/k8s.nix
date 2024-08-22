@@ -15,7 +15,6 @@ with lib;
       packages = with pkgs; [
         kubernetes-helm
         kubectl
-        k3s
         terraform
       ];
     };

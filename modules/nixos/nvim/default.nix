@@ -69,7 +69,7 @@ let
                   #"vim-dispatch-neovim"
                   #"cmp-conjure"
                 ]
-              ) (import ../../../npins)
+              )
             );
         withPython3 = true;
         extraPython3Packages = _: [ ];
@@ -112,7 +112,7 @@ let
               #C
               clang
               clang-tools
-              cpplint
+              # cpplint
               cppcheck
               checkmake
               vscode-extensions.ms-vscode.cpptools

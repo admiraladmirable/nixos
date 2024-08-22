@@ -14,6 +14,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    hypridle.url = "github:hyprwm/hypridle";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprlock.url = "github:hyprwm/hyprlock";
+    hyprpaper.url = "github:hyprwm/hyprpaper";
     lan-mouse.url = "github:feschber/lan-mouse";
   };
 
@@ -32,7 +40,8 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.rick-desktop = import ./modules/home-manager/default.nix;
+              home-manager.users.rick-topl = import ./hosts/work/home.nix;
+              home-manager.modules.default = ./modules/home-manager;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit nixpkgs;
@@ -51,7 +60,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.rick-desktop = import ./modules/home-manager/default.nix;
+              home-manager.users.rick-desktop = import ./hosts/desktop/home.nix;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit nixpkgs;
