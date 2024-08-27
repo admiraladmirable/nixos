@@ -134,7 +134,6 @@
 
   environment.variables = {
     FLAKE = "/home/rick-desktop/.config/nixos/";
-    MOZ_ENABLE_WAYLAND = 0;
   };
 
   environment.sessionVariables = {

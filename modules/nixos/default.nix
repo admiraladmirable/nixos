@@ -7,7 +7,7 @@ with lib;
     ./ops/QEMU.nix
     ./ops/docker.nix
     ./games.nix
-    ./nvim
+    # ./nvim
     ./steam.nix
     ./deluge.nix
   ];
