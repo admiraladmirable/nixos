@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/nixos
     ./hardware-configuration.nix
@@ -34,7 +35,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    
+
     kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
     initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device = "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
   };
@@ -79,6 +80,7 @@
       powerManagement.finegrained = false;
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.latest;
+      open = true;
       # package = config.boot.kernelPackages.nvidiaPackages.beta;
       # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
       #     version = "555.42.02";
@@ -94,7 +96,7 @@
   # Load nvidia driver for Xorg and Wayland
   services = {
     xserver = {
-      videoDrivers = ["nvidia"];
+      videoDrivers = [ "nvidia" ];
       xkb.layout = "us";
       xkb.variant = "";
     };
@@ -130,7 +132,7 @@
     ];
   };
 
-  fonts.packages = with pkgs; [source-code-pro];
+  fonts.packages = with pkgs; [ source-code-pro ];
 
   environment.variables = {
     FLAKE = "/home/rick-desktop/.config/nixos/";
@@ -187,7 +189,7 @@
     mangohud
     nh
     (lutris.override {
-      extraLibraries =  pkgs: [
+      extraLibraries = pkgs: [
         # List library dependencies here
         winetricks
         wine
@@ -199,6 +201,7 @@
     yt-dlp
     easyeffects
     nethack
+    devenv
     # (import ../../packages/kenku-fm.nix)
   ];
 
@@ -214,8 +217,26 @@
 
   # Open ports in the firewall.
   networking.firewall = {
-      allowedTCPPorts = [57621 1119 54545 54546 54547 54548 54549 28890 28891 28892 28893 28894 6112 6113 6114 6443 10250 ];
-      allowedUDPPorts = [5353];
-      enable = false;
+    allowedTCPPorts = [
+      57621
+      1119
+      54545
+      54546
+      54547
+      54548
+      54549
+      28890
+      28891
+      28892
+      28893
+      28894
+      6112
+      6113
+      6114
+      6443
+      10250
+    ];
+    allowedUDPPorts = [ 5353 ];
+    enable = false;
   };
 }
