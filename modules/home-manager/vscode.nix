@@ -2,14 +2,21 @@
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode.fhs;
     extensions = with pkgs.vscode-extensions; [
+      # Nix
       jnoortheen.nix-ide
+      arrterian.nix-env-selector
+      bbenoist.nix
+      mkhl.direnv
+      # General
       donjayamanne.githistory
       eamodio.gitlens
+      # Rust
       rust-lang.rust-analyzer
       vadimcn.vscode-lldb
-      scalameta.metals
+      fill-labs.dependi
+      # Go
+      golang.go
     ];
   };
 }
