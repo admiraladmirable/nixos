@@ -6,7 +6,6 @@
       jnoortheen.nix-ide
       donjayamanne.githistory
       eamodio.gitlens
-      #
       # nhoizey.gremlins
       scalameta.metals
     ];

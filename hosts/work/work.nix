@@ -17,6 +17,7 @@
   # gui.hyprland.enable = false;
   # xrdp.enable = false;
   k8.enable = true;
+  gpg.enable = true;
   # users.defaultUserShell = pkgs.bash;
 
   # This value determines the NixOS release from which the default
@@ -98,6 +99,15 @@
   # Disable SSH for now.
   # services.openssh.enable = lib.mkForce false;
 
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+      libvdpau-va-gl
+    ];
+  };
+
   # Enable sound with pipewire.
   # sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -168,7 +178,13 @@
     xclip
     nil
     syft
+    nh
+    envsubst
   ];
+
+  environment.variables = {
+    FLAKE = "/home/rick-topl/.config/nixos/";
+  };
 
   # systemd.tmpfiles.rules = [
   #     "d /opt/rustdesk 0700 root root"
