@@ -14,6 +14,8 @@
     nixfmt-rfc-style
     terraform
     terragrunt
+    obs-studio
+    kcalc
     # checkov
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
   ];

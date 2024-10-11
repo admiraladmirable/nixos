@@ -36,7 +36,10 @@
       efi.canTouchEfiVariables = true;
     };
 
+    kernelParams = ["nvidia-drm.fbdev=1"];
+
     kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
+
     initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device = "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
   };
 
