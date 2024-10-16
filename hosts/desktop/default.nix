@@ -36,7 +36,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelParams = ["nvidia-drm.fbdev=1"];
+    kernelParams = [ "nvidia-drm.fbdev=1" ];
 
     kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
 
