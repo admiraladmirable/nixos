@@ -16,7 +16,7 @@
     terragrunt
     obs-studio
     kcalc
-
+    kdePackages.filelight
     gparted
     neofetch
     # checkov

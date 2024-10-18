@@ -12,9 +12,9 @@
 
   # Enabled Modules
   docker.enable = true;
-  kde.enable = true;
+  kde.enable = false;
   k8s.enable = true;
-  steam.enable = true;
+  steam.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -36,16 +36,14 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelParams = [ "nvidia-drm.fbdev=1" ];
-
     kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
 
-    initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device = "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
+    initrd.luks.devices."luks-42a74edf-5a60-4c8d-990c-82f88540ef5c".device = "/dev/disk/by-uuid/42a74edf-5a60-4c8d-990c-82f88540ef5c";
   };
 
   # Networking
   networking = {
-    hostName = "desktop";
+    hostName = "homelab";
     networkmanager.enable = true;
   };
 
@@ -68,57 +66,33 @@
   };
 
   # Enable OpenGL/Graphics
-  hardware = {
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
+  # hardware = {
+  #   graphics = {
+  #     enable = true;
+  #     enable32Bit = true;
+  #   };
 
-    enableRedistributableFirmware = true;
-    pulseaudio.enable = false;
+  #   enableRedistributableFirmware = true;
+  #   pulseaudio.enable = false;
 
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = true;
-      powerManagement.finegrained = false;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
-      open = true;
-      # package = config.boot.kernelPackages.nvidiaPackages.beta;
-      # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-      #     version = "555.42.02";
-      #     sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
-      #     sha256_aarch64 = lib.fakeSha256;
-      #     openSha256 = lib.fakeSha256;
-      #     settingsSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-      #     persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-      # };
-    };
-  };
-
-  # Load nvidia driver for Xorg and Wayland
-  services = {
-    xserver = {
-      videoDrivers = [ "nvidia" ];
-      xkb.layout = "us";
-      xkb.variant = "";
-    };
-
-    printing.enable = true;
-
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      jack.enable = true;
-
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
-    };
-  };
+  #   nvidia = {
+  #     modesetting.enable = true;
+  #     powerManagement.enable = true;
+  #     powerManagement.finegrained = false;
+  #     nvidiaSettings = true;
+  #     package = config.boot.kernelPackages.nvidiaPackages.latest;
+  #     open = true;
+  #     # package = config.boot.kernelPackages.nvidiaPackages.beta;
+  #     # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+  #     #     version = "555.42.02";
+  #     #     sha256_64bit = "sha256-k7cI3ZDlKp4mT46jMkLaIrc2YUx1lh1wj/J4SVSHWyk=";
+  #     #     sha256_aarch64 = lib.fakeSha256;
+  #     #     openSha256 = lib.fakeSha256;
+  #     #     settingsSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
+  #     #     persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
+  #     # };
+  #   };
+  # };
 
   # Enable sound with pipewire.
   # sound.enable = true;
@@ -135,10 +109,38 @@
     ];
   };
 
+  # Enable OpenGL/Graphics
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+
+    enableRedistributableFirmware = true;
+    pulseaudio.enable = false;
+
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      powerManagement.finegrained = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      open = true;
+    };
+  };
+
+  services = {
+    xserver = {
+      videoDrivers = [ "nvidia" ];
+      xkb.layout = "us";
+      xkb.variant = "";
+    };
+  };
+
   fonts.packages = with pkgs; [ source-code-pro ];
 
   environment.variables = {
-    FLAKE = "/home/rmrf/.config/nixos/";
+    FLAKE = "/home/rick-desktop/.config/nixos/";
   };
 
   environment.sessionVariables = {
@@ -146,7 +148,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    kdePackages.xdg-desktop-portal-kde
     git
     wget
     bc
@@ -182,40 +183,20 @@
     poppler_utils
     nmap
     bat
-    slack
     xclip
     nil
-    discord
-    obsidian
-    spotify
-    protonup
-    mangohud
     nh
-    (lutris.override {
-      extraLibraries = pkgs: [
-        # List library dependencies here
-        winetricks
-        wine
-      ];
-    })
-    bottles
-    audacity
-    gimp
     yt-dlp
-    easyeffects
-    nethack
     devenv
-    steam-run
-    wineWowPackages.stable
-    winetricks
-    renderdoc
     # (import ../../packages/kenku-fm.nix)
   ];
 
   nix = {
     settings = {
       auto-optimise-store = true;
+      trusted-users = [ "rmrf" ];
     };
+
     gc = {
       automatic = true;
       dates = "daily";
@@ -226,25 +207,9 @@
   # Open ports in the firewall.
   networking.firewall = {
     allowedTCPPorts = [
-      57621
-      1119
-      54545
-      54546
-      54547
-      54548
-      54549
-      28890
-      28891
-      28892
-      28893
-      28894
-      6112
-      6113
-      6114
-      6443
-      10250
+      22
     ];
-    allowedUDPPorts = [ 5353 ];
-    enable = false;
+    # allowedUDPPorts = [ 5353 ];
+    enable = true;
   };
 }

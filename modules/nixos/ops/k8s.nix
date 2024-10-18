@@ -11,7 +11,7 @@ with lib;
   config = mkIf config.k8s.enable {
     services.k3s.enable = true;
     services.k3s.role = "server";
-    users.users.rick-desktop = {
+    users.users.rmrf = {
       packages = with pkgs; [
         kubernetes-helm
         kubectl

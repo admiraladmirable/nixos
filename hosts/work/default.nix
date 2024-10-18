@@ -11,7 +11,6 @@
   ];
   # programs.zsh.enable=true;
   docker.enable = true;
-  # games.enable = true;
   xorg.enable = true;
   kde.enable = true;
   #$ gui.hyprland.enable = true;
@@ -115,9 +114,9 @@
     #media-session.enable = true;
   };
 
-  users.users.rick-desktop = {
+  users.users.rmrf = {
     isNormalUser = true;
-    description = "Rick Morrow";
+    description = "rm-rf";
     extraGroups = [
       "networkmanager"
       "wheel"
