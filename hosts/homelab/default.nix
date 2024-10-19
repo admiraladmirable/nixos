@@ -135,6 +135,7 @@
       xkb.layout = "us";
       xkb.variant = "";
     };
+    openssh.enable = true;
   };
 
   fonts.packages = with pkgs; [ source-code-pro ];

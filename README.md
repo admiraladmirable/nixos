@@ -1,5 +1,6 @@
-Nvim dependencies managed by npins.
+## Deploy to remote machine on network
 
-npins add github <owner> <repository> --branch <branch> --directory <folder>
-Add the plugin in the ./modules/nvim/default.nix file
-Rebuild
+```
+sudo nixos-rebuild switch --flake .#homelab --target-host rmrf@homelab --verbose --use-remote-sudo
+```
+
