@@ -25,8 +25,18 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = "experimental-features = nix-command flakes";
+  };
+
+  # Longhorn
+  systemd.tmpfiles.rules = [
+    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+  ];
+
+  services.openiscsi = {
+    enable = true;
+    name = "iqn.2020-08.org.linux-iscsi.initiatorhost:homelab";
   };
 
   # Bootloader
@@ -141,7 +151,7 @@
   fonts.packages = with pkgs; [ source-code-pro ];
 
   environment.variables = {
-    FLAKE = "/home/rick-desktop/.config/nixos/";
+    FLAKE = "/home/rmrf/.config/nixos/";
   };
 
   environment.sessionVariables = {
@@ -208,7 +218,10 @@
   # Open ports in the firewall.
   networking.firewall = {
     allowedTCPPorts = [
-      22
+      22 # ssh
+      6443 # k3s api
+      80 # http
+      443 # https
     ];
     # allowedUDPPorts = [ 5353 ];
     enable = true;

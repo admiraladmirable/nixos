@@ -27,7 +27,7 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = "experimental-features = nix-command flakes";
   };
 
@@ -226,10 +226,10 @@
   #'';
   # };
 
-  nix.settings.auto-optimise-store = true;
-  nix.gc.automatic = true;
-  nix.gc.dates = "daily";
-  nix.gc.options = "--delete-older-than 30d";
+  # nix.settings.auto-optimise-store = true;
+  # nix.gc.automatic = true;
+  # nix.gc.dates = "daily";
+  # nix.gc.options = "--delete-older-than 30d";
 
   # networking.extraHosts =
   # ''127.0.0.1 scaleosaurus.com'';

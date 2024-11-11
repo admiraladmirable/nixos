@@ -11,5 +11,6 @@
     ./vscode.nix
     ./direnv.nix
     ./lan-mouse.nix
+    ./nvim.nix
   ];
 }

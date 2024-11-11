@@ -13,7 +13,7 @@
   # Enabled Modules
   docker.enable = true;
   kde.enable = true;
-  k8s.enable = true;
+  k8s.enable = false;
   steam.enable = true;
 
   # This value determines the NixOS release from which the default
@@ -25,7 +25,7 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
   nix = {
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = "experimental-features = nix-command flakes";
   };
 
