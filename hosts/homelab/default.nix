@@ -219,11 +219,14 @@
   networking.firewall = {
     allowedTCPPorts = [
       22 # ssh
+      53 # DNS
       6443 # k3s api
       80 # http
       443 # https
     ];
-    # allowedUDPPorts = [ 5353 ];
+    allowedUDPPorts = [
+      53 # DNS
+    ];
     enable = true;
   };
 }

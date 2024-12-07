@@ -9,5 +9,6 @@ with lib;
     # ./nvim
     ./steam.nix
     ./deluge.nix
+    ./coolercontrol.nix
   ];
 }
