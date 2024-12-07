@@ -83,7 +83,7 @@
       powerManagement.enable = true;
       powerManagement.finegrained = false;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = true;
       # package = config.boot.kernelPackages.nvidiaPackages.beta;
       # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
@@ -136,7 +136,10 @@
     ];
   };
 
-  fonts.packages = with pkgs; [ source-code-pro ];
+  fonts.packages = with pkgs; [
+    source-code-pro
+    nerd-fonts.fira-code
+  ];
 
   environment.variables = {
     FLAKE = "/home/rmrf/.config/nixos/";
