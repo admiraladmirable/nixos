@@ -25,8 +25,17 @@
     kubernetes-helm
     # checkov
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
-    xlights
+    grpcurl
+    dig
+    netcat
+    drill
+    nmap
+    kdePackages.plasma-vault
+    kdePackages.filelight
+    coursier
+    logseq
     ripgrep
+    tree-sitter
     nerd-fonts.droid-sans-mono
     gh
   ];
