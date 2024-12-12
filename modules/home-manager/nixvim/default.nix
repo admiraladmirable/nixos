@@ -3,6 +3,7 @@
   imports = [
     ./alpha.nix
     ./keymaps.nix
+    ./nvim-cmp.nix
   ];
 
   programs.nixvim = {
@@ -77,10 +78,6 @@
         settings = {
           signs = true;
         };
-      };
-
-      cmp = {
-        enable = true;
       };
 
       telescope = {
