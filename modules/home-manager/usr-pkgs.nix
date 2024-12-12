@@ -33,7 +33,8 @@
     kdePackages.plasma-vault
     kdePackages.filelight
     coursier
-    logseq
+    # logseq
+    obsidian
     ripgrep
     tree-sitter
     nerd-fonts.droid-sans-mono

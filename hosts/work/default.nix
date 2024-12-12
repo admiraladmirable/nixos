@@ -9,14 +9,13 @@
     ../../modules/nixos
     ./hardware-configuration.nix
   ];
-  # programs.zsh.enable=true;
-  docker.enable = true;
-  xorg.enable = true;
+  docker = {
+    enable = true;
+    enable-nvidia = false;
+  };
   kde.enable = true;
-  #$ gui.hyprland.enable = true;
-  xrdp.enable = true;
-  k8.enable = true;
-  # users.defaultUserShell = pkgs.bash;
+  k8s.enable = true;
+  gpg.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
