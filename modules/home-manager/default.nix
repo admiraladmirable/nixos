@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, lib, inputs, ... }:
 {
   home.stateVersion = "23.05";
   imports = [
@@ -12,5 +12,7 @@
     ./direnv.nix
     ./lan-mouse.nix
     # ./nvim.nix
+    inputs.nixvim.homeManagerModules.nixvim
+    ./nixvim
   ];
 }

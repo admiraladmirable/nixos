@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
     ffmpeg
     mpv
@@ -25,6 +27,7 @@
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     xlights
     ripgrep
-    lunarvim
+    nerd-fonts.droid-sans-mono
+    gh
   ];
 }

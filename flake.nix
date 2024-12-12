@@ -15,10 +15,20 @@
     };
 
     lan-mouse.url = "github:feschber/lan-mouse";
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # flake-parts = {
+    #   url = "github:hercules-ci/flake-parts";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, ... }:
+    inputs@{ nixpkgs, home-manager, nixvim, ... }:
     {
       nixosConfigurations = {
         desktop = nixpkgs.lib.nixosSystem {
