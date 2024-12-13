@@ -4,6 +4,9 @@
     ./alpha.nix
     ./keymaps.nix
     ./nvim-cmp.nix
+
+    # cmp
+    ./plugins/cmp/autopairs.nix
   ];
 
   programs.nixvim = {
@@ -202,6 +205,7 @@
 
       lint = {
         enable = true;
+
       };
 
       nvim-tree = {
@@ -223,8 +227,8 @@
 
           rust_analyzer = {
             enable = true;
-            installCargo = true;
-            installRustc = true;
+            installCargo = false;
+            installRustc = false;
           };
         };
       };
