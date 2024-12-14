@@ -2,14 +2,13 @@
 {
   home.stateVersion = "23.05";
   imports = [
-    ./git.nix
-    ./tmux.nix
-    ./kitty.nix
-    ./firefox.nix
-    ./usr-pkgs.nix
-    ./zathura.nix
-    ./vscode.nix
-    ./direnv.nix
-    ./lan-mouse.nix
+    ./../../modules/home-manager/git.nix
+    ./../../modules/home-manager/tmux.nix
+    ./../../modules/home-manager/.nix
+    ./../../modules/home-manager/direnv.nix
+    ./../../modules/home-manager/vscode.nix
+    ./../../modules/home-manager/firefox.nix
+    ./../../modules/home-manager/zathura.nix
+    ./../../modules/home-manager/lan-mouse.nix
   ];
 }
