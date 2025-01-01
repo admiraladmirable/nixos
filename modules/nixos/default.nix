@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
 with lib;
 {
   imports = [
@@ -10,5 +10,6 @@ with lib;
     ./steam.nix
     ./deluge.nix
     ./coolercontrol.nix
+    ./nix-ld.nix
   ];
 }

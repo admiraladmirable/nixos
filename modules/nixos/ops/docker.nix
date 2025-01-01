@@ -8,7 +8,7 @@ with lib;
 
     virtualisation.docker = {
       enable = true;
-      enableNvidia = true;
+      # enableNvidia = true;
     };
   };
 }

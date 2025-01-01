@@ -16,6 +16,7 @@
   k8s.enable = false;
   steam.enable = true;
   coolercontrol.enable = true;
+  gpu-screen-recorder.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -83,7 +84,7 @@
       powerManagement.enable = true;
       powerManagement.finegrained = false;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
       open = true;
       # package = config.boot.kernelPackages.nvidiaPackages.beta;
       # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
@@ -174,7 +175,6 @@
     htop
     wireshark
     nettools
-    kitty
     ripgrep
     fd
     jq
@@ -202,7 +202,7 @@
         wine
       ];
     })
-    bottles
+    # bottles
     audacity
     gimp
     yt-dlp

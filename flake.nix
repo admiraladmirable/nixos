@@ -21,6 +21,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-ld = {
+      url = "github:Mic92/nix-ld";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
+
     # flake-parts = {
     #   url = "github:hercules-ci/flake-parts";
     #   inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +37,7 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, nixvim, ... }:
+    inputs@{ nixpkgs, home-manager, nixvim, nix-ld, ghostty, ... }:
     {
       nixosConfigurations = {
         desktop = nixpkgs.lib.nixosSystem {
@@ -39,6 +48,7 @@
           modules = [
             ./hosts/desktop
             ./modules/nixos
+            nix-ld.nixosModules.nix-ld
             { nixpkgs.config.allowUnfree = true; }
             home-manager.nixosModules.home-manager
             {
@@ -48,6 +58,7 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit nixpkgs;
+                inherit ghostty;
               };
             }
           ];
@@ -69,6 +80,30 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit nixpkgs;
+                inherit ghostty;
+              };
+            }
+          ];
+        };
+        work = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            ./hosts/work
+            ./modules/nixos
+            nix-ld.nixosModules.nix-ld
+            { nixpkgs.config.allowUnfree = true; }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.rmrf = import ./hosts/work/home.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                inherit nixpkgs;
+                inherit ghostty;
               };
             }
           ];

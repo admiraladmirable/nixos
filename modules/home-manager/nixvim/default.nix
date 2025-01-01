@@ -1,9 +1,39 @@
 { pkgs, lib, inputs, ... }:
 {
   imports = [
-    ./alpha.nix
-    ./keymaps.nix
-    ./nvim-cmp.nix
+    ./plugins/alpha.nix
+    ./plugins/autocmds.nix
+    ./plugins/autopairs.nix
+    ./plugins/bufferline.nix
+    ./plugins/commands.nix
+    ./plugins/comment.nix
+    ./plugins/conform-nvim.nix
+    ./plugins/dap.nix
+    ./plugins/dressing.nix
+    ./plugins/fidget.nix
+    ./plugins/fugitive.nix
+    ./plugins/gitsigns.nix
+    ./plugins/guess-indent.nix
+    ./plugins/illuminate.nix
+    ./plugins/indent-blankline.nix
+    ./plugins/keymaps.nix
+    ./plugins/lint.nix
+    ./plugins/lsp.nix
+    ./plugins/lualine.nix
+    ./plugins/markdown-preview.nix
+    ./plugins/neoscroll.nix
+    ./plugins/none-ls.nix
+    ./plugins/notify.nix
+    ./plugins/nvim-cmp.nix
+    ./plugins/nvim-tree.nix
+    ./plugins/project-nvim.nix
+    ./plugins/sleuth.nix
+    ./plugins/telescope.nix
+    ./plugins/todo-comments.nix
+    ./plugins/toggleterm.nix
+    ./plugins/treesitter.nix
+    ./plugins/web-devicons.nix
+    ./plugins/which-key.nix
   ];
 
   programs.nixvim = {
@@ -52,187 +82,9 @@
       };
     };
 
-    # https://nix-community.github.io/nixvim/NeovimOptions/autoCmd/index.html
-    autoCmd = [
-      {
-        event = ["TextYankPost"];
-        desc = "Highlight when yanking (copying) text";
-        group = "kickstart-highlight-yank";
-        callback.__raw = ''
-          function()
-            vim.highlight.on_yank()
-          end
-        '';
-      }
-    ];
-
-    plugins = {
-      sleuth.enable = true;
-      fidget.enable = true;
-      lualine.enable = true;
-      web-devicons.enable = true;
-      comment.enable = true;
-
-      todo-comments = {
-        enable = true;
-        settings = {
-          signs = true;
-        };
-      };
-
-      telescope = {
-        enable = true;
-
-        extensions = {
-          fzf-native.enable = true;
-          ui-select.enable = true;
-        };
-
-        keymaps = {
-        "<leader>sh" = {
-          mode = "n";
-          action = "help_tags";
-          options = {
-            desc = "[S]earch [H]elp";
-          };
-        };
-        "<leader>sk" = {
-          mode = "n";
-          action = "keymaps";
-          options = {
-            desc = "[S]earch [K]eymaps";
-          };
-        };
-        "<leader>sf" = {
-          mode = "n";
-          action = "find_files";
-          options = {
-            desc = "[S]earch [F]iles";
-          };
-        };
-        "<leader>ss" = {
-          mode = "n";
-          action = "builtin";
-          options = {
-            desc = "[S]earch [S]elect Telescope";
-          };
-        };
-        "<leader>sw" = {
-          mode = "n";
-          action = "grep_string";
-          options = {
-            desc = "[S]earch current [W]ord";
-          };
-        };
-        "<leader>sg" = {
-          mode = "n";
-          action = "live_grep";
-          options = {
-            desc = "[S]earch by [G]rep";
-          };
-        };
-        "<leader>sd" = {
-          mode = "n";
-          action = "diagnostics";
-          options = {
-            desc = "[S]earch [D]iagnostics";
-          };
-        };
-        "<leader>sr" = {
-          mode = "n";
-          action = "resume";
-          options = {
-            desc = "[S]earch [R]esume";
-          };
-        };
-        "<leader>s" = {
-          mode = "n";
-          action = "oldfiles";
-          options = {
-            desc = "[S]earch Recent Files ('.' for repeat)";
-          };
-        };
-        "<leader><leader>" = {
-          mode = "n";
-          action = "buffers";
-          options = {
-            desc = "[ ] Find existing buffers";
-          };
-        };
-        };
-      };
-
-      fugitive.enable = true;
-      markdown-preview.enable = true;
-
-      treesitter = {
-        enable = true;
-        settings = {
-          ensureInstalled = [
-            "bash"
-            "diff"
-            "lua"
-            "luadoc"
-            "markdown"
-            "markdown_inline"
-            "query"
-            "vim"
-            "vimdoc"
-            "rust"
-          ];
-        };
-      };
-      which-key.enable = true;
-
-      toggleterm = {
-        enable = true;
-
-        settings = {
-          open_mapping = "[[<c-\\>]]";
-          insert_mappings = true;
-          terminal_mappings = true;
-        };
-      };
-      conform-nvim.enable = true;
-      gitsigns.enable = true;
-
-      dap = {
-        enable = true;
-      };
-
-      lint = {
-        enable = true;
-      };
-
-      nvim-tree = {
-        enable = true;
-      };
-
-      project-nvim = {
-        enable = true;
-      };
-
-      lsp = {
-        enable = true;
-
-        servers = {
-          lua_ls = {
-            enable = true;
-            settings.telemetry.enable = false;
-          };
-
-          rust_analyzer = {
-            enable = true;
-            installCargo = true;
-            installRustc = true;
-          };
-        };
-      };
-    };
-
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraplugins
-    extraPlugins = with pkgs.vimPlugins; [
-    ];
+    # extraPlugins = with pkgs.vimPlugins; [
+    # ];
 
     # TODO: Figure out where to move this
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraconfigluapre

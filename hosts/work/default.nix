@@ -150,7 +150,6 @@
     htop
     wireshark
     nettools
-    kitty
     ripgrep
     fd
     jq
