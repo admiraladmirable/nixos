@@ -9,14 +9,13 @@
     ../../modules/nixos
     ./hardware-configuration.nix
   ];
-  # programs.zsh.enable=true;
-  docker.enable = true;
-  xorg.enable = true;
+  docker = {
+    enable = true;
+    nvidia.enable = false;
+  };
   kde.enable = true;
-  #$ gui.hyprland.enable = true;
-  xrdp.enable = true;
-  k8.enable = true;
-  # users.defaultUserShell = pkgs.bash;
+  k8s.enable = true;
+  gpg.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -35,9 +34,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "nixos";
+  networking.hostName = "work";
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -66,6 +64,7 @@
   networking.firewall = {
     enable = false;
     allowedTCPPorts = [
+      22
       2049
       4000
       4001
@@ -92,13 +91,26 @@
   #boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 1;
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing.enable = false;
 
   # Disable SSH for now.
-  # services.openssh.enable = lib.mkForce false;
+  services.openssh = {
+    enable = false;
+    ports = [22];
+    settings = {
+      AllowUsers = ["rmrf"];
+    };
+  };
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-vaapi-driver
+      intel-media-driver
+    ];
+  };
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -107,12 +119,9 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
   };
+
 
   users.users.rmrf = {
     isNormalUser = true;
@@ -127,6 +136,7 @@
 
   fonts.packages = with pkgs; [ source-code-pro ];
   environment.systemPackages = with pkgs; [
+    kdePackages.xdg-desktop-portal-kde
     git
     wget
     bc
@@ -150,6 +160,7 @@
     htop
     wireshark
     nettools
+    kitty
     ripgrep
     fd
     jq
@@ -164,72 +175,24 @@
     slack
     xclip
     nil
+    syft
+    nh
+    envsubst
   ];
 
-  # systemd.tmpfiles.rules = [
-  #     "d /opt/rustdesk 0700 root root"
-  #     "d /var/log/rustdesk 0700 root root"
-  #     # optional (only for [Erase Your Darlings](https://grahamc.com/blog/erase-your-darlings) or [tmpfs as root](https://elis.nu/blog/2020/05/nixos-tmpfs-as-root/) setups):
-  #     "L /opt/rustdesk/db_v2.sqlite3 - - - - /persist/opt/rustdesk/db_v2.sqlite3"
-  #     "L /opt/rustdesk/db_v2.sqlite3-shm - - - - /persist/opt/rustdesk/db_v2.sqlite3-shm"
-  #     "L /opt/rustdesk/db_v2.sqlite3-wal - - - - /persist/opt/rustdesk/db_v2.sqlite3-wal"
-  #     "L /opt/rustdesk/id_ed25519 - - - - /persist/opt/rustdesk/id_ed25519"
-  #     "L /opt/rustdesk/id_ed25519.pub - - - - /persist/opt/rustdesk/id_ed25519.pub"
-  #   ];
+  environment.variables = {
+    FLAKE = "/home/rmrf/.config/nixos/";
+  };
 
-  #   systemd.services.rustdesksignal = {
-  #     description = "Rustdesk Signal Server (hbbs)";
-  #     documentation = [
-  #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
-  #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
-  #     ];
-  #     after = [ "network-pre.target" ];
-  #     wants = [ "network-pre.target" ];
-  #     partOf = [ "rustdeskrelay.service" ];
-  #     wantedBy = [ "multi-user.target" ];
-  #     serviceConfig = {
-  #       Type = "simple";
-  #       LimitNOFILE=1000000;
-  #       WorkingDirectory="/opt/rustdesk";
-  #       StandardOutput="append:/var/log/rustdesk/hbbs.log";
-  #       StandardError="append:/var/log/rustdesk/hbbs.error";
-  #       ExecStart="${pkgs.rustdesk-server}/bin/hbbs -r localhost:21117";
-  #       Restart="always";
-  #       RestartSec=10;
-  #     };
-  #     #script = with pkgs; ''
-  #     #'';
-  #   };
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+    };
+    gc = {
+      automatic = true;
+      dates = "daily";
+      options = "--delete-older-than 30d";
+    };
+  };
 
-  #   systemd.services.rustdeskrelay = {
-  #     description = "Rustdesk Relay Server (hbbr)";
-  #     documentation = [
-  #       "https://rustdesk.com/docs/en/self-host/rustdesk-server-oss/install/"
-  #       "https://github.com/techahold/rustdeskinstall/blob/master/install.sh"
-  #     ];
-  #     after = [ "network-pre.target" ];
-  #     wants = [ "network-pre.target" ];
-  #     partOf = [ "rustdesksignal.service" ];
-  #     wantedBy = [ "multi-user.target" ];
-  #     serviceConfig = {
-  #       Type = "simple";
-  #       LimitNOFILE=1000000;
-  #       WorkingDirectory="/opt/rustdesk";
-  #       StandardOutput="append:/var/log/rustdesk/hbbr.log";
-  #       StandardError="append:/var/log/rustdesk/hbbr.error";
-  #       ExecStart="${pkgs.rustdesk-server}/bin/hbbr";
-  #       Restart="always";
-  #       RestartSec=10;
-  #     };
-  #script = with pkgs; ''
-  #'';
-  # };
-
-  # nix.settings.auto-optimise-store = true;
-  # nix.gc.automatic = true;
-  # nix.gc.dates = "daily";
-  # nix.gc.options = "--delete-older-than 30d";
-
-  # networking.extraHosts =
-  # ''127.0.0.1 scaleosaurus.com'';
 }
