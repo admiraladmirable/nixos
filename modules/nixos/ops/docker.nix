@@ -5,7 +5,7 @@ with lib;
   options.docker.nvidia.enable = mkEnableOption "Enable Nvidia container toolkit";
 
   config = mkIf config.docker.enable {
-    hardware.nvidia-container-toolkit.enable = options.docker.nvidia.enable;
+    hardware.nvidia-container-toolkit.enable = config.docker.nvidia.enable;
 
     virtualisation.docker = {
       enable = true;
