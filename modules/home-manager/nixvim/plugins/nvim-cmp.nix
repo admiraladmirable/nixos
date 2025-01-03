@@ -84,160 +84,29 @@
         };
 
         # Dependencies
-        # sources = [
-        #   {
-        #     pluginName = "cmp-async-path";
-        #     sourceName = "async_path";
-        #   }
-        #   {
-        #     pluginName = "cmp-buffer";
-        #     sourceName = "buffer";
-        #   }
-        #   {
-        #     pluginName = "cmp-calc";
-        #     sourceName = "calc";
-        #   }
-        #   {
-        #     pluginName = "cmp-clippy";
-        #     sourceName = "cmp-clippy";
-        #   }
-        #   {
-        #     pluginName = "cmp-cmdline";
-        #     sourceName = "cmdline";
-        #   }
-        #   {
-        #     pluginName = "cmp-cmdline-history";
-        #     sourceName = "cmp-cmdline-history";
-        #   }
-        #   {
-        #     pluginName = "cmp-conventionalcommits";
-        #     sourceName = "conventionalcommits";
-        #   }
-        #   {
-        #     pluginName = "cmp-dap";
-        #     sourceName = "dap";
-        #   }
-        #   {
-        #     pluginName = "cmp-dictionary";
-        #     sourceName = "dictionary";
-        #   }
-        #   {
-        #     pluginName = "cmp-digraphs";
-        #     sourceName = "digraphs";
-        #   }
-        #   {
-        #     pluginName = "cmp-emoji";
-        #     sourceName = "emoji";
-        #   }
-        #   {
-        #     pluginName = "cmp-fuzzy-buffer";
-        #     sourceName = "fuzzy_buffer";
-        #   }
-        #   {
-        #     pluginName = "cmp-fuzzy-path";
-        #     sourceName = "fuzzy_path";
-        #   }
-        #   {
-        #     pluginName = "cmp-greek";
-        #     sourceName = "greek";
-        #   }
-        #   {
-        #     pluginName = "cmp-latex-symbols";
-        #     sourceName = "latex_symbols";
-        #   }
-        #   {
-        #     pluginName = "cmp-look";
-        #     sourceName = "look";
-        #   }
-        #   {
-        #     pluginName = "cmp_luasnip";
-        #     sourceName = "luasnip";
-        #   }
-        #   {
-        #     pluginName = "cmp-nixpkgs-maintainers";
-        #     sourceName = "nixpkgs_maintainers";
-        #   }
-        #   {
-        #     pluginName = "cmp-npm";
-        #     sourceName = "npm";
-        #   }
-        #   {
-        #     pluginName = "cmp-nvim-lsp";
-        #     sourceName = "nvim_lsp";
-        #   }
-        #   {
-        #     pluginName = "cmp-nvim-lsp-document-symbol";
-        #     sourceName = "nvim_lsp_document_symbol";
-        #   }
-        #   {
-        #     pluginName = "cmp-nvim-lsp-signature-help";
-        #     sourceName = "nvim_lsp_signature_help";
-        #   }
-        #   {
-        #     pluginName = "cmp-nvim-lua";
-        #     sourceName = "nvim_lua";
-        #   }
-        #   {
-        #     pluginName = "cmp-nvim-ultisnips";
-        #     sourceName = "ultisnips";
-        #   }
-        #   {
-        #     pluginName = "cmp-omni";
-        #     sourceName = "omni";
-        #   }
-        #   {
-        #     pluginName = "cmp-pandoc-nvim";
-        #     sourceName = "cmp_pandoc";
-        #   }
-        #   {
-        #     pluginName = "cmp-pandoc-references";
-        #     sourceName = "pandoc_references";
-        #   }
-        #   {
-        #     pluginName = "cmp-path";
-        #     sourceName = "path";
-        #   }
-        #   {
-        #     pluginName = "cmp-rg";
-        #     sourceName = "rg";
-        #   }
-        #   {
-        #     pluginName = "cmp-snippy";
-        #     sourceName = "snippy";
-        #   }
-        #   {
-        #     pluginName = "cmp-spell";
-        #     sourceName = "spell";
-        #   }
-        #   {
-        #     pluginName = "cmp-tmux";
-        #     sourceName = "tmux";
-        #   }
-        #   {
-        #     pluginName = "cmp-treesitter";
-        #     sourceName = "treesitter";
-        #   }
-        #   {
-        #     pluginName = "cmp-vim-lsp";
-        #     sourceName = "vim_lsp";
-        #   }
-        #   {
-        #     pluginName = "cmp-vimtex";
-        #     sourceName = "vimtex";
-        #   }
-        #   {
-        #     pluginName = "cmp-vimwiki-tags";
-        #     sourceName = "vimwiki-tags";
-        #   }
-        #   {
-        #     pluginName = "cmp-vsnip";
-        #     sourceName = "vsnip";
-        #   }
-        #   {
-        #     pluginName = "cmp_yanky";
-        #     sourceName = "yanky";
-        #   }
-        # ];
+        #
+        # WARNING: If plugins.cmp.autoEnableSources Nixivm will automatically enable the
+        # corresponding source plugins. This will work only when this option is set to a list.
+        # If you use a raw lua string, you will need to explicitly enable the relevant source
+        # plugins in your nixvim configuration.
+        sources = [
+          # Snippet Engine & its associated nvim-cmp source
+          # https://nix-community.github.io/nixvim/plugins/luasnip/index.html
+          {
+            name = "luasnip";
+          }
+          # Adds other completion capabilites.
+          #  nvim-cmp does not ship with all sources by default. They are split
+          #  into multiple repos for maintenance purposes.
+          # https://nix-community.github.io/nixvim/plugins/cmp-nvim-lsp.html
+          {
+            name = "nvim_lsp";
+          }
+          # https://nix-community.github.io/nixvim/plugins/cmp-path.html
+          {
+            name = "path";
+          }
+        ];
       };
     };
   };
