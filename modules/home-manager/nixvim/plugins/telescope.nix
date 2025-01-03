@@ -1,14 +1,14 @@
 {
   programs.nixvim = {
-      plugins.telescope = {
-        enable = true;
+    plugins.telescope = {
+      enable = true;
 
-        extensions = {
-          fzf-native.enable = true;
-          ui-select.enable = true;
-        };
+      extensions = {
+        fzf-native.enable = true;
+        ui-select.enable = true;
+      };
 
-        keymaps = {
+      keymaps = {
         "<leader>sh" = {
           mode = "n";
           action = "help_tags";
@@ -83,4 +83,3 @@
     };
   };
 }
-

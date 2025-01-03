@@ -12,7 +12,7 @@ with lib;
     services.k3s = {
       enable = true;
       role = "server";
-        extraFlags = toString ([
+      extraFlags = toString ([
         "--write-kubeconfig-mode \"0644\""
         "--cluster-init"
         "--disable=servicelb"

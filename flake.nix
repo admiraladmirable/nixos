@@ -37,7 +37,14 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, nixvim, nix-ld, ghostty, ... }:
+    inputs@{
+      nixpkgs,
+      home-manager,
+      nixvim,
+      nix-ld,
+      ghostty,
+      ...
+    }:
     {
       nixosConfigurations = {
         desktop = nixpkgs.lib.nixosSystem {

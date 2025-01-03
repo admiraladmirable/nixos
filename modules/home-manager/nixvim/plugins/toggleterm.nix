@@ -1,13 +1,13 @@
 {
   programs.nixvim = {
     plugins.toggleterm = {
-        enable = true;
+      enable = true;
 
-        settings = {
-          open_mapping = "[[<c-\\>]]";
-          insert_mappings = true;
-          terminal_mappings = true;
-        };
+      settings = {
+        open_mapping = "[[<c-\\>]]";
+        insert_mappings = true;
+        terminal_mappings = true;
       };
+    };
   };
 }

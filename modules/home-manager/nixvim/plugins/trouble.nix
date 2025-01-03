@@ -1,6 +1,6 @@
 {
   programs.nixvim = {
-    plugins.gitsigns = {
+    plugins.trouble = {
       enable = true;
     };
   };

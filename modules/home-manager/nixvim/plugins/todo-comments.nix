@@ -1,10 +1,10 @@
 {
   programs.nixvim = {
     plugins.todo-comments = {
-        enable = true;
-        settings = {
-          signs = true;
-        };
+      enable = true;
+      settings = {
+        signs = true;
       };
+    };
   };
 }

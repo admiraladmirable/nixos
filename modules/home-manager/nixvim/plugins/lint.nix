@@ -7,7 +7,7 @@
 
       # NOTE: Enabling these will cause errors unless these tools are installed
       lintersByFt = {
-        nix = ["nix"];
+        nix = [ "nix" ];
         markdown = [
           "markdownlint"
           #vale
@@ -19,9 +19,9 @@
         #json = ["jsonlint"];
         #rst = ["vale"];
         #ruby = ["ruby"];
-        rust = ["clippy"];
-        terraform = ["tflint"];
-        text = ["vale"];
+        rust = [ "clippy" ];
+        terraform = [ "tflint" ];
+        text = [ "vale" ];
       };
 
       # Create autocommand which carries out the actual linting
@@ -49,4 +49,3 @@
     };
   };
 }
-

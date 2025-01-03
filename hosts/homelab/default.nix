@@ -48,7 +48,8 @@
 
     kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
 
-    initrd.luks.devices."luks-42a74edf-5a60-4c8d-990c-82f88540ef5c".device = "/dev/disk/by-uuid/42a74edf-5a60-4c8d-990c-82f88540ef5c";
+    initrd.luks.devices."luks-42a74edf-5a60-4c8d-990c-82f88540ef5c".device =
+      "/dev/disk/by-uuid/42a74edf-5a60-4c8d-990c-82f88540ef5c";
   };
 
   # Networking

@@ -96,9 +96,9 @@
   # Disable SSH for now.
   services.openssh = {
     enable = false;
-    ports = [22];
+    ports = [ 22 ];
     settings = {
-      AllowUsers = ["rmrf"];
+      AllowUsers = [ "rmrf" ];
     };
   };
   hardware.graphics = {
@@ -121,7 +121,6 @@
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
   };
-
 
   users.users.rmrf = {
     isNormalUser = true;

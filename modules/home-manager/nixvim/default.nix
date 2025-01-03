@@ -1,4 +1,9 @@
-{ pkgs, lib, inputs, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 {
   imports = [
     ./plugins/alpha.nix
@@ -33,6 +38,7 @@
     ./plugins/todo-comments.nix
     ./plugins/toggleterm.nix
     ./plugins/treesitter.nix
+    ./plugins/trouble.nix
     ./plugins/web-devicons.nix
     ./plugins/which-key.nix
   ];
@@ -74,6 +80,10 @@
       cursorline = true;
       scrolloff = 10;
       hlsearch = true;
+
+      expandtab = true;
+      tabstop = 2;
+      softtabstop = 2;
     };
 
     # https://nix-community.github.io/nixvim/NeovimOptions/autoGroups/index.html
@@ -102,4 +112,3 @@
     '';
   };
 }
-

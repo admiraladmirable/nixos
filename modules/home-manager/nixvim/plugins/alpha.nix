@@ -17,7 +17,7 @@
             ''░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        ''
             ''░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        ''
             ''░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        ''
-            ];
+          ];
           opts = {
             position = "center";
             hl = "@comment";
@@ -104,7 +104,16 @@
               on_press.raw = "require('telescope.builtin').live_grep";
 
               opts = {
-                keymap = ["n" "t" ":Telescope live_grep <CR>" {noremap = true; silent = true; nowait = true;}];
+                keymap = [
+                  "n"
+                  "t"
+                  ":Telescope live_grep <CR>"
+                  {
+                    noremap = true;
+                    silent = true;
+                    nowait = true;
+                  }
+                ];
                 shortcut = "sg";
                 position = "center";
                 cursor = 3;
@@ -122,7 +131,16 @@
               val = " Quit";
               on_press.__raw = "function() vim.cmd[[qa]] end";
               opts = {
-                keymap = ["n" "q" ":qa<CR>" {noremap = true; silent = true; nowait = true;}];
+                keymap = [
+                  "n"
+                  "q"
+                  ":qa<CR>"
+                  {
+                    noremap = true;
+                    silent = true;
+                    nowait = true;
+                  }
+                ];
                 shortcut = "q";
                 position = "center";
                 cursor = 3;
