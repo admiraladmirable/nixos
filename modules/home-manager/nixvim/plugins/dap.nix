@@ -6,6 +6,10 @@
     # be extended to other languages as well. That's why it's called
     # kickstart.nixvim and not kitchen-sink.nixvim ;)
     # https://nix-community.github.io/nixvim/plugins/dap/index.html
+    # plugins.dap-lldb = {
+    #   enable = true;
+    # };
+
     plugins.dap = {
       enable = true;
 

@@ -3,7 +3,7 @@
   programs.firefox = {
     enable = true;
 
-    profiles.rick-desktop = {
+    profiles.rmrf = {
       search.force = true;
 
       settings = {
