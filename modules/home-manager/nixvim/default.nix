@@ -27,6 +27,7 @@
     ./plugins/nvim-cmp.nix
     ./plugins/nvim-tree.nix
     ./plugins/project-nvim.nix
+    ./plugins/rustaceanvim.nix
     ./plugins/sleuth.nix
     ./plugins/telescope.nix
     ./plugins/todo-comments.nix

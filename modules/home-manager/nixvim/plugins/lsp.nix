@@ -28,7 +28,8 @@
         eslint.enable = true;
 
         rust_analyzer = {
-          enable = true;
+          # Disabled in favor of rustaceanvim
+          enable = false;
           installCargo = false;
           installRustc = false;
         };
