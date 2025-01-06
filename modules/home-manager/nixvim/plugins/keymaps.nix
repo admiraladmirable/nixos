@@ -9,9 +9,9 @@
       {
         key = "<leader>e";
         mode = "n";
-        action = "<cmd>NvimTreeToggle<cr>";
+        action = "<cmd>Neotree toggle<cr>";
         options = {
-          desc = "NvimTreeToggle";
+          desc = "Neotree toggle";
         };
       }
       {

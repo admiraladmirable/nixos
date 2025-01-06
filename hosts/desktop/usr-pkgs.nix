@@ -31,6 +31,6 @@
     gh
     ghostty.packages.x86_64-linux.default
     nixd
-    # bottles
+    bottles
   ];
 }
