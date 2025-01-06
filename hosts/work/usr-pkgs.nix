@@ -25,11 +25,10 @@
     kubernetes-helm
     # checkov
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
-    xlights
-    vamp-plugin-sdk
     ripgrep
     nerd-fonts.droid-sans-mono
     gh
+    awscli2
     ghostty.packages.x86_64-linux.default
     obsidian
   ];
