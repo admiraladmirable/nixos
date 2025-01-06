@@ -32,8 +32,14 @@
 
   hardware.enableRedistributableFirmware = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
+    kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
+  };
 
   networking.hostName = "work";
   networking.networkmanager.enable = true;
@@ -110,8 +116,6 @@
   };
 
   # Enable sound with pipewire.
-  # sound.enable = true;
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
