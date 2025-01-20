@@ -10,135 +10,173 @@
     #   enable = true;
     # };
 
-    plugins.dap = {
-      enable = true;
+    plugins = {
+      dap = {
+        enable = true;
 
-      extensions = {
-        # Creates a beautiful debugger UI
-        dap-ui = {
-          enable = true;
+        extensions = {
+          # Creates a beautiful debugger UI
+          dap-ui = {
+            enable = true;
 
-          # Set icons to characters that are more likely to work in every terminal.
-          # Feel free to remove or use ones that you like more! :)
-          # Don't feel like these are good choices.
-          icons = {
-            expanded = "▾";
-            collapsed = "▸";
-            current_frame = "*";
-          };
-
-          controls = {
+            # Set icons to characters that are more likely to work in every terminal.
+            # Feel free to remove or use ones that you like more! :)
+            # Don't feel like these are good choices.
             icons = {
-              pause = "⏸";
-              play = "▶";
-              step_into = "⏎";
-              step_over = "⏭";
-              step_out = "⏮";
-              step_back = "b";
-              run_last = "▶▶";
-              terminate = "⏹";
-              disconnect = "⏏";
+              expanded = "▾";
+              collapsed = "▸";
+              current_frame = "*";
+            };
+
+            controls = {
+              icons = {
+                pause = "⏸";
+                play = "▶";
+                step_into = "⏎";
+                step_over = "⏭";
+                step_out = "⏮";
+                step_back = "b";
+                run_last = "▶▶";
+                terminate = "⏹";
+                disconnect = "⏏";
+              };
             };
           };
-        };
+          dap-virtual-text.enable = true;
 
-        # Add your own debuggers here
-        dap-go = {
-          enable = true;
+          # Add your own debuggers here
+          dap-go = {
+            enable = true;
+          };
         };
       };
+      which-key.settings.spec = [
+        {
+          __unkeyed-1 = "<leader>d";
+          mode = [
+            "n"
+            "v"
+          ];
+          group = "+debug";
+        }
+      ];
     };
 
     # https://nix-community.github.io/nixvim/keymaps/index.html
     keymaps = [
       {
-        mode = "n";
-        key = "<F5>";
-        action.__raw = ''
-          function()
-            require('dap').continue()
-          end
-        '';
+        mode = [ "n" ];
+        action = ":DapContinue<cr>";
+        key = "<leader>dc";
         options = {
-          desc = "Debug: Start/Continue";
+          desc = "Continue";
         };
       }
       {
-        mode = "n";
-        key = "<F1>";
-        action.__raw = ''
-          function()
-            require('dap').step_into()
-          end
-        '';
+        mode = [ "n" ];
+        action = ":DapStepOver<cr>";
+        key = "<leader>dO";
         options = {
-          desc = "Debug: Step Into";
+          desc = "Step over";
         };
       }
       {
-        mode = "n";
-        key = "<F2>";
-        action.__raw = ''
-          function()
-            require('dap').step_over()
-          end
-        '';
+        mode = [ "n" ];
+        action = ":DapStepInto<cr>";
+        key = "<leader>di";
         options = {
-          desc = "Debug: Step Over";
+          desc = "Step Into";
         };
       }
       {
-        mode = "n";
-        key = "<F3>";
-        action.__raw = ''
-          function()
-            require('dap').step_out()
-          end
-        '';
+        mode = [ "n" ];
+        action = ":DapStepOut<cr>";
+        key = "<leader>do";
         options = {
-          desc = "Debug: Step Out";
+          desc = "Step Out";
         };
       }
       {
-        mode = "n";
-        key = "<leader>b";
-        action.__raw = ''
-          function()
-            require('dap').toggle_breakpoint()
-          end
-        '';
+        mode = [ "n" ];
+        action = "<cmd>lua require('dap').pause()<cr>";
+        key = "<leader>dp";
         options = {
-          desc = "Debug: Toggle Breakpoint";
+          desc = "Pause";
         };
       }
       {
-        mode = "n";
-        key = "<leader>B";
-        action.__raw = ''
-          function()
-            require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-          end
-        '';
+        mode = [ "n" ];
+        action = ":DapToggleBreakpoint<cr>";
+        key = "<leader>db";
         options = {
-          desc = "Debug: Set Breakpoint";
+          desc = "Toggle Breakpoint";
         };
       }
-      # Toggle to see last session result. Without this, you can't see session output
-      # in case of unhandled exception.
       {
-        mode = "n";
-        key = "<F7>";
-        action.__raw = ''
-          function()
-            require('dapui').toggle()
-          end
-        '';
+        mode = [ "n" ];
+        action = "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>";
+        key = "<leader>dB";
         options = {
-          desc = "Debug: See last session result.";
+          desc = "Breakpoint (conditional)";
+        };
+      }
+      {
+        mode = [ "n" ];
+        action = ":DapToggleRepl<cr>";
+        key = "<leader>dR";
+        options = {
+          desc = "Toggle REPL";
+        };
+      }
+      {
+        mode = [ "n" ];
+        action = "<cmd>lua require('dap').run_last()<cr>";
+        key = "<leader>dr";
+        options = {
+          desc = "Run Last";
+        };
+      }
+      {
+        mode = [ "n" ];
+        action = "<cmd>lua require('dap').session()<cr>";
+        key = "<leader>ds";
+        options = {
+          desc = "Session";
+        };
+      }
+      {
+        mode = [ "n" ];
+        action = ":DapTerminate<cr>";
+        key = "<leader>dt";
+        options = {
+          desc = "Terminate";
+        };
+      }
+      {
+        mode = [ "n" ];
+        action = "<cmd>lua require('dap.ui.widgets').hover()<cr>";
+        key = "<leader>dw";
+        options = {
+          desc = "Hover Widget";
+        };
+      }
+      {
+        mode = [ "n" ];
+        action = "<cmd>lua require('dapui').toggle()<cr>";
+        key = "<leader>du";
+        options = {
+          desc = "Toggle UI";
+        };
+      }
+      {
+        mode = [ "n" ];
+        action = "<cmd>lua require('dapui').eval()<cr>";
+        key = "<leader>de";
+        options = {
+          desc = "Eval";
         };
       }
     ];
-
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraconfiglua#extraconfiglua
     extraConfigLua = ''
       require('dap').listeners.after.event_initialized['dapui_config'] = require('dapui').open

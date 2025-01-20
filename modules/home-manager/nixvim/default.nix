@@ -2,10 +2,13 @@
   pkgs,
   lib,
   inputs,
+  icons,
   ...
 }:
 {
   imports = [
+    # TODO: Figure out how to properly import this
+    # ./lib
     ./plugins/alpha.nix
     ./plugins/autocmds.nix
     ./plugins/autopairs.nix
@@ -16,10 +19,11 @@
     ./plugins/coq.nix
     ./plugins/dap.nix
     ./plugins/dressing.nix
+    ./plugins/edgy.nix
     ./plugins/fidget.nix
     ./plugins/flash.nix
-    ./plugins/fugitive.nix
     ./plugins/gitsigns.nix
+    ./plugins/grug-far.nix
     ./plugins/guess-indent.nix
     ./plugins/illuminate.nix
     ./plugins/indent-blankline.nix
@@ -28,6 +32,7 @@
     ./plugins/lazygit.nix
     ./plugins/lint.nix
     ./plugins/lsp.nix
+    ./plugins/lspkind.nix
     ./plugins/lualine.nix
     ./plugins/markdown-preview.nix
     ./plugins/neo-tree.nix
@@ -38,7 +43,6 @@
     ./plugins/noice.nix
     ./plugins/nui.nix
     ./plugins/nvim-cmp.nix
-    # ./plugins/nvim-tree.nix
     ./plugins/persistence.nix
     ./plugins/project-nvim.nix
     ./plugins/rustaceanvim.nix
@@ -51,6 +55,7 @@
     ./plugins/treesitter.nix
     ./plugins/trouble.nix
     ./plugins/ts-autotag.nix
+    ./plugins/undotree.nix
     ./plugins/web-devicons.nix
     ./plugins/which-key.nix
   ];
@@ -98,14 +103,12 @@
       softtabstop = 2;
     };
 
-    # https://nix-community.github.io/nixvim/NeovimOptions/autoGroups/index.html
     autoGroups = {
       kickstart-highlight-yank = {
         clear = true;
       };
     };
 
-    # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraplugins
     extraPlugins = with pkgs; [
       vimPlugins.nvzone-typr
     ];
@@ -168,7 +171,6 @@
         --   end,
         -- })
     '';
-    # TODO: Figure out where to move this
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraconfigluapre
     extraConfigLuaPre = ''
       if vim.g.have_nerd_font then

@@ -57,5 +57,20 @@
         };
       };
     };
+
+    keymaps = [
+      {
+        mode = [
+          "n"
+          "v"
+        ];
+        key = "<leader>cf";
+        action = "<cmd>lua require('conform').format()<cr>";
+        options = {
+          silent = true;
+          desc = "Format";
+        };
+      }
+    ];
   };
 }
