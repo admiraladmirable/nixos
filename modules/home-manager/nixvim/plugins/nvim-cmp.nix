@@ -1,12 +1,6 @@
 {
   programs.nixvim = {
-    
-    plugins.friendly-snippets = {
-      enable = true;
-    };
-
-    plugins.luasnip.enable = true;
-
+    plugins.friendly-snippets.enable = true;
     # Autocompletion
     # See `:help cmp`
     # https://nix-community.github.io/nixvim/plugins/cmp/index.html
@@ -20,10 +14,6 @@
               require('luasnip').lsp_expand(args.body)
             end
           '';
-        };
-
-        completion = {
-          completeopt = "menu,menuone,noinsert";
         };
 
         # For an understanding of why these mappings were
@@ -80,31 +70,23 @@
           #    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         };
 
-        # Dependencies
-        #
-        # WARNING: If plugins.cmp.autoEnableSources Nixivm will automatically enable the
-        # corresponding source plugins. This will work only when this option is set to a list.
-        # If you use a raw lua string, you will need to explicitly enable the relevant source
-        # plugins in your nixvim configuration.
+        window = {
+          completion = {
+            scrollbar = true;
+          };
+        };
+
         sources = [
-          {
-            name = "cmp-sign";
-          }
-          {
-            name = "luasnip";
-          }
-          {
-            name = "nvim_lsp";
-          }
-          {
-            name = "path";
-          }
-          {
-            name = "luasnip-choice";
-          }
-          {
-            name = "friendly-snippets";
-          }
+          { name = "nvim_lsp"; }
+          { name = "path"; }
+          { name = "buffer"; }
+          { name = "cmp-git"; }
+          { name = "luasnip"; }
+          { name = "nvim_lua"; }
+          { name = "calc"; }
+          { name = "emoji"; }
+          { name = "treesitter"; }
+          { name = "crates"; }
         ];
       };
     };

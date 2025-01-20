@@ -23,8 +23,8 @@
         jsonls.enable = true;
         nixd.enable = true;
         tflint.enable = true;
+        terraformls.enable = true;
         ts_ls.enable = true;
-
         ts_query_ls.enable = true;
         yamlls.enable = true;
 
