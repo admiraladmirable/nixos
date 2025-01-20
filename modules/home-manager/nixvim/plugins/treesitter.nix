@@ -13,5 +13,8 @@
         highlight.enable = true;
       };
     };
+    plugins.treesitter-textobjects = {
+      enable = true;
+    };
   };
 }

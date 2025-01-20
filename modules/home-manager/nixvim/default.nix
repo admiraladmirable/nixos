@@ -17,30 +17,40 @@
     ./plugins/dap.nix
     ./plugins/dressing.nix
     ./plugins/fidget.nix
+    ./plugins/flash.nix
     ./plugins/fugitive.nix
     ./plugins/gitsigns.nix
     ./plugins/guess-indent.nix
     ./plugins/illuminate.nix
     ./plugins/indent-blankline.nix
     ./plugins/keymaps.nix
+    ./plugins/lazydev.nix
+    ./plugins/lazygit.nix
     ./plugins/lint.nix
     ./plugins/lsp.nix
     ./plugins/lualine.nix
     ./plugins/markdown-preview.nix
     ./plugins/neo-tree.nix
+    ./plugins/neoconf.nix
     ./plugins/neoscroll.nix
     ./plugins/none-ls.nix
     ./plugins/notify.nix
+    ./plugins/noice.nix
+    ./plugins/nui.nix
     ./plugins/nvim-cmp.nix
     # ./plugins/nvim-tree.nix
+    ./plugins/persistence.nix
     ./plugins/project-nvim.nix
     ./plugins/rustaceanvim.nix
+    ./plugins/spectre.nix
     ./plugins/sleuth.nix
+    ./plugins/snacks.nix
     ./plugins/telescope.nix
     ./plugins/todo-comments.nix
     ./plugins/toggleterm.nix
     ./plugins/treesitter.nix
     ./plugins/trouble.nix
+    ./plugins/ts-autotag.nix
     ./plugins/web-devicons.nix
     ./plugins/which-key.nix
   ];
@@ -96,8 +106,9 @@
     };
 
     # https://nix-community.github.io/nixvim/NeovimOptions/index.html?highlight=extraplugins#extraplugins
-    # extraPlugins = with pkgs.vimPlugins; [
-    # ];
+    extraPlugins = with pkgs; [
+      vimPlugins.nvzone-typr
+    ];
 
     extraConfigLua = ''
           local _border = "rounded"
