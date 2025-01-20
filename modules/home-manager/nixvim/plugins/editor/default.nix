@@ -6,6 +6,7 @@
     ./persistence.nix
     ./project-nvim.nix
     ./sleuth.nix
+    ./trim.nix
     ./undotree.nix
     ./which-key.nix
   ];
