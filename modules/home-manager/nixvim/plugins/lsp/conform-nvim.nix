@@ -54,6 +54,8 @@
             stop_after_first = true;
           };
           rust = [ "rustfmt" ];
+          terraform = [ "terraform_fmt" ];
+          terragrunt = [ "terragrunt_hclfmt" ];
         };
       };
     };
