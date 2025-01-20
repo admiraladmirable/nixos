@@ -1,6 +1,6 @@
 {
   programs.nixvim = {
-    plugins.nvim-autopairs = {
+    plugins.<plugin> = {
       enable = true;
     };
   };

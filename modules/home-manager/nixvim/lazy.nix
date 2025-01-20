@@ -1,6 +1,6 @@
 {
   programs.nixvim = {
-    plugins.nvim-autopairs = {
+    plugins.lazy = {
       enable = true;
     };
   };
