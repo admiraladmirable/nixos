@@ -1,7 +1,7 @@
 {
   programs.nixvim = {
     plugins.snacks = {
-      enable = true;
+      enable = false;
     };
   };
 }
