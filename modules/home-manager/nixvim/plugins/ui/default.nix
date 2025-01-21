@@ -10,7 +10,7 @@
     ./illuminate.nix
     ./indent-blankline.nix
     ./lualine.nix
-    ./mini.nix
+    # ./mini.nix
     ./markdown-preview.nix
     ./neo-tree.nix
     ./neoscroll.nix
