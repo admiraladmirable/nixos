@@ -1,85 +1,144 @@
+{ pkgs, ... }:
 {
-  programs.nixvim = {
-    plugins.project-nvim.enableTelescope = true;
-
-    plugins.telescope = {
+  programs.nixvim.plugins = {
+    project-nvim.enableTelescope = true;
+    telescope = {
       enable = true;
-
       extensions = {
         fzf-native.enable = true;
-        ui-select.enable = true;
+        undo.enable = true;
+        ui-select = {
+          enable = true;
+          settings = {
+            specific_opts = {
+              codeactions = true;
+            };
+          };
+        };
       };
 
+      settings.defaults = {
+        prompt_prefix = "   ";
+        color_devicons = true;
+        set_env.COLORTERM = "truecolor";
+
+        mappings = {
+          i = {
+            # Have Telescope not to enter a normal-like mode when hitting escape (and instead exiting), you can map <Esc> to do so via:
+            "<esc>".__raw = ''
+              function(...)
+                return require("telescope.actions").close(...)
+              end'';
+            "<c-t>".__raw = ''
+              function(...)
+                require('trouble.providers.telescope').open_with_trouble(...);
+              end
+            '';
+          };
+          n = {
+            "<c-t>".__raw = ''
+              function(...)
+                require('trouble.providers.telescope').open_with_trouble(...);
+              end
+            '';
+          };
+        };
+        # trim leading whitespace from grep
+        vimgrep_arguments = [
+          "${pkgs.ripgrep}/bin/rg"
+          "--color=never"
+          "--no-heading"
+          "--with-filename"
+          "--line-number"
+          "--column"
+          "--smart-case"
+          "--trim"
+        ];
+      };
       keymaps = {
-        "<leader>sh" = {
-          mode = "n";
-          action = "help_tags";
-          options = {
-            desc = "[S]earch [H]elp";
-          };
+        "<leader>fp" = {
+          action = "projects";
+          options.desc = "Search Todo";
         };
-        "<leader>sk" = {
-          mode = "n";
-          action = "keymaps";
-          options = {
-            desc = "[S]earch [K]eymaps";
-          };
+        "<leader>st" = {
+          action = "todo-comments";
+          options.desc = "Search Todo";
         };
-        "<leader>sf" = {
-          mode = "n";
+        "<leader>sn" = {
+          action = "notify";
+          options.desc = "Search Notifications";
+        };
+        "<leader>su" = {
+          action = "undo";
+          options.desc = "Search Undo";
+        };
+        "<leader><space>" = {
           action = "find_files";
-          options = {
-            desc = "[S]earch [F]iles";
-          };
+          options.desc = "Find project files";
         };
-        "<leader>ss" = {
-          mode = "n";
-          action = "builtin";
-          options = {
-            desc = "[S]earch [S]elect Telescope";
-          };
+        "<leader>ff" = {
+          action = "find_files hidden=true";
+          options.desc = "Find project files";
         };
-        "<leader>sw" = {
-          mode = "n";
-          action = "grep_string";
-          options = {
-            desc = "[S]earch current [W]ord";
-          };
-        };
-        "<leader>sg" = {
-          mode = "n";
+        "<leader>/" = {
           action = "live_grep";
-          options = {
-            desc = "[S]earch by [G]rep";
-          };
+          options.desc = "Grep (root dir)";
+        };
+        "<leader>:" = {
+          action = "command_history";
+          options.desc = "Command History";
+        };
+        "<leader>fr" = {
+          action = "oldfiles";
+          options.desc = "Recent";
+        };
+        "<c-p>" = {
+          mode = [
+            "n"
+            "i"
+          ];
+          action = "registers";
+          options.desc = "Select register to paste";
+        };
+        "<leader>gc" = {
+          action = "git_commits";
+          options.desc = "commits";
+        };
+        "<leader>sa" = {
+          action = "autocommands";
+          options.desc = "Auto Commands";
+        };
+        "<leader>sc" = {
+          action = "commands";
+          options.desc = "Commands";
         };
         "<leader>sd" = {
-          mode = "n";
-          action = "diagnostics";
-          options = {
-            desc = "[S]earch [D]iagnostics";
-          };
+          action = "diagnostics bufnr=0";
+          options.desc = "Workspace diagnostics";
         };
-        "<leader>sr" = {
-          mode = "n";
-          action = "resume";
-          options = {
-            desc = "[S]earch [R]esume";
-          };
+        "<leader>sh" = {
+          action = "help_tags";
+          options.desc = "Help pages";
         };
-        "<leader>s" = {
-          mode = "n";
-          action = "oldfiles";
-          options = {
-            desc = "[S]earch Recent Files ('.' for repeat)";
-          };
+        "<leader>sk" = {
+          action = "keymaps";
+          options.desc = "Key maps";
         };
-        "<leader><leader>" = {
-          mode = "n";
-          action = "buffers";
-          options = {
-            desc = "[ ] Find existing buffers";
-          };
+        "<leader>sM" = {
+          action = "man_pages";
+          options.desc = "Man pages";
+        };
+        "<leader>sm" = {
+          action = "marks";
+          options.desc = "Jump to Mark";
+        };
+        "<leader>so" = {
+          action = "vim_options";
+          options.desc = "Options";
+        };
+        "<leader>uC" = {
+          action = "colorscheme";
+          options.desc = "Colorscheme preview";
         };
       };
     };
