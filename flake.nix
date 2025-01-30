@@ -78,12 +78,13 @@
           modules = [
             ./hosts/homelab
             ./modules/nixos
+            nix-ld.nixosModules.nix-ld
             { nixpkgs.config.allowUnfree = true; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.rmrf = import ./modules/home-manager/default.nix;
+              home-manager.users.rmrf = import ./hosts/homelab/home.nix;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit nixpkgs;

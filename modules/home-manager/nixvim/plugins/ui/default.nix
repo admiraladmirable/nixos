@@ -11,7 +11,8 @@
     ./indent-blankline.nix
     ./lualine.nix
     # ./mini.nix
-    ./markdown-preview.nix
+    # ./markdown-preview.nix
+    ./markview.nix
     ./neo-tree.nix
     ./neoscroll.nix
     ./noice.nix

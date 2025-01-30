@@ -32,5 +32,9 @@
     ghostty.packages.x86_64-linux.default
     nixd
     bottles
+    poppler_utils
+    opentofu
+    awscli2
+    cilium-cli
   ];
 }

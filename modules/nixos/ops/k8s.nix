@@ -13,12 +13,15 @@ with lib;
       enable = true;
       role = "server";
       extraFlags = toString ([
-        "--write-kubeconfig-mode \"0644\""
+        "--write-kubeconfig-mode \"0600\""
         "--cluster-init"
-        "--disable=servicelb"
-        "--disable=traefik"
-        "--disable=local-storage"
-        "--kube-proxy-arg=ipvs-strict-arp=true"
+        "--disable servicelb"
+        "--disable traefik"
+        "--disable local-storage"
+        "--flannel-backend=none"
+        "--disable-network-policy"
+        "--disable-kube-proxy"
+        # "--kube-proxy-arg=ipvs-strict-arp=true"
       ]);
     };
     users.users.rmrf = {
@@ -26,6 +29,8 @@ with lib;
         kubernetes-helm
         kubectl
         terraform
+        cilium-cli
+        iptables
       ];
     };
   };

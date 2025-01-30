@@ -73,7 +73,7 @@
           { name = "nvim_lsp_signature_help"; }
           { name = "nvim_lsp_document_syntax"; }
           { name = "path"; }
-          { name = "codeium"; }
+          # { name = "codeium"; }
           { name = "buffer"; }
           { name = "cmp-git"; }
           { name = "luasnip"; }
