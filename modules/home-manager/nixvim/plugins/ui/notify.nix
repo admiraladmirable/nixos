@@ -1,15 +1,11 @@
 {
-  pkgs,
-  lib,
-  inputs,
-  ...
-}:
-{
   programs.nixvim = {
     plugins.notify = {
       enable = true;
-      timeout = 1;
-      # fps = 144;
+      settings = {
+        timeout = 1;
+        # fps = 144;
+      };
     };
   };
 }

@@ -215,6 +215,15 @@
     };
   };
 
+  boot.kernel.sysctl = {
+    "net.ipv4.ipv4_forward" = true;
+  };
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
+
   # Open ports in the firewall.
   networking.firewall = {
     enable = true;

@@ -12,11 +12,11 @@
       donjayamanne.githistory
       eamodio.gitlens
       # Rust
-      rust-lang.rust-analyzer
-      vadimcn.vscode-lldb
-      fill-labs.dependi
-      # Go
-      golang.go
+      # rust-lang.rust-analyzer
+      # vadimcn.vscode-lldb
+      # fill-labs.dependi
+      # # Go
+      # golang.go
     ];
   };
 }
