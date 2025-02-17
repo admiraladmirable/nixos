@@ -84,16 +84,16 @@
       powerManagement.enable = true;
       powerManagement.finegrained = false;
       nvidiaSettings = true;
-      # package = config.boot.kernelPackages.nvidiaPackages.latest;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = true;
-      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-        version = "570.86.16";
-        sha256_64bit = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
-        sha256_aarch64 = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
-        openSha256 = "sha256-DuVNA63+pJ8IB7Tw2gM4HbwlOh1bcDg2AN2mbEU9VPE=";
-        settingsSha256 = "sha256-9rtqh64TyhDF5fFAYiWl3oDHzKJqyOW3abpcf2iNRT8=";
-        persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-      };
+      # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      #   version = "570.86.16";
+      #   sha256_64bit = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
+      #   sha256_aarch64 = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
+      #   openSha256 = "sha256-DuVNA63+pJ8IB7Tw2gM4HbwlOh1bcDg2AN2mbEU9VPE=";
+      #   settingsSha256 = "sha256-9rtqh64TyhDF5fFAYiWl3oDHzKJqyOW3abpcf2iNRT8=";
+      #   persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
+      # };
     };
   };
 
@@ -222,28 +222,39 @@
     };
   };
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
+
   # Open ports in the firewall.
-  networking.firewall = {
-    allowedTCPPorts = [
-      57621
-      1119
-      54545
-      54546
-      54547
-      54548
-      54549
-      28890
-      28891
-      28892
-      28893
-      28894
-      6112
-      6113
-      6114
-      6443
-      10250
-    ];
-    allowedUDPPorts = [ 5353 ];
-    enable = false;
+  networking = {
+    hosts = {
+      "10.0.0.19" = [ "homelab" ];
+      "10.0.0.21" = [ "desktop" ];
+    };
+    firewall = {
+      allowedTCPPorts = [
+        57621
+        1119
+        54545
+        54546
+        54547
+        54548
+        54549
+        28890
+        28891
+        28892
+        28893
+        28894
+        6112
+        6113
+        6114
+        6443
+        10250
+      ];
+      allowedUDPPorts = [ 5353 ];
+      enable = false;
+    };
   };
 }

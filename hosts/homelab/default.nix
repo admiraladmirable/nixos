@@ -215,9 +215,9 @@
     };
   };
 
-  boot.kernel.sysctl = {
-    "net.ipv4.ipv4_forward" = true;
-  };
+  # boot.kernel.sysctl = {
+  #   "net.ipv4.ipv4_forward" = true;
+  # };
 
   services.avahi = {
     enable = true;
@@ -225,36 +225,42 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall = {
-    enable = true;
-    checkReversePath = false;
-    allowedTCPPorts = [
-      22 # ssh
-      53 # DNS
-      6443 # k3s api
-      80 # http
-      443 # https
-      4240 # cilium
-      4244 # hubble server
-      4245 # hubble relay
-      4250 # mtls
-      4251 # # spire
-      6060
-      6061
-      6062
-      9878
-      9879
-      9890
-      9891
-      9962
-      9963
-      9964
-      10250 # kubelet metrics
-    ];
-    allowedUDPPorts = [
-      53 # DNS
-      8472 # cilium - vxlan
-      51871 # cilium - wireguard
-    ];
+  networking = {
+    hosts = {
+      "10.0.0.19" = [ "homelab" ];
+      "10.0.0.21" = [ "desktop" ];
+    };
+    firewall = {
+      enable = true;
+      checkReversePath = false;
+      allowedTCPPorts = [
+        22 # ssh
+        53 # DNS
+        6443 # k3s api
+        80 # http
+        443 # https
+        4240 # cilium
+        4244 # hubble server
+        4245 # hubble relay
+        4250 # mtls
+        4251 # # spire
+        6060
+        6061
+        6062
+        9878
+        9879
+        9890
+        9891
+        9962
+        9963
+        9964
+        10250 # kubelet metrics
+      ];
+      allowedUDPPorts = [
+        53 # DNS
+        8472 # cilium - vxlan
+        51871 # cilium - wireguard
+      ];
+    };
   };
 }
