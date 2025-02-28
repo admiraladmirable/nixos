@@ -17,7 +17,7 @@
     terraform
     terragrunt
     obs-studio
-    kcalc
+    kdePackages.kcalc
     kdePackages.filelight
     gparted
     neofetch
@@ -36,5 +36,7 @@
     opentofu
     awscli2
     cilium-cli
+    brave
+    chromium
   ];
 }
