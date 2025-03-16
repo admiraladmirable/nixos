@@ -30,10 +30,10 @@
       url = "github:ghostty-org/ghostty";
     };
 
-    # flake-parts = {
-    #   url = "github:hercules-ci/flake-parts";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    openmw-nix = {
+      url = "git+https://codeberg.org/PopeRigby/openmw-nix.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -43,6 +43,7 @@
       nixvim,
       nix-ld,
       ghostty,
+      openmw-nix,
       ...
     }:
     {
@@ -56,6 +57,7 @@
             ./hosts/desktop
             ./modules/nixos
             nix-ld.nixosModules.nix-ld
+            openmw-nix
             { nixpkgs.config.allowUnfree = true; }
             home-manager.nixosModules.home-manager
             {
@@ -79,12 +81,37 @@
             ./hosts/homelab
             ./modules/nixos
             nix-ld.nixosModules.nix-ld
+            openmw-nix
             { nixpkgs.config.allowUnfree = true; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.rmrf = import ./hosts/homelab/home.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                inherit nixpkgs;
+                inherit ghostty;
+              };
+            }
+          ];
+        };
+        homelab-1 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            ./hosts/homelab-1
+            ./modules/nixos
+            nix-ld.nixosModules.nix-ld
+            openmw-nix
+            { nixpkgs.config.allowUnfree = true; }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.rmrf = import ./hosts/homelab-1/home.nix;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit nixpkgs;
@@ -102,6 +129,7 @@
             ./hosts/work
             ./modules/nixos
             nix-ld.nixosModules.nix-ld
+            openmw-nix
             { nixpkgs.config.allowUnfree = true; }
             home-manager.nixosModules.home-manager
             {

@@ -38,5 +38,8 @@
     cilium-cli
     brave
     chromium
+    libreoffice
+    xorg.xeyes
+    cbonsai
   ];
 }

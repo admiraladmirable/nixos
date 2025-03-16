@@ -84,7 +84,7 @@
       powerManagement.enable = true;
       powerManagement.finegrained = false;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.beta;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
       open = true;
       # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
       #   version = "570.124.04";
@@ -232,7 +232,9 @@
     hosts = {
       "10.0.0.19" = [ "homelab" ];
       "10.0.0.21" = [ "desktop" ];
+      "10.0.0.26" = [ "homelab-1" ];
     };
+
     firewall = {
       allowedTCPPorts = [
         57621
