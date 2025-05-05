@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    stylix = {
+      url = "github:danth/stylix";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     lan-mouse.url = "github:feschber/lan-mouse";
 
     # hyprland = {
@@ -53,6 +58,7 @@
       nix-ld,
       ghostty,
       openmw-nix,
+      stylix,
       ...
     }@inputs:
     let
@@ -79,6 +85,7 @@
               ./hosts/${hostname}
               ./modules/nixos
               nix-ld.nixosModules.nix-ld
+              stylix.nixosModules.stylix
               { nixpkgs.config.allowUnfree = true; }
               home-manager.nixosModules.home-manager
               {

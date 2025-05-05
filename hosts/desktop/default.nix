@@ -14,6 +14,7 @@
   docker.enable = true;
   kde.enable = true;
   hyprland.enable = true;
+  stylix-module.enable = true;
   # k8s.enable = false;
   steam.enable = true;
   coolercontrol.enable = true;

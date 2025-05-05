@@ -41,6 +41,24 @@
         sensitivity = ".2";
         accel_profile = "flat";
       };
+
+      plugin = {
+        borders-plus-plus = {
+          add_borders = 1; # 0 - 9
+
+          # you can add up to 9 borders
+          # col.border_1 = "rgb (ffffff)";
+          # col.border_2 = "rgb (2222 ff)";
+
+          # -1 means "default" as in the one defined in general:border_size
+          # border_size_1 = 10;
+          # border_size_2 = -1;
+
+          # makes outer edges match rounding of the parent. Turn on / off to better understand. Default = on.
+          natural_rounding = "yes";
+        };
+      };
+
       animations = {
         "enabled" = "yes";
         "bezier" = [
@@ -88,7 +106,34 @@
         [
           "$mod, F, exec, firefox"
           "$mod, T, exec, ghostty"
-          # "; Print, exec, grimblast copy area"
+          "$mod, C, killactive"
+          "$mod+Shift, C, forcekillactive"
+          "$mod, E, exec, hyprctl keyword general:layout 'dwindle'"
+          "$mod, F, fullscreen"
+          "$mod, G, togglegroup"
+          "$mod+Shift, G, moveoutofgroup"
+          "$mod, P, exec, 1password --quick-access"
+          "$mod+Shift, F, togglefloating"
+          "$mod+Shift, R, exec, hyprctl reload"
+          "$mod, Left, workspace, m-1"
+          "$mod+Shift, Left, movetoworkspacesilent, m-1"
+          "$mod, Right, workspace, m+1"
+          "$mod+Shift, Right, movetoworkspacesilent, m+1"
+          "$mod, Up, cyclenext, tiled"
+          "$mod, Up, changegroupactive"
+          "$mod+Shift, Up, swapnext, tiled"
+          "$mod+Shift, Up, movegroupwindow"
+          "$mod, Down, cyclenext, tiled, prev"
+          "$mod, Down, changegroupactive, b"
+          "$mod+Shift, Down, swapnext, tiled, prev"
+          "$mod+Shift, Down, movegroupwindow, b"
+          "$mod, Tab, workspace, previous"
+          "$mod, Comma, focusmonitor, +1"
+          "$mod+Shift, Comma, movecurrentworkspacetomonitor, +1"
+          "$mod, Period, focusmonitor, -1"
+          "$mod+Shift, Period, movecurrentworkspacetomonitor, -1"
+          ", Print, exec, hyprshot -z -m region --clipboard-only"
+          "$mod, Print, exec, hyprshot -z -m output --clipboard-only"
         ]
         ++ (
           # workspaces
