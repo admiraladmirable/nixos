@@ -14,6 +14,7 @@
     ../../modules/home-manager/zathura.nix
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/lan-mouse.nix
+    ../../modules/home-manager/hyprland
     inputs.nixvim.homeManagerModules.nixvim
     ../../modules/home-manager/nixvim
   ];

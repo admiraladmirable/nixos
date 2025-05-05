@@ -11,10 +11,7 @@
   ];
 
   # Enabled Modules
-  docker.enable = false;
-  kde.enable = false;
-  k8s.enable = true;
-  steam.enable = false;
+  k8s.server.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -36,7 +33,7 @@
 
   services.openiscsi = {
     enable = true;
-    name = "iqn.2020-08.org.linux-iscsi.initiatorhost:homelab";
+    name = "iqn.2020-08.org.linux-iscsi.initiatorhost:homelab-0";
   };
 
   # Bootloader
@@ -54,7 +51,7 @@
 
   # Networking
   networking = {
-    hostName = "homelab";
+    hostName = "homelab-0";
     networkmanager.enable = true;
   };
 
@@ -118,7 +115,14 @@
       "docker"
       "dialout"
     ];
+
+    hashedPassword = "$6$dAbP8R68N39TelAh$8TagDN12cSuGOrCvz9pCvKBwJzaJochIj1HE70MbDcPXeTyrfHXfUdy3Mo7E4ZtCvHWjJyFyr7j6crQBUZn.h/";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJWrrtZwPBfXwYZ50IaXjpakushKItfjToNNIOFLigP9 rmrf@desktop"
+    ];
   };
+
+  services.pulseaudio.enable = false;
 
   # Enable OpenGL/Graphics
   hardware = {
@@ -128,7 +132,6 @@
     };
 
     enableRedistributableFirmware = true;
-    pulseaudio.enable = false;
 
     nvidia = {
       modesetting.enable = true;
@@ -222,18 +225,20 @@
   # Open ports in the firewall.
   networking = {
     hosts = {
-      "10.0.0.19" = [ "homelab" ];
+      "10.0.0.19" = [ "homelab-0" ];
       "10.0.0.21" = [ "desktop" ];
       "10.0.0.26" = [ "homelab-1" ];
     };
 
     firewall = {
-      enable = true;
+      enable = false;
       checkReversePath = false;
       allowedTCPPorts = [
         22 # ssh
         53 # DNS
         6443 # k3s api
+        2379 # k3s HA etcd
+        2340 # k3s HA etcd
         80 # http
         443 # https
         4240 # cilium

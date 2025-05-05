@@ -1,0 +1,79 @@
+* {
+  /* font-family: "JetBrainsMono Nerd Font", monospace; */
+  font-family: "Droid Sans Mono";
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+}
+
+window#waybar {
+  background-color: #303446;
+  color: #c6d0f5;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  color: #a5adce;
+  background: transparent;
+  border-radius: 6px;
+}
+
+#workspaces button.focused {
+  color: #303446;
+  background-color: #8caaee;
+}
+
+#workspaces button.urgent {
+  color: #303446;
+  background-color: #e78284;
+}
+
+#workspaces button:hover {
+  background: #414559;
+  color: #c6d0f5;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#backlight,
+#tray,
+#mode,
+#temperature {
+  padding: 4px 10px;
+  margin: 2px 4px;
+  background-color: #414559;
+  color: #c6d0f5;
+}
+
+#battery.charging {
+  background-color: #a6d189;
+  color: #303446;
+}
+
+#battery.critical {
+  background-color: #e78284;
+  color: #303446;
+}
+
+#temperature.critical {
+  background-color: #e78284;
+  color: #303446;
+}
+
+#pulseaudio.muted {
+  color: #737994;
+}
+
+#tray {
+  background-color: #51576d;
+}
+
+#mode {
+  background-color: #ef9f76;
+  color: #303446;
+  font-weight: bold;
+}

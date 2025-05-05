@@ -4,6 +4,7 @@
 
   home.packages = with pkgs; [
     ffmpeg
+    libavif
     mpv
     btop
     irssi
@@ -41,5 +42,13 @@
     libreoffice
     xorg.xeyes
     cbonsai
+    blender
+    kubectl
+    kubernetes-helm
+    cilium-cli
+    iptables
+    wine64Packages.wayland
+    mission-center
+    protonplus
   ];
 }

@@ -12,6 +12,14 @@
         id = 0;
         search.force = true;
 
+        settings = {
+          "widget.use-xdg-desktop-portal.file-picker" = 1;
+          "media.ffmpeg.vaapi.enabled" = true;
+          "media.rdd-ffmpeg.enabled" = true;
+          "media.avi.enabled" = true;
+          "widget.dmabuf.force-enabled" = true;
+        };
+
         search.engines = {
           "Nix Packages" = {
             urls = [

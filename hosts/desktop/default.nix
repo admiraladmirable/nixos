@@ -13,10 +13,12 @@
   # Enabled Modules
   docker.enable = true;
   kde.enable = true;
-  k8s.enable = false;
+  hyprland.enable = true;
+  # k8s.enable = false;
   steam.enable = true;
   coolercontrol.enable = true;
   gpu-screen-recorder.enable = true;
+  gamemode.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -38,12 +40,16 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelParams = [ "nvidia-drm.fbdev=1" ];
+    # https://www.reddit.com/r/NixOS/comments/1emk6sr/nixos_is_awesome_and_a_little_guide_on_using/
+    kernelParams = [ "amd_pstate=guided" ];
 
     kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
-
     initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device =
       "/dev/disk/by-uuid/be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5";
+  };
+
+  powerManagement = {
+    cpuFreqGovernor = "schedutil";
   };
 
   # Networking
@@ -70,11 +76,15 @@
     LC_TIME = "en_US.UTF-8";
   };
   services.pulseaudio.enable = false;
+
   # Enable OpenGL/Graphics
   hardware = {
     graphics = {
       enable = true;
       enable32Bit = true;
+      extraPackages = with pkgs; [
+        nvidia-vaapi-driver
+      ];
     };
 
     enableRedistributableFirmware = true;
@@ -84,16 +94,16 @@
       powerManagement.enable = true;
       powerManagement.finegrained = false;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      # package = config.boot.kernelPackages.nvidiaPackages.latest;
       open = true;
-      # package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-      #   version = "570.124.04";
-      #   sha256_64bit = "sha256-G3hqS3Ei18QhbFiuQAdoik93jBlsFI2RkWOBXuENU8Q=";
-      #   sha256_aarch64 = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
-      #   openSha256 = "sha256-DuVNA63+pJ8IB7Tw2gM4HbwlOh1bcDg2AN2mbEU9VPE=";
-      #   settingsSha256 = "sha256-LNL0J/sYHD8vagkV1w8tb52gMtzj/F0QmJTV1cMaso8=";
-      #   persistencedSha256 = "sha256-rtDxQjClJ+gyrCLvdZlT56YyHQ4sbaL+d5tL4L4VfkA=";
-      # };
+      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+        version = "575.51.02";
+        sha256_64bit = "sha256-XZ0N8ISmoAC8p28DrGHk/YN1rJsInJ2dZNL8O+Tuaa0=";
+        sha256_aarch64 = "sha256-NNeQU9sPfH1sq3d5RUq1MWT6+7mTo1SpVfzabYSVMVI=";
+        openSha256 = "sha256-NQg+QDm9Gt+5bapbUO96UFsPnz1hG1dtEwT/g/vKHkw=";
+        settingsSha256 = "sha256-6n9mVkEL39wJj5FB1HBml7TTJhNAhS/j5hqpNGFQE4w=";
+        persistencedSha256 = "sha256-dgmco+clEIY8bedxHC4wp+fH5JavTzyI1BI8BxoeJJI=";
+      };
     };
   };
 
@@ -129,7 +139,13 @@
       "wheel"
       "docker"
       "dialout"
+      "gamemode"
     ];
+
+    hashedPassword = "$6$dAbP8R68N39TelAh$8TagDN12cSuGOrCvz9pCvKBwJzaJochIj1HE70MbDcPXeTyrfHXfUdy3Mo7E4ZtCvHWjJyFyr7j6crQBUZn.h/";
+    # openssh.authorizedKeys.keys = [
+    #   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJWrrtZwPBfXwYZ50IaXjpakushKItfjToNNIOFLigP9 rmrf@desktop"
+    # ];
   };
 
   fonts.packages = with pkgs; [
@@ -143,9 +159,17 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+    MOZ_USE_XINPUT2 = "1";
+    MOZ_DISABLE_RDD_SANDBOX = "1";
+    LIBVA_DRIVER_NAME = "nvidia";
+    # Not sure if we need these
+    NVD_BACKEND = "direct";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 
   environment.systemPackages = with pkgs; [
+    libva-utils
     kdePackages.xdg-desktop-portal-kde
     git
     wget
@@ -194,7 +218,7 @@
       extraLibraries = pkgs: [
         # List library dependencies here
         winetricks
-        wine
+        wine-wayland
       ];
     })
     # bottles
@@ -205,8 +229,10 @@
     nethack
     devenv
     steam-run
-    wineWowPackages.stable
     winetricks
+    protontricks
+    wine
+    wine64
     renderdoc
     # (import ../../packages/kenku-fm.nix)
   ];
@@ -222,15 +248,10 @@
     };
   };
 
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-  };
-
   # Open ports in the firewall.
   networking = {
     hosts = {
-      "10.0.0.19" = [ "homelab" ];
+      "10.0.0.19" = [ "homelab-0" ];
       "10.0.0.21" = [ "desktop" ];
       "10.0.0.26" = [ "homelab-1" ];
     };

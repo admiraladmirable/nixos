@@ -14,8 +14,6 @@
     newsflash
     alejandra
     nixfmt-rfc-style
-    kcalc
-    kdePackages.filelight
     gparted
     neofetch
     kubectl

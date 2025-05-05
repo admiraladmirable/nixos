@@ -20,5 +20,6 @@
     nerd-fonts.droid-sans-mono
     gh
     ghostty.packages.x86_64-linux.default
+    rsync
   ];
 }

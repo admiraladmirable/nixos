@@ -16,6 +16,15 @@
 
     lan-mouse.url = "github:feschber/lan-mouse";
 
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland";
+    # };
+    #
+    # hyprland-plugins = {
+    #   url = "github:hyprwm/hyprland-plugins";
+    #   inputs.hyprland.follows = "hyprland";
+    # };
+
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,7 +46,7 @@
   };
 
   outputs =
-    inputs@{
+    {
       nixpkgs,
       home-manager,
       nixvim,
@@ -45,105 +54,47 @@
       ghostty,
       openmw-nix,
       ...
-    }:
+    }@inputs:
+    let
+      hosts = [
+        "desktop"
+        "homelab-0"
+        "homelab-1"
+        "work"
+      ];
+    in
     {
-      nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [
-            ./hosts/desktop
-            ./modules/nixos
-            nix-ld.nixosModules.nix-ld
-            openmw-nix
-            { nixpkgs.config.allowUnfree = true; }
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.rmrf = import ./hosts/desktop/home.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                inherit nixpkgs;
-                inherit ghostty;
+      nixosConfigurations = builtins.listToAttrs (
+        map (hostname: {
+          name = hostname;
+          value = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              inherit inputs;
+              meta = {
+                hostname = hostname;
               };
-            }
-          ];
-        };
-        homelab = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
+            };
+            modules = [
+              ./hosts/${hostname}
+              ./modules/nixos
+              nix-ld.nixosModules.nix-ld
+              { nixpkgs.config.allowUnfree = true; }
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.backupFileExtension = "backup";
+                home-manager.users.rmrf = import ./hosts/${hostname}/home.nix;
+                home-manager.extraSpecialArgs = {
+                  inherit inputs;
+                  inherit nixpkgs;
+                  inherit ghostty;
+                };
+              }
+            ];
           };
-          modules = [
-            ./hosts/homelab
-            ./modules/nixos
-            nix-ld.nixosModules.nix-ld
-            openmw-nix
-            { nixpkgs.config.allowUnfree = true; }
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.rmrf = import ./hosts/homelab/home.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                inherit nixpkgs;
-                inherit ghostty;
-              };
-            }
-          ];
-        };
-        homelab-1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [
-            ./hosts/homelab-1
-            ./modules/nixos
-            nix-ld.nixosModules.nix-ld
-            openmw-nix
-            { nixpkgs.config.allowUnfree = true; }
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.rmrf = import ./hosts/homelab-1/home.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                inherit nixpkgs;
-                inherit ghostty;
-              };
-            }
-          ];
-        };
-        work = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit inputs;
-          };
-          modules = [
-            ./hosts/work
-            ./modules/nixos
-            nix-ld.nixosModules.nix-ld
-            openmw-nix
-            { nixpkgs.config.allowUnfree = true; }
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.rmrf = import ./hosts/work/home.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                inherit nixpkgs;
-                inherit ghostty;
-              };
-            }
-          ];
-        };
-      };
+        }) hosts
+      );
     };
 }
