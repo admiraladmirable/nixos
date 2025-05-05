@@ -15,7 +15,8 @@
         layer = "top";
         position = "top";
         height = 30;
-        output = "eDP-1";
+        # output = "eDP-1";
+        output = "DP-2";
 
         modules-left = [
           "hyprland/workspaces"
@@ -92,6 +93,7 @@
             warning = 30;
             critical = 15;
           };
+
           format = "󰁹 {capacity}%";
           format-charging = "󰂄 {capacity}%";
           format-plugged = "󰚥 {capacity}%";
