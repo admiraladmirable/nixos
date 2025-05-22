@@ -27,6 +27,7 @@ with lib;
         kubectl
         terraform
         cilium-cli
+        hubble
         iptables
         # etcd
       ];

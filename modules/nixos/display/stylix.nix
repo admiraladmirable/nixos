@@ -12,9 +12,14 @@ with lib;
   config = mkIf config.stylix-module.enable {
     stylix = {
       enable = true;
-      # image = "/home/rmrf/Pictures/_DSC0148.jpg";
 
       base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-frappe.yaml";
+
+      cursor = {
+        package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+        name = "BreezX-RosePine-Linux";
+        size = 48;
+      };
 
       fonts = {
         sizes = {

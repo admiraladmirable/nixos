@@ -2,6 +2,7 @@
   pkgs,
   lib,
   inputs,
+  openmw-nix,
   ...
 }:
 {
@@ -15,7 +16,7 @@
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/lan-mouse.nix
     ../../modules/home-manager/hyprland
-    inputs.nixvim.homeManagerModules.nixvim
-    ../../modules/home-manager/nixvim
+    ../../modules/home-manager/gh.nix
+    ../../modules/home-manager/openmw.nix
   ];
 }

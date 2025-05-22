@@ -21,7 +21,6 @@ with lib;
           "--write-kubeconfig-mode \"0644\""
           "--disable servicelb"
           "--disable traefik"
-          "--disable local-storage"
           "--flannel-backend=none"
           "--disable-network-policy"
           "--disable-kube-proxy"

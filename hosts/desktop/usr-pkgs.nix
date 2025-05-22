@@ -1,4 +1,16 @@
-{ pkgs, ghostty, ... }:
+{
+  pkgs,
+  ghostty,
+  openmw-nix,
+  inputs,
+  ...
+}:
+let
+  # umo = pkgs.callPackage ../../modules/pkgs/umo {
+  #   openmw-nix = openmw-nix;
+  # };
+  # momw-tools-pack = pkgs.callPackage ./modules/pkgs/momw-tools-pack { };
+in
 {
   fonts.fontconfig.enable = true;
 
@@ -21,7 +33,7 @@
     kdePackages.kcalc
     kdePackages.filelight
     gparted
-    neofetch
+    fastfetch
     kubectl
     kubernetes-helm
     # checkov
@@ -29,7 +41,6 @@
     xlights
     ripgrep
     nerd-fonts.droid-sans-mono
-    gh
     ghostty.packages.x86_64-linux.default
     nixd
     bottles
@@ -37,6 +48,7 @@
     opentofu
     awscli2
     cilium-cli
+    hubble
     brave
     chromium
     libreoffice
@@ -45,10 +57,15 @@
     blender
     kubectl
     kubernetes-helm
-    cilium-cli
     iptables
     wine64Packages.wayland
     mission-center
     protonplus
+    libxcrypt
+    p7zip-rar
+    # inputs.self.packages.x86_64-linux.momw-tools-pack
+    # (pkgs.writeShellScriptBin "tes3cmd" ''
+    #   exec ${import ./../../modules/pkgs/tes3cmd { inherit pkgs; }}/bin/tes3cmd
+    # '')
   ];
 }

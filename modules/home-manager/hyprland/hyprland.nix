@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }:
 {
@@ -9,16 +10,50 @@
   home.packages = with pkgs; [
     hyprcursor
     hyprutils
-    xdg-desktop-portal-hyprland
     hyprpicker
     hypridle
+    hyprprop
     waybar
+    grimblast
+    brightnessctl
+    playerctl
+    xwayland
+    wayland-protocols
+    kdePackages.dolphin
+    kdePackages.polkit-qt-1
+    kdePackages.filelight
+    kdePackages.kate
+    kdePackages.xwaylandvideobridge
+    # kdePackages.qtwayland
+    dunst
   ];
+
+  # home.pointerCursor = {
+  #   inherit (config.stylix.cursor) name size package;
+  #   enable = true;
+  #   gtk.enable = true;
+  # };
+
+  gtk = {
+    enable = true;
+    cursorTheme = {
+      inherit (config.stylix.cursor) package name;
+    };
+
+    iconTheme = {
+      inherit (config.stylix.cursor) package name;
+    };
+  };
+  qt.enable = true;
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
 
   wayland.windowManager.hyprland = {
     enable = true;
+
+    # These are configured at modules/nixos/display/stylix.nix
+    package = null;
+    portalPackage = null;
 
     plugins = with pkgs.hyprlandPlugins; [
       borders-plus-plus
@@ -28,19 +63,60 @@
 
     settings = {
       "$mod" = "SUPER";
+      "$filemanager" = "dolphin";
+      "$menu" = "rofi -show combi";
+
+      exec-once = [
+        "${pkgs.systemd}/bin/systemctl --user import-environment PATH"
+        "uwsm finalize"
+        "hyprdim"
+      ];
+
+      exec = [
+        # "${pkgs.hyprland}/bin/hyprctl setcursor '${config.gtk.cursorTheme.name}' ${builtins.toString config.gtk.cursorTheme.size} &> /dev/null"
+        "swww img /home/rmrf/Pictures/_DSC0148.jpg -t random --transition-duration 2"
+      ];
+
+      cursor = {
+        # Fixes inconsistent cursor
+        # no_hardware_cursors = 1;
+        no_break_fs_vrr = 1;
+        min_refresh_rate = 48;
+      };
 
       env = [
         "NIXOS_OZONE_WL,1"
-        "ELECTRON_OZONE_PLATFORM_HINT,auto"
-        "LIBVA_DRIVER_NAME,nvidia"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        # These are set by NixOS for nvidia I believe
+        # "LIBVA_DRIVER_NAME,nvidia"
+        # "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        # "GBM_BACKEND,nvidia-drm"
         "NVD_BACKEND,direct"
+        "__GL_GSYNC_ALLOWED"
+        "__GL_VRR_ALLOWED"
+        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+        "GDK_BACKEND,wayland,x11,*"
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "SDL_VIDEODRIVER,wayland"
+        "CLUTTER_BACKEND,wayland"
+        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
+        "HYPRCURSOR_THEME,BreezX-RosePine-Linux"
       ];
 
       input = {
-        sensitivity = ".2";
+        sensitivity = "0";
         accel_profile = "flat";
+        force_no_accel = "1";
       };
+
+      # Setup for xwaylandvideobridge
+      # windowrule = {
+      #   "opacity 0.0 override, class:^(xwaylandvideobridge)$"
+      #   "noanim, class:^(xwaylandvideobridge)$"
+      #   "noinitialfocus, class:^(xwaylandvideobridge)$"
+      #   "maxsize 1 1, class:^(xwaylandvideobridge)$"
+      #   "noblur, class:^(xwaylandvideobridge)$"
+      #   "nofocus, class:^(xwaylandvideobridge)$"
+      # };
 
       plugin = {
         borders-plus-plus = {
@@ -84,18 +160,44 @@
         "pseudotile" = "yes";
         "preserve_split" = "yes";
       };
+      render = {
+        explicit_sync = 1;
+        explicit_sync_kms = 1;
+        direct_scanout = 1;
+      };
 
       misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
+        # disable_hyprland_logo = true;
+        # disable_splash_rendering = true;
         force_default_wallpaper = 0;
+        # vfr = false;
         vrr = 1;
       };
-      general = {
-        snap = {
+
+      experimental = {
+        xx_color_management_v4 = true;
+      };
+
+      decoration = {
+        rounding = 10;
+        blur = {
           enabled = true;
         };
       };
+
+      general = {
+        # gaps_in = 5;
+        # gaps_out = 5;
+        resize_on_border = true;
+        snap = {
+          enabled = true;
+        };
+        allow_tearing = true;
+      };
+
+      windowrule = [
+        "immediate, class:(Marvel)$"
+      ];
 
       monitor = [
         "DP-1, highrr, auto, 1, vrr, 1"
@@ -104,7 +206,8 @@
 
       bind =
         [
-          "$mod, F, exec, firefox"
+          # "$mod, F, exec, firefox"
+          ", Print, exec, grimblast copy area"
           "$mod, T, exec, ghostty"
           "$mod, C, killactive"
           "$mod+Shift, C, forcekillactive"
@@ -134,6 +237,7 @@
           "$mod+Shift, Period, movecurrentworkspacetomonitor, -1"
           ", Print, exec, hyprshot -z -m region --clipboard-only"
           "$mod, Print, exec, hyprshot -z -m output --clipboard-only"
+          "$mod, Space, exec, rofi -show combi"
         ]
         ++ (
           # workspaces

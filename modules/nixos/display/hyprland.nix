@@ -1,4 +1,10 @@
-{ lib, pkgs, inputs, config, ... }:
+{
+  lib,
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
 with lib;
 {
   options.hyprland.enable = mkEnableOption "Enable Hyprland";
@@ -7,8 +13,14 @@ with lib;
     programs.hyprland = {
       enable = true;
       withUWSM = true;
+      xwayland.enable = true;
       # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
-    security.pam.services.hyprlock = {};
+    services.displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+      theme = "catppuccin";
+    };
+    security.pam.services.hyprlock = { };
   };
 }

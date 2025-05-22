@@ -16,7 +16,5 @@
     ../../modules/home-manager/direnv.nix
     ../../modules/home-manager/lan-mouse.nix
     # ../../modules/home-manager/nvim.nix
-    inputs.nixvim.homeManagerModules.nixvim
-    ../../modules/home-manager/nixvim
   ];
 }

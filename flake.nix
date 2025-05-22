@@ -21,18 +21,19 @@
 
     lan-mouse.url = "github:feschber/lan-mouse";
 
-    # hyprland = {
-    #   url = "github:hyprwm/Hyprland";
-    # };
-    #
-    # hyprland-plugins = {
-    #   url = "github:hyprwm/hyprland-plugins";
-    #   inputs.hyprland.follows = "hyprland";
-    # };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
+
+    rose-pine-hyprcursor = {
+      url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hyprlang.follows = "hyprland/hyprlang";
     };
 
     nix-ld = {
@@ -42,6 +43,10 @@
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
+    };
+
+    musnix = {
+      url = "github:musnix/musnix";
     };
 
     openmw-nix = {
@@ -54,11 +59,11 @@
     {
       nixpkgs,
       home-manager,
-      nixvim,
       nix-ld,
       ghostty,
-      openmw-nix,
       stylix,
+      musnix,
+      openmw-nix,
       ...
     }@inputs:
     let
@@ -68,6 +73,9 @@
         "homelab-1"
         "work"
       ];
+      # debug
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
     in
     {
       nixosConfigurations = builtins.listToAttrs (
@@ -86,6 +94,7 @@
               ./modules/nixos
               nix-ld.nixosModules.nix-ld
               stylix.nixosModules.stylix
+              musnix.nixosModules.musnix
               { nixpkgs.config.allowUnfree = true; }
               home-manager.nixosModules.home-manager
               {
@@ -97,11 +106,14 @@
                   inherit inputs;
                   inherit nixpkgs;
                   inherit ghostty;
+                  inherit openmw-nix;
                 };
               }
             ];
           };
         }) hosts
       );
+      # debug
+      # packages.${system}.momw-tools-pack = pkgs.callPackage ./modules/pkgs/momw-tools-pack { };
     };
 }

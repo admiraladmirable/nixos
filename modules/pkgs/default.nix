@@ -1,5 +1,5 @@
 # Custom packages, that can be defined similarly to ones from nixpkgs
 # You can build them using 'nix build .#example'
 pkgs: {
-  nethack-git = pkgs.callPackage ./nethack-git { };
+  tes3cmd = pkgs.callPackage ./tes3cmd/default.nix { };
 }

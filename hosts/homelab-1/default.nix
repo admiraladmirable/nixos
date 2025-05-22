@@ -175,12 +175,15 @@
     };
   };
 
-  # boot.kernel.sysctl = {
-  #   "net.ipv4.ipv4_forward" = true;
-  # };
+  boot.kernel.sysctl = {
+    "net.ipv4.ipv4_forward" = true;
+  };
 
   # Open ports in the firewall.
   networking = {
+    nat = {
+      enable = false;
+    };
     hosts = {
       "10.0.0.19" = [ "homelab-0" ];
       "10.0.0.21" = [ "desktop" ];

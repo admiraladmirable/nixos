@@ -12,7 +12,7 @@
 
   # Enabled Modules
   docker.enable = true;
-  kde.enable = true;
+  # kde.enable = true;
   hyprland.enable = true;
   stylix-module.enable = true;
   # k8s.enable = false;
@@ -42,7 +42,11 @@
     };
 
     # https://www.reddit.com/r/NixOS/comments/1emk6sr/nixos_is_awesome_and_a_little_guide_on_using/
-    kernelParams = [ "amd_pstate=guided" ];
+    kernelParams = [
+      "amd_pstate=guided"
+      # Enable Real Time
+      "PREEMPT_RT"
+    ];
 
     kernelPackages = pkgs.linuxPackages_latest; # Use latest to get HDR fixes in
     initrd.luks.devices."luks-be262eb3-9e45-4c67-a7b4-f9d9ddfa16c5".device =
@@ -141,6 +145,7 @@
       "docker"
       "dialout"
       "gamemode"
+      "audio"
     ];
 
     hashedPassword = "$6$dAbP8R68N39TelAh$8TagDN12cSuGOrCvz9pCvKBwJzaJochIj1HE70MbDcPXeTyrfHXfUdy3Mo7E4ZtCvHWjJyFyr7j6crQBUZn.h/";
@@ -155,7 +160,7 @@
   ];
 
   environment.variables = {
-    FLAKE = "/home/rmrf/.config/nixos/";
+    NH_FLAKE = "/home/rmrf/.config/nixos/";
   };
 
   environment.sessionVariables = {
@@ -207,7 +212,6 @@
     nmap
     bat
     slack
-    xclip
     nil
     discord
     obsidian
@@ -255,6 +259,7 @@
       "10.0.0.19" = [ "homelab-0" ];
       "10.0.0.21" = [ "desktop" ];
       "10.0.0.26" = [ "homelab-1" ];
+      "10.0.0.24" = [ "work" ];
     };
 
     firewall = {
