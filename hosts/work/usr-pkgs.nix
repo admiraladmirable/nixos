@@ -17,7 +17,7 @@
     terraform
     terragrunt
     obs-studio
-    kcalc
+    kdePackages.kcalc
     kdePackages.filelight
     gparted
     neofetch

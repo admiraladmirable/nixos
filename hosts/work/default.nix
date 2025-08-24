@@ -14,7 +14,6 @@
     nvidia.enable = false;
   };
   kde.enable = true;
-  k8s.enable = true;
   gpg.enable = true;
 
   # This value determines the NixOS release from which the default
