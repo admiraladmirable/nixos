@@ -31,6 +31,12 @@
 
   hardware.enableRedistributableFirmware = true;
 
+  # Ledger udev rules
+  hardware.ledger.enable = true;
+
+  # Bluetooth
+  hardware.bluetooth.enable = true;
+
   boot = {
     loader = {
       systemd-boot.enable = true;
@@ -133,6 +139,7 @@
       "wheel"
       "docker"
       "dialout"
+      "plugdev"
     ];
   };
 
@@ -180,6 +187,7 @@
     syft
     nh
     envsubst
+    yubikey-manager
   ];
 
   environment.variables = {

@@ -2,7 +2,7 @@
 {
   programs.vscode = {
     enable = true;
-    extensions = with pkgs.vscode-extensions; [
+    profiles.default.extensions = with pkgs.vscode-extensions; [
       # Nix
       jnoortheen.nix-ide
       arrterian.nix-env-selector

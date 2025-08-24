@@ -31,5 +31,7 @@
     awscli2
     ghostty.packages.x86_64-linux.default
     obsidian
+    brave
+    yq-go
   ];
 }
