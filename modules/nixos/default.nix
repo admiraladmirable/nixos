@@ -8,6 +8,7 @@ with lib;
     ./ops/QEMU.nix
     ./ops/docker.nix
     ./ops/gnupg.nix
+    ./ops/yubikey.nix
     # ./nvim
     ./steam.nix
     ./games/gamemode.nix
