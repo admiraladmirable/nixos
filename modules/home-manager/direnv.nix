@@ -18,6 +18,7 @@
 
       shellAliases = {
         k = "kubectl";
+        nvim = "nix run github:admiraladmirable/nixCats --refresh";
       };
 
       bashrcExtra = ''
