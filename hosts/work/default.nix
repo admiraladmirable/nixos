@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 {
@@ -16,6 +17,10 @@
   kde.enable = true;
   gpg.enable = true;
   yubikey.enable = true;
+  openvpn3.enable = false;
+  k3s.server.enable = true;
+  falcon-sensor.enable = true;
+  # nix-ld.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -29,6 +34,13 @@
     package = pkgs.nixVersions.stable;
     extraOptions = "experimental-features = nix-command flakes";
   };
+
+  # Fix /bin/bash issues
+  system.activationScripts.binbash = ''
+    mkdir -p /bin
+    ln -sf ${pkgs.bash}/bin/bash /bin/bash
+  '';
+  services.resolved.enable = true;
 
   hardware.enableRedistributableFirmware = true;
 
@@ -84,6 +96,7 @@
       5050
       5432
       5433
+      6443
       20048
       31190
     ];
@@ -113,13 +126,24 @@
       AllowUsers = [ "rmrf" ];
     };
   };
+
+  # boot.kernelParams = [ "i915.enable_guc=2" ];
+  nixpkgs.config.packageOverrides = pkgs: {
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  };
+
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-vaapi-driver
       intel-media-driver
+      intel-vaapi-driver
+      libvdpau-va-gl
     ];
   };
+
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  }; # Force intel-media-driver
 
   # Enable sound with pipewire.
   security.rtkit.enable = true;
@@ -179,7 +203,7 @@
     pulseaudio
     file
     traceroute
-    poppler_utils
+    poppler-utils
     nmap
     bat
     slack
@@ -189,10 +213,11 @@
     nh
     envsubst
     yubikey-manager
+    openvpn3
   ];
 
   environment.variables = {
-    FLAKE = "/home/rmrf/.config/nixos/";
+    NH_FLAKE = "/home/rmrf/.config/nixos/";
   };
 
   nix = {

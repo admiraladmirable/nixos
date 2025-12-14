@@ -33,5 +33,12 @@
     obsidian
     brave
     yq-go
+    openssl
+    telegram-desktop
+    dpkg
+    foundry
+    dig
+    python3
+    codex
   ];
 }

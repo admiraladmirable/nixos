@@ -43,15 +43,11 @@
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     musnix = {
       url = "github:musnix/musnix";
-    };
-
-    openmw-nix = {
-      url = "git+https://codeberg.org/PopeRigby/openmw-nix.git";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -63,7 +59,6 @@
       ghostty,
       stylix,
       musnix,
-      openmw-nix,
       ...
     }@inputs:
     let
@@ -73,11 +68,24 @@
         "homelab-1"
         "work"
       ];
-      # debug
       system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+      overlays = {
+        default = final: prev: {
+          falcon-sensor = prev.callPackage ./modules/pkgs/falcon-sensor/falcon.nix { };
+        };
+      };
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ overlays.default ];
+      };
     in
     {
+      overlays = overlays;
+
+      nixosModules = {
+        falcon-sensor = import ./modules/pkgs/falcon-sensor;
+      };
+
       nixosConfigurations = builtins.listToAttrs (
         map (hostname: {
           name = hostname;
@@ -95,7 +103,11 @@
               nix-ld.nixosModules.nix-ld
               stylix.nixosModules.stylix
               musnix.nixosModules.musnix
-              { nixpkgs.config.allowUnfree = true; }
+              {
+                nixpkgs.overlays = [ overlays.default ];
+                nixpkgs.config.allowUnfree = true;
+                # nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1w" ]; # needed for awsvpnclient
+              }
               home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
@@ -106,14 +118,15 @@
                   inherit inputs;
                   inherit nixpkgs;
                   inherit ghostty;
-                  inherit openmw-nix;
                 };
               }
             ];
           };
         }) hosts
       );
-      # debug
-      # packages.${system}.momw-tools-pack = pkgs.callPackage ./modules/pkgs/momw-tools-pack { };
+
+      packages.${system} = {
+        inherit (pkgs) falcon-sensor;
+      };
     };
 }

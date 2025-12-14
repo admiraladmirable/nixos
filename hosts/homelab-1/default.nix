@@ -151,7 +151,7 @@
     pulseaudio
     file
     traceroute
-    poppler_utils
+    poppler-utils
     nmap
     bat
     xclip

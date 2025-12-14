@@ -1,5 +1,10 @@
 # Custom packages, that can be defined similarly to ones from nixpkgs
 # You can build them using 'nix build .#example'
-pkgs: {
-  tes3cmd = pkgs.callPackage ./tes3cmd/default.nix { };
+
+{ pkgs, lib, ... }:
+with lib;
+{
+  imports = [
+    ./falcon
+  ];
 }

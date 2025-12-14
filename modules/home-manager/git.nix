@@ -2,13 +2,15 @@
 {
   programs.git = {
     enable = true;
-    userName = "admiraladmirable";
-    userEmail = "rick.morrow1204@gmail.com";
-    aliases = {
-      undo = "reset HEAD~1 --mixed";
-    };
-    extraConfig = {
+    settings = {
       credential.helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
+      user = {
+        name = "rmrf";
+        email = "rick.morrow1204@gmail.com";
+      };
+      aliases = {
+        undo = "reset HEAD~1 --mixed";
+      };
       color = {
         ui = "auto";
       };
