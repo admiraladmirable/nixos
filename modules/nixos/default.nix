@@ -17,6 +17,6 @@ with lib;
     ./deluge.nix
     ./coolercontrol.nix
     ./nix-ld.nix
-    ./falcon-sensor.nix
+    # ./falcon-sensor.nix
   ];
 }

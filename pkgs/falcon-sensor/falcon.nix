@@ -46,7 +46,7 @@ let
     };
   };
 in
-buildFHSUserEnv {
+buildFHSEnv {
   name = "fs-bash";
   targetPkgs = pkgs: [
     libnl

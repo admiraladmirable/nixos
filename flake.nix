@@ -71,7 +71,7 @@
       system = "x86_64-linux";
       overlays = {
         default = final: prev: {
-          falcon-sensor = prev.callPackage ./modules/pkgs/falcon-sensor/falcon.nix { };
+          # falcon-sensor = prev.callPackage ./modules/pkgs/falcon-sensor/falcon.nix { };
         };
       };
       pkgs = import nixpkgs {
@@ -83,7 +83,7 @@
       overlays = overlays;
 
       nixosModules = {
-        falcon-sensor = import ./modules/pkgs/falcon-sensor;
+        # falcon-sensor = import ./modules/pkgs/falcon-sensor;
       };
 
       nixosConfigurations = builtins.listToAttrs (
@@ -126,7 +126,7 @@
       );
 
       packages.${system} = {
-        inherit (pkgs) falcon-sensor;
+        # inherit (pkgs) falcon-sensor;
       };
     };
 }

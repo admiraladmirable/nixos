@@ -8,6 +8,7 @@
 {
   imports = [
     ../../modules/nixos
+    # inputs.self.nixosModules.falcon-sensor
     ./hardware-configuration.nix
   ];
   docker = {
@@ -19,7 +20,7 @@
   yubikey.enable = true;
   openvpn3.enable = false;
   k3s.server.enable = true;
-  falcon-sensor.enable = true;
+  # services.falcon-sensor.enable = true;
   # nix-ld.enable = true;
 
   # This value determines the NixOS release from which the default
