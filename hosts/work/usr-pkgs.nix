@@ -22,6 +22,9 @@
     gparted
     neofetch
     kubectl
+    kubectx
+    k9s
+    jj
     kubernetes-helm
     # checkov
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
@@ -40,5 +43,6 @@
     dig
     python3
     codex
+    claude-code
   ];
 }

@@ -1,19 +1,7 @@
+{ ... }:
 {
-  config,
-  lib,
-  inputs,
-  ...
-}:
-with lib;
-{
+  # Thin wrapper to make the falcon-sensor service module part of the shared module set.
   imports = [
-    inputs.self.nixosModules.falcon-sensor
+    ../pkgs/falcon-sensor
   ];
-  options.falcon-sensor.enable = mkEnableOption "Enable falcon-sensor service";
-
-  config = mkIf config.falcon-sensor.enable {
-    services.falcon-sensor = {
-      enable = true;
-    };
-  };
 }

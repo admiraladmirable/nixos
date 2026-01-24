@@ -8,7 +8,6 @@
 {
   imports = [
     ../../modules/nixos
-    # inputs.self.nixosModules.falcon-sensor
     ./hardware-configuration.nix
   ];
   docker = {
@@ -19,8 +18,9 @@
   gpg.enable = true;
   yubikey.enable = true;
   openvpn3.enable = false;
-  k3s.server.enable = true;
-  # services.falcon-sensor.enable = true;
+  # k3s.server.enable = true;
+  services.falcon-sensor.enable = true;
+  awsclientvpn.enable = true;
   # nix-ld.enable = true;
 
   # This value determines the NixOS release from which the default
@@ -211,7 +211,6 @@
     xclip
     nil
     syft
-    nh
     envsubst
     yubikey-manager
     openvpn3

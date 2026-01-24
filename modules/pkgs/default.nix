@@ -5,6 +5,6 @@
 with lib;
 {
   imports = [
-    ./falcon
+    ./falcon-sensor
   ];
 }

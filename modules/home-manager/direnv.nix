@@ -18,6 +18,8 @@
 
       shellAliases = {
         k = "kubectl";
+        kctx = "kubectx";
+        kns = "kubens";
         nvim = "nix run github:admiraladmirable/nixCats --refresh";
       };
 

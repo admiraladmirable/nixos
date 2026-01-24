@@ -49,6 +49,12 @@
     musnix = {
       url = "github:musnix/musnix";
     };
+
+    awsvpnclient = {
+      # url = "path:/home/rmrf/dev/awsvpnclient-flake";
+      url = "github:admiraladmirable/awsvpnclient-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -59,6 +65,7 @@
       ghostty,
       stylix,
       musnix,
+      awsvpnclient,
       ...
     }@inputs:
     let
@@ -69,21 +76,35 @@
         "work"
       ];
       system = "x86_64-linux";
+      # overlays = import ./overlays;
+      # pkgsForSystem =
+      #   system:
+      #   import nixpkgs {
+      #     overlays = [
+      #       localOverlay
+      #     ];
+      #     inherit system;
+      #   };
       overlays = {
         default = final: prev: {
-          # falcon-sensor = prev.callPackage ./modules/pkgs/falcon-sensor/falcon.nix { };
+          falcon-sensor = final.callPackage ./modules/pkgs/falcon-sensor/falcon.nix { };
         };
       };
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ overlays.default ];
-      };
+      pkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          overlays = [
+            overlays.default
+          ];
+        };
     in
     {
+      # overlays = overlays;
       overlays = overlays;
 
       nixosModules = {
-        # falcon-sensor = import ./modules/pkgs/falcon-sensor;
+        falcon-sensor = import ./modules/pkgs/falcon-sensor;
       };
 
       nixosConfigurations = builtins.listToAttrs (
@@ -103,6 +124,7 @@
               nix-ld.nixosModules.nix-ld
               stylix.nixosModules.stylix
               musnix.nixosModules.musnix
+              awsvpnclient.nixosModules.default
               {
                 nixpkgs.overlays = [ overlays.default ];
                 nixpkgs.config.allowUnfree = true;

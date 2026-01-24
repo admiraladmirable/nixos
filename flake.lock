@@ -33,6 +33,26 @@
         "type": "github"
       }
     },
+    "awsvpnclient": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1769168069,
+        "narHash": "sha256-kmkIz7W70Kjel1+KHRH2Hifo1q3M+jrbsVsjPy+NI/c=",
+        "owner": "admiraladmirable",
+        "repo": "awsvpnclient-flake",
+        "rev": "3841070d71a88ddbac595157cd00759b6a058956",
+        "type": "github"
+      },
+      "original": {
+        "owner": "admiraladmirable",
+        "repo": "awsvpnclient-flake",
+        "type": "github"
+      }
+    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -830,6 +850,7 @@
     },
     "root": {
       "inputs": {
+        "awsvpnclient": "awsvpnclient",
         "firefox-addons": "firefox-addons",
         "ghostty": "ghostty",
         "home-manager": "home-manager",

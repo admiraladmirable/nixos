@@ -8,7 +8,7 @@
   zlib,
   fetchurl,
   autoPatchelfHook,
-  buildFHSUserEnv,
+  buildFHSEnv,
   writeScript,
   ...
 }:
@@ -16,7 +16,7 @@ let
   pname = "falcon-sensor";
   version = "7.32.0-18504";
   arch = "amd64";
-  src = /home/rmrf/pkgs + "${pname}_${version}_${arch}.deb";
+  src = /home/rmrf/pkgs + "/${pname}_${version}_${arch}.deb";
   falcon-sensor = stdenv.mkDerivation {
     inherit version arch src;
     name = pname;
@@ -46,7 +46,7 @@ let
     };
   };
 in
-buildFHSUserEnv {
+buildFHSEnv {
   name = "fs-bash";
   targetPkgs = pkgs: [
     libnl
