@@ -3,31 +3,38 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     stylix = {
       url = "github:danth/stylix";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     lan-mouse.url = "github:feschber/lan-mouse";
 
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "github:hyprwm/Hyprland/v0.54.3";
     };
 
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
+    };
+
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     rose-pine-hyprcursor = {
@@ -49,71 +56,19 @@
       url = "github:musnix/musnix";
     };
 
-    openmw-nix = {
-      url = "git+https://codeberg.org/PopeRigby/openmw-nix.git";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    codex-cli-nix = {
+      url = "github:sadjow/codex-cli-nix";
+    };
+
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
     };
   };
 
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      nix-ld,
-      ghostty,
-      stylix,
-      musnix,
-      openmw-nix,
-      ...
-    }@inputs:
-    let
-      hosts = [
-        "desktop"
-        "homelab-0"
-        "homelab-1"
-        "work"
-      ];
-      # debug
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
-    in
-    {
-      nixosConfigurations = builtins.listToAttrs (
-        map (hostname: {
-          name = hostname;
-          value = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            specialArgs = {
-              inherit inputs;
-              meta = {
-                hostname = hostname;
-              };
-            };
-            modules = [
-              ./hosts/${hostname}
-              ./modules/nixos
-              nix-ld.nixosModules.nix-ld
-              stylix.nixosModules.stylix
-              musnix.nixosModules.musnix
-              { nixpkgs.config.allowUnfree = true; }
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.backupFileExtension = "backup";
-                home-manager.users.rmrf = import ./hosts/${hostname}/home.nix;
-                home-manager.extraSpecialArgs = {
-                  inherit inputs;
-                  inherit nixpkgs;
-                  inherit ghostty;
-                  inherit openmw-nix;
-                };
-              }
-            ];
-          };
-        }) hosts
-      );
-      # debug
-      # packages.${system}.momw-tools-pack = pkgs.callPackage ./modules/pkgs/momw-tools-pack { };
-    };
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

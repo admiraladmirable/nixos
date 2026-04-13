@@ -1,2 +1,10 @@
-notes
+/notes
 .secrets
+.direnv
+
+# AI
+.claude
+.codex
+.mcp.json
+CLAUDE.md
+AGENTS.md

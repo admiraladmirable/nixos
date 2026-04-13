@@ -1,0 +1,163 @@
+/* ROUNDED THEME FOR ROFI */
+/* Author: Newman Sanchez (https://github.com/newmanls) */
+
+* {
+    rosewater:       #f2d5cf;
+    flamingo:        #eebebe;
+    pink:            #f4b8e4;
+    mauve:           #ca9ee6;
+    red:             #e78284;
+    maroon:          #ea999c;
+    peach:           #ef9f76;
+    teal:            #81c8be;
+    sky:             #99d1db;
+    sapphire:        #85c1dc;
+    blue:            #8caaee;
+    lavender:        #babbf1;
+    // text:            #c6d0f5;
+    main-fg:            #c6d0f5;
+    subtext1:        #b5bfe2;
+    subtext0:        #a5adce;
+    main-bg:        #949cbb;
+    main-bg:        #838ba7;
+    overlay0:        #737994;
+    surface2:        #626880;
+    surface1:        #51576d;
+    surface0:        #414559;
+    base:            #303446;
+    mantle:          #292c3c;
+    // crust:           #232634;
+    main-bg:           #232634;
+
+/*
+  bg - background
+  fg - foreground
+  br - border
+*/
+
+/* Main Colors */
+
+//  shadow          shade(@crust, 0.5);
+//  main-fg         @text;
+//  main-bg         @crust;
+//  main-br         @text;
+//
+//  active-bg       @main-bg;
+//  active-fg       @crust;
+//
+//  hover-bg        @surface0;
+//  hover-fg        alpha(@text, 0.75);
+//
+// /* Module Colors */
+//
+//  module-fg       @text;
+//  workspaces      @mantle;
+//
+//  temperature     @mantle;
+//  memory          @base;
+//  cpu             @surface0;
+//  distro-fg       @black;
+//  distro-bg       @main-bg;
+//  time            @surface0;
+//  date            @base;
+//  tray            @mantle;
+//
+//  pulseaudio      @mantle;
+//  backlight       @base;
+//  battery         @surface0;
+//  power           @main-bg;
+//
+// /* State Colors */
+//
+//  warning         @yellow;
+//  critical        @red;
+//  charging        @text;
+    background-color:   transparent;
+    text-color:         @main-fg;
+
+    margin:     0px;
+    padding:    0px;
+    spacing:    0px;
+}
+
+window {
+    location:       north;
+    y-offset:       calc(50% - 176px);
+    width:          480;
+    border-radius:  24px;
+
+    background-color:   @main-bg;
+}
+
+mainbox {
+    padding:    12px;
+}
+
+inputbar {
+    background-color:   @main-bg;
+    border-color:       @main-bg;
+
+    border:         2px;
+    border-radius:  16px;
+
+    padding:    8px 16px;
+    spacing:    8px;
+    children:   [ prompt, entry ];
+}
+
+prompt {
+    text-color: @main-fg;
+}
+
+entry {
+    placeholder:        "Search";
+    placeholder-color:  @main-fg;
+}
+
+message {
+    margin:             12px 0 0;
+    border-radius:      16px;
+    border-color:       @main-bg;
+    background-color:   @main-bg;
+}
+
+textbox {
+    padding:    8px 24px;
+}
+
+listview {
+    background-color:   transparent;
+
+    margin:     12px 0 0;
+    lines:      8;
+    columns:    1;
+
+    fixed-height: false;
+}
+
+element {
+    padding:        8px 16px;
+    spacing:        8px;
+    border-radius:  16px;
+}
+
+element normal active {
+    text-color: @main-bg;
+}
+
+element alternate active {
+    text-color: @main-bg;
+}
+
+element selected normal, element selected active {
+    background-color:   @main-bg;
+}
+
+element-icon {
+    size:           1em;
+    vertical-align: 0.5;
+}
+
+element-text {
+    text-color: inherit;
+}

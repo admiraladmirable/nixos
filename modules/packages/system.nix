@@ -1,0 +1,62 @@
+{ ... }:
+{
+  flake.modules.nixos.base =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = with pkgs; [
+        libva-utils
+        xdg-user-dirs
+        gparted
+        kdePackages.xdg-desktop-portal-kde
+        kdePackages.polkit-kde-agent-1
+        git
+        wget
+        bc
+        autoconf
+        automake
+        tmux
+        pciutils
+        usbutils
+        unzip
+        fzf
+        libtool
+        gnumake
+        cmake
+        gcc
+        gdb
+        podman
+        podman-compose
+        libjpeg
+        feh
+        lsof
+        htop
+        wireshark
+        nettools
+        ripgrep
+        fd
+        jq
+        tree
+        lolcat
+        pulseaudio
+        file
+        traceroute
+        poppler-utils
+        nmap
+        bat
+        slack
+        nil
+        discord
+        obsidian
+        spotify
+        nh
+        audacity
+        gimp
+        yt-dlp
+        nethack
+        devenv
+        vial
+        wine
+        wine64
+      ];
+    };
+}
