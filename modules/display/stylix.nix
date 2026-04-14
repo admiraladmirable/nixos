@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.nixos.desktop =
+  flake.modules.nixos.base =
     { pkgs, ... }:
     {
       imports = [ inputs.stylix.nixosModules.stylix ];
@@ -41,10 +41,13 @@
       };
     };
 
-  flake.modules.homeManager.desktop = {
+  flake.modules.homeManager.base = {
     stylix.targets.firefox = {
       enable = true;
-      profileNames = [ "rmrf" ];
+      profileNames = [
+        "rmrf"
+        "rmrf-work"
+      ];
     };
   };
 }

@@ -1,15 +1,13 @@
 { ... }:
 {
-  flake.modules.nixos.base = {
-    programs.gnupg.agent.enable = true;
-  };
-
   flake.modules.homeManager.base =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        age
-        openssl
+        kubectl
+        kubernetes-helm
+        cilium-cli
+        hubble
       ];
     };
 }

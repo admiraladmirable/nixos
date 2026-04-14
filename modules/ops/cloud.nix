@@ -1,15 +1,14 @@
 { ... }:
 {
-  flake.modules.nixos.base = {
-    programs.gnupg.agent.enable = true;
-  };
-
   flake.modules.homeManager.base =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        age
-        openssl
+        terraform
+        terragrunt
+        opentofu
+        awscli2
+        yq-go
       ];
     };
 }

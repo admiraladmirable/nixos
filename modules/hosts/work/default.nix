@@ -3,8 +3,15 @@
   configurations.nixos.work.module = {
     imports = with config.flake.modules.nixos; [
       base
+      hyprland
+      pipewire
+      framework16
+      framework16AmdAi300
+      polkitAgent
+      yubikeyWorkstation
       work
-      plasma
+      awsclientvpn
+      falconSensor
     ];
   };
 }

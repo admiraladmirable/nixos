@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.workstation = {
+  flake.modules.homeManager.hyprland = {
     xdg.configFile."xdg-desktop-portal/hyprland-portals.conf".text = ''
       [preferred]
       default=hyprland;gtk
@@ -20,6 +20,12 @@
         "application/vnd.rar" = [ "org.kde.ark.desktop" ];
       };
       defaultApplications = {
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
+        "text/html" = [ "firefox.desktop" ];
+        "application/xhtml+xml" = [ "firefox.desktop" ];
+        "application/x-extension-htm" = [ "firefox.desktop" ];
+        "application/x-extension-html" = [ "firefox.desktop" ];
         "application/zip" = [ "org.kde.ark.desktop" ];
         "application/x-7z-compressed" = [ "org.kde.ark.desktop" ];
         "application/x-bzip-compressed-tar" = [ "org.kde.ark.desktop" ];

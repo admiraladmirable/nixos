@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.workstation =
+  flake.modules.homeManager.base =
     { pkgs, ... }:
     {
       programs.ghostty = {

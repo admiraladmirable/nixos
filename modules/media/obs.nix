@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.desktop =
+  flake.modules.homeManager.base =
     { pkgs, ... }:
     {
       programs.obs-studio = {

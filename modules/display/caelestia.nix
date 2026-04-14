@@ -14,9 +14,21 @@
       default = "caelestia";
       description = "Desktop shell to run for the desktop host.";
     };
+
+    options.desktop.hyprland.monitors = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "Per-host Hyprland monitor configuration entries.";
+    };
+
+    options.desktop.hyprland.workspaceRules = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "Per-host Hyprland workspace rules.";
+    };
   };
 
-  config.flake.modules.homeManager.desktop =
+  config.flake.modules.homeManager.hyprland =
     { config, lib, ... }:
     {
       imports = [ inputs.caelestia-shell.homeManagerModules.default ];

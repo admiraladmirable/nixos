@@ -1,10 +1,10 @@
 { ... }:
 {
-  flake.modules.nixos.desktop =
-    { pkgs, ... }:
+  flake.modules.nixos.printing =
+    { pkgs, lib, ... }:
     {
       services.printing = {
-        enable = true;
+        enable = lib.mkDefault true;
         drivers = with pkgs; [
           hplipWithPlugin
           cups-filters
@@ -24,7 +24,7 @@
       };
     };
 
-  flake.modules.homeManager.desktop =
+  flake.modules.homeManager.printing =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [

@@ -1,8 +1,13 @@
 { ... }:
 {
-  flake.modules.homeManager.workstation =
+  flake.modules.homeManager.base =
     { pkgs, ... }:
     {
+      home.packages = with pkgs; [
+        brave
+        chromium
+      ];
+
       programs.firefox = {
         enable = true;
 

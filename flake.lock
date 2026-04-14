@@ -33,6 +33,26 @@
         "type": "github"
       }
     },
+    "awsvpnclient": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770235717,
+        "narHash": "sha256-rN1jemk2p4CzbGU+1CiFfhRSvjJo3TlOH5h4RMjeT3c=",
+        "owner": "admiraladmirable",
+        "repo": "awsvpnclient-flake",
+        "rev": "a0d3d923bd909fea6fe56d9592191ee39527cc7b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "admiraladmirable",
+        "repo": "awsvpnclient-flake",
+        "type": "github"
+      }
+    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -849,6 +869,21 @@
         "type": "github"
       }
     },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1775490113,
+        "narHash": "sha256-2ZBhDNZZwYkRmefK5XLOusCJHnoeKkoN95hoSGgMxWM=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "c775c2772ba56e906cbeb4e0b2db19079ef11ff7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1775888245,
@@ -1088,6 +1123,7 @@
     },
     "root": {
       "inputs": {
+        "awsvpnclient": "awsvpnclient",
         "caelestia-shell": "caelestia-shell",
         "claude-code-nix": "claude-code-nix",
         "codex-cli-nix": "codex-cli-nix",
@@ -1100,6 +1136,7 @@
         "lan-mouse": "lan-mouse",
         "musnix": "musnix",
         "nix-ld": "nix-ld",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_7",
         "noctalia": "noctalia",
         "rose-pine-hyprcursor": "rose-pine-hyprcursor",

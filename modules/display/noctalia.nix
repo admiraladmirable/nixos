@@ -1,7 +1,17 @@
-{ inputs, lib, config, ... }:
 {
-  config.flake.modules.homeManager.desktop =
-    { config, lib, pkgs, ... }:
+  inputs,
+  lib,
+  config,
+  ...
+}:
+{
+  config.flake.modules.homeManager.hyprland =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       imports = [ inputs.noctalia.homeModules.default ];
 

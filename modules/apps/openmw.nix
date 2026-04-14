@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.desktop =
+  flake.modules.homeManager.openmw =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [

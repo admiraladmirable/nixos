@@ -4,7 +4,20 @@
     networking.networkmanager.enable = true;
   };
 
-  flake.modules.nixos.desktop = {
+  flake.modules.homeManager.base =
+    { pkgs, ... }:
+    {
+      home.packages = with pkgs; [
+        netcat
+        inetutils
+        dnsutils
+        ethtool
+        bmon
+        iptables
+      ];
+    };
+
+  flake.modules.nixos.desktopNetworking = {
     networking.firewall = {
       enable = false;
       allowedTCPPorts = [

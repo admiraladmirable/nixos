@@ -1,10 +1,8 @@
 { ... }:
 {
-  flake.modules.nixos.desktop =
+  flake.modules.nixos.peripherals =
     { pkgs, ... }:
     {
-      hardware.ledger.enable = true;
-
       services.udev.packages = with pkgs; [
         vial
         via
@@ -18,6 +16,5 @@
       environment.systemPackages = with pkgs; [ openrgb-with-all-plugins ];
 
       programs.coolercontrol.enable = true;
-      programs.gpu-screen-recorder.enable = true;
     };
 }

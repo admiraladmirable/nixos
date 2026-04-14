@@ -22,7 +22,7 @@
         };
       };
 
-      services.xserver.videoDrivers = [ "nvidia" ];
+      services.fwupd.enable = true;
 
       environment.variables = {
         NIXOS_OZONE_WL = "1";

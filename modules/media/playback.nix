@@ -1,15 +1,13 @@
 { ... }:
 {
-  flake.modules.nixos.base = {
-    programs.gnupg.agent.enable = true;
-  };
-
   flake.modules.homeManager.base =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
-        age
-        openssl
+        ffmpeg-full
+        libavif
+        mpv
+        gst_all_1.gstreamer
       ];
     };
 }

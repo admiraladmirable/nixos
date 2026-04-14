@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.workstation = {
+  flake.modules.homeManager.base = {
     imports = [ inputs.lan-mouse.homeManagerModules.default ];
 
     programs.lan-mouse = {

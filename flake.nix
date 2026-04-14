@@ -5,6 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -54,6 +55,13 @@
 
     musnix = {
       url = "github:musnix/musnix";
+    };
+
+    awsvpnclient = {
+      # url = "path:/home/rmrf/dev/awsvpnclient-flake";
+      url = "github:admiraladmirable/awsvpnclient-flake";
+      # url = "github:AddG0/awsvpnclient-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     sops-nix = {

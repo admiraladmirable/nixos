@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.desktop = {
+  flake.modules.nixos.pipewire = {
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;
 
@@ -12,7 +12,7 @@
     };
   };
 
-  flake.modules.homeManager.desktop = {
+  flake.modules.homeManager.easyeffects = {
     services.easyeffects.enable = true;
   };
 }

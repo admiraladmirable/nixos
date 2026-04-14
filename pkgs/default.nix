@@ -56,4 +56,5 @@ in
   lmstudio = prev.callPackage ./lmstudio/default.nix { };
   umo = prev.callPackage ./umo/default.nix { };
   vcv-rack-custom = prev.callPackage ./vcv-rack/default.nix { };
+  falcon-sensor = prev.callPackage ./falcon-sensor/default.nix { };
 }

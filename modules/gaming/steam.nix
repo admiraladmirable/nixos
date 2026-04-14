@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.nixos.desktop =
+  flake.modules.nixos.steam =
     { pkgs, ... }:
     {
       programs.steam = {
@@ -19,7 +19,7 @@
       programs.gamemode.enable = true;
     };
 
-  flake.modules.homeManager.desktop =
+  flake.modules.homeManager.gaming =
     { pkgs, ... }:
     {
       home.packages = with pkgs; [
@@ -31,6 +31,7 @@
         steam-run
         winetricks
         protontricks
+        wine64Packages.wayland
       ];
     };
 }

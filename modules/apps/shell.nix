@@ -62,6 +62,11 @@
           source <(kubectl completion bash)
           complete -o default -F __start_kubectl k
 
+          if tty -s; then
+            export GPG_TTY=$(tty)
+            gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1 || true
+          fi
+
           # Keep history written incrementally without breaking other PROMPT_COMMAND hooks.
           if [[ -n "''${PROMPT_COMMAND:-}" ]]; then
             case ";''${PROMPT_COMMAND};" in

@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 {
   flake.modules.nixos.desktop =
     { pkgs, ... }:
@@ -28,20 +28,16 @@
 
       programs.nix-ld.dev.enable = true;
 
-      security.polkit.enable = true;
-
-      systemd.user.services.polkit-kde-agent = {
-        description = "KDE polkit authentication agent";
-        wantedBy = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        serviceConfig = {
-          ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
-          Restart = "on-failure";
-        };
-      };
-
       environment.variables = {
         NH_FLAKE = "/home/rmrf/.config/nixos/";
       };
+
+      home-manager.sharedModules = with config.flake.modules.homeManager; [
+        easyeffects
+        audioProduction
+        gaming
+        printing
+        openmw
+      ];
     };
 }

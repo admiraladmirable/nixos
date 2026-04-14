@@ -6,7 +6,7 @@
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      backupFileExtension = "backup";
+      backupFileExtension = "hm-backup";
 
       users.rmrf = {
         imports = [ config.flake.modules.homeManager.base ];
@@ -15,19 +15,4 @@
     };
   };
 
-  # Desktop hosts additionally import the desktop HM bucket
-  flake.modules.nixos.desktop = {
-    home-manager.users.rmrf.imports = [
-      config.flake.modules.homeManager.workstation
-      config.flake.modules.homeManager.desktop
-    ];
-  };
-
-  flake.modules.nixos.server = {
-    home-manager.users.rmrf.imports = [ config.flake.modules.homeManager.workstation ];
-  };
-
-  flake.modules.nixos.work = {
-    home-manager.users.rmrf.imports = [ config.flake.modules.homeManager.workstation ];
-  };
 }
