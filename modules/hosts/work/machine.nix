@@ -5,8 +5,8 @@
     {
       home-manager.users.rmrf.desktop.shell = "noctalia";
       home-manager.users.rmrf.desktop.hyprland.monitors = [
-        "DP-1, highrr, auto-left, 1"
         "eDP-2, highrr, auto-right, 1"
+        "DP-1, highrr, auto-left, 1"
       ];
       home-manager.users.rmrf.desktop.hyprland.workspaceRules = [
         "1, monitor:DP-1, default:true, persistent:true"

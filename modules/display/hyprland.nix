@@ -68,18 +68,25 @@
     };
 
   flake.modules.homeManager.hyprland =
-    { pkgs, lib, config, ... }:
+    {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
     let
       noctaliaPackage = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      caelestiaPackage = inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.caelestia-shell;
+      caelestiaPackage =
+        inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.caelestia-shell;
       noctaliaExe = lib.getExe noctaliaPackage;
       caelestiaExe = lib.getExe caelestiaPackage;
       noctaliaIpc = "${noctaliaExe} ipc call";
       launcherCommand =
-        if config.desktop.shell == "noctalia" then
-          "${noctaliaIpc} launcher toggle"
-        else
-          "rofi -show combi";
+        if config.desktop.shell == "noctalia" then "${noctaliaIpc} launcher toggle" else "rofi -show combi";
+      defaultLayout = "dwindle";
+      masterOrientation = "left";
+      scrollingDirection = "right";
+      scrollingColumnWidth = 0.6;
     in
     {
       xdg.configFile."uwsm/env".source =
@@ -87,55 +94,55 @@
 
       home.packages =
         (with pkgs; [
-        hyprcursor
-        hyprutils
-        hyprpicker
-        hyprprop
-        hyprshot
-        grimblast
-        brightnessctl
-        playerctl
-        xwayland
-        wayland-protocols
-        kdePackages.polkit-qt-1
-        kdePackages.filelight
-        kdePackages.kate
-        kdePackages.gwenview
-        kdePackages.ark
-        kdePackages.kio
-        kdePackages.kio-extras
-        kdePackages.kservice
-        kdePackages.breeze-icons
-        desktop-file-utils
-        gnome-menus
-        shared-mime-info
-        xdg-utils
-        kdePackages.dolphin
-        kdePackages.dolphin-plugins
-        kdePackages.kdesdk-thumbnailers
-        kdePackages.kdegraphics-thumbnailers
-        kdePackages.kdegraphics-mobipocket
-        kdePackages.kimageformats
-        kdePackages.calligra
-        kdePackages.qtimageformats
-        kdePackages.ffmpegthumbs
-        kdePackages.taglib
-        kdePackages.baloo
-        kdePackages.baloo-widgets
-        kdePackages.qt6ct
-        kdePackages.kwallet
-        kdePackages.kwalletmanager
-        catppuccin-qt5ct
-        nwg-look
-        dunst
-        cliphist
-        wl-clipboard
-        inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
-        inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
-        noctaliaPackage
-        pkgs.hyprdim
-        pkgs._1password-gui
-      ])
+          hyprcursor
+          hyprutils
+          hyprpicker
+          hyprprop
+          hyprshot
+          grimblast
+          brightnessctl
+          playerctl
+          xwayland
+          wayland-protocols
+          kdePackages.polkit-qt-1
+          kdePackages.filelight
+          kdePackages.kate
+          kdePackages.gwenview
+          kdePackages.ark
+          kdePackages.kio
+          kdePackages.kio-extras
+          kdePackages.kservice
+          kdePackages.breeze-icons
+          desktop-file-utils
+          gnome-menus
+          shared-mime-info
+          xdg-utils
+          kdePackages.dolphin
+          kdePackages.dolphin-plugins
+          kdePackages.kdesdk-thumbnailers
+          kdePackages.kdegraphics-thumbnailers
+          kdePackages.kdegraphics-mobipocket
+          kdePackages.kimageformats
+          kdePackages.calligra
+          kdePackages.qtimageformats
+          kdePackages.ffmpegthumbs
+          kdePackages.taglib
+          kdePackages.baloo
+          kdePackages.baloo-widgets
+          kdePackages.qt6ct
+          kdePackages.kwallet
+          kdePackages.kwalletmanager
+          catppuccin-qt5ct
+          nwg-look
+          dunst
+          cliphist
+          wl-clipboard
+          inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
+          inputs.ghostty.packages.${pkgs.stdenv.hostPlatform.system}.default
+          noctaliaPackage
+          pkgs.hyprdim
+          pkgs._1password-gui
+        ])
         ++ lib.optionals (config.desktop.shell != "noctalia") [ pkgs.waybar ];
 
       gtk = {
@@ -183,142 +190,178 @@
           hyprbars
         ];
 
-        settings =
-          {
-            "$mod" = "SUPER";
-            "$filemanager" = "dolphin";
-            "$menu" = "rofi -show combi";
+        settings = {
+          "$mod" = "SUPER";
+          "$filemanager" = "dolphin";
+          "$menu" = "rofi -show combi";
 
-            exec-once = [
-              "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
-              "wl-paste --type text --watch cliphist store"
-              "hyprdim"
-              "udiskie"
-              "${noctaliaExe}"
-              "uwsm finalize"
-            ];
+          exec-once = [
+            "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
+            "wl-paste --type text --watch cliphist store"
+            "hyprdim"
+            "udiskie"
+            "${noctaliaExe}"
+            "uwsm finalize"
+          ];
 
-            exec = [
-              "swww img /home/rmrf/Pictures/_DSC0148.jpg -t random --transition-duration 2"
-            ];
+          exec = [
+          ];
 
-            cursor = {
-              no_break_fs_vrr = 1;
-              min_refresh_rate = 60;
-            };
-
-            input = {
-              sensitivity = "0";
-              accel_profile = "flat";
-              force_no_accel = "1";
-            };
-
-            xwayland.force_zero_scaling = true;
-
-            plugin = {
-              borders-plus-plus = {
-                add_borders = 1;
-                natural_rounding = "yes";
-              };
-            };
-
-            animations = {
-              "enabled" = "yes";
-              "bezier" = [
-                "wind, 0.05, 0.9, 0.1, 1.05"
-                "winIn, 0.1, 1.1, 0.1, 1.1"
-                "winOut, 0.3, -0.3, 0, 1"
-                "liner, 1, 1, 1, 1"
-              ];
-              "animation" = [
-                "windows, 1, 6, wind, slide"
-                "windowsIn, 1, 6, winIn, slide"
-                "windowsOut, 1, 5, winOut, slide"
-                "windowsMove, 1, 5, wind, slide"
-                "border, 1, 1, liner"
-                "borderangle, 1, 30, liner, once"
-                "fade, 1, 10, default"
-                "workspaces, 1, 5, wind"
-              ];
-            };
-
-            dwindle = {
-              "pseudotile" = "yes";
-              "preserve_split" = "yes";
-            };
-
-            render = {
-              direct_scanout = 1;
-            };
-
-            misc = {
-              force_default_wallpaper = 0;
-              vrr = 2;
-            };
-
-            decoration = {
-              rounding = 10;
-            };
-
-            general = {
-              resize_on_border = true;
-              snap.enabled = true;
-              allow_tearing = true;
-            };
-
-            bind =
-              [
-                "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-                "$mod, T, exec, ghostty"
-                "$mod, C, killactive"
-                "$mod+Shift, C, forcekillactive"
-                "$mod, E, exec, hyprctl keyword general:layout 'dwindle'"
-                "$mod, F, fullscreen"
-                "$mod, G, togglegroup"
-                "$mod+Shift, G, moveoutofgroup"
-                "$mod, P, exec, 1password --quick-access"
-                "$mod+Shift, F, togglefloating"
-                "$mod+Shift, R, exec, hyprctl reload"
-                "$mod, Left, workspace, m-1"
-                "$mod+Shift, Left, movetoworkspacesilent, m-1"
-                "$mod, Right, workspace, m+1"
-                "$mod+Shift, Right, movetoworkspacesilent, m+1"
-                "$mod, Up, cyclenext, tiled"
-                "$mod, Up, changegroupactive"
-                "$mod+Shift, Up, swapnext, tiled"
-                "$mod+Shift, Up, movegroupwindow"
-                "$mod, Down, cyclenext, tiled, prev"
-                "$mod, Down, changegroupactive, b"
-                "$mod+Shift, Down, swapnext, tiled, prev"
-                "$mod+Shift, Down, movegroupwindow, b"
-                "$mod, Tab, workspace, previous"
-                "$mod, Comma, focusmonitor, +1"
-                "$mod+Shift, Comma, movecurrentworkspacetomonitor, +1"
-                "$mod, Period, focusmonitor, -1"
-                "$mod+Shift, Period, movecurrentworkspacetomonitor, -1"
-                ", Print, exec, hyprshot -z -m region --clipboard-only"
-                "$mod, Print, exec, hyprshot -z -m output --clipboard-only"
-                "$mod, Space, exec, ${launcherCommand}"
-              ]
-              ++ (builtins.concatLists (
-                builtins.genList (
-                  i:
-                  let
-                    ws = i + 1;
-                  in
-                  [
-                    "$mod, code:1${toString i}, workspace, ${toString ws}"
-                    "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-                  ]
-                ) 9
-              ));
-          }
-          // lib.optionalAttrs (config.desktop.hyprland.monitors != [ ]) {
-            monitor = config.desktop.hyprland.monitors;
-          }
-          // lib.optionalAttrs (config.desktop.hyprland.workspaceRules != [ ]) {
-            workspace = config.desktop.hyprland.workspaceRules;
+          cursor = {
+            no_break_fs_vrr = 1;
+            min_refresh_rate = 60;
           };
+
+          input = {
+            sensitivity = "0";
+            accel_profile = "flat";
+            force_no_accel = "1";
+          };
+
+          xwayland.force_zero_scaling = true;
+
+          plugin = {
+            borders-plus-plus = {
+              add_borders = 1;
+              natural_rounding = "yes";
+            };
+          };
+
+          animations = {
+            "enabled" = "yes";
+            "bezier" = [
+              "wind, 0.05, 0.9, 0.1, 1.05"
+              "winIn, 0.1, 1.1, 0.1, 1.1"
+              "winOut, 0.3, -0.3, 0, 1"
+              "liner, 1, 1, 1, 1"
+            ];
+            "animation" = [
+              "windows, 1, 6, wind, slide"
+              "windowsIn, 1, 6, winIn, slide"
+              "windowsOut, 1, 5, winOut, slide"
+              "windowsMove, 1, 5, wind, slide"
+              "border, 1, 1, liner"
+              "borderangle, 1, 30, liner, once"
+              "fade, 1, 10, default"
+              "workspaces, 1, 5, wind"
+            ];
+          };
+
+          dwindle = {
+            "pseudotile" = "yes";
+            "preserve_split" = "yes";
+          };
+
+          master = {
+            orientation = masterOrientation;
+            mfact = 0.55;
+            new_status = "slave";
+            new_on_top = true;
+          };
+
+          scrolling = {
+            direction = scrollingDirection;
+            column_width = scrollingColumnWidth;
+            # wrap_focus = true;
+            explicit_column_widths = "0.333, 0.5, 0.667, 1.0";
+          };
+
+          render = {
+            direct_scanout = 1;
+          };
+
+          misc = {
+            force_default_wallpaper = 0;
+            vrr = 2;
+          };
+
+          decoration = {
+            rounding = 10;
+          };
+
+          general = {
+            layout = defaultLayout;
+            resize_on_border = true;
+            snap.enabled = true;
+            allow_tearing = true;
+          };
+
+          bind = [
+            "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+            "$mod, T, exec, ghostty"
+            "$mod, C, killactive"
+            "$mod+Shift, C, forcekillactive"
+            "$mod, E, exec, hyprctl keyword general:layout 'dwindle'"
+            "$mod, D, exec, hyprctl keyword general:layout 'dwindle'"
+            "$mod, M, exec, hyprctl keyword general:layout 'master'"
+            "$mod, S, exec, hyprctl keyword general:layout 'scrolling'"
+            "$mod, F, fullscreen"
+            "$mod, G, togglegroup"
+            "$mod+Shift, G, moveoutofgroup"
+            "$mod, P, exec, 1password --quick-access"
+            "$mod+Shift, F, togglefloating"
+            "$mod+Shift, R, exec, hyprctl reload"
+            "$mod, Left, workspace, m-1"
+            "$mod+Shift, Left, movetoworkspacesilent, m-1"
+            "$mod, Right, workspace, m+1"
+            "$mod+Shift, Right, movetoworkspacesilent, m+1"
+            "$mod, Up, cyclenext, tiled"
+            "$mod, Up, changegroupactive"
+            "$mod+Shift, Up, swapnext, tiled"
+            "$mod+Shift, Up, movegroupwindow"
+            "$mod, Down, cyclenext, tiled, prev"
+            "$mod, Down, changegroupactive, b"
+            "$mod+Shift, Down, swapnext, tiled, prev"
+            "$mod+Shift, Down, movegroupwindow, b"
+            "$mod, Tab, workspace, previous"
+            "$mod, Comma, focusmonitor, +1"
+            "$mod+Shift, Comma, movecurrentworkspacetomonitor, +1"
+            "$mod, Period, focusmonitor, -1"
+            "$mod+Shift, Period, movecurrentworkspacetomonitor, -1"
+            ", Print, exec, hyprshot -z -m region --clipboard-only"
+            "$mod, Print, exec, hyprshot -z -m output --clipboard-only"
+            "$mod, Space, exec, ${launcherCommand}"
+
+            # Dwindle layout controls.
+            "$mod+Ctrl, E, togglesplit"
+
+            # Master layout controls.
+            "$mod, Return, layoutmsg, swapwithmaster auto"
+            "$mod+Ctrl, Left, layoutmsg, orientationleft"
+            "$mod+Ctrl, Right, layoutmsg, orientationright"
+            "$mod+Ctrl, Up, layoutmsg, orientationtop"
+            "$mod+Ctrl, Down, layoutmsg, orientationbottom"
+
+            # Scrolling layout controls.
+            "$mod+Alt, Comma, layoutmsg, move -col"
+            "$mod+Alt, Period, layoutmsg, move +col"
+            "$mod+Alt, Up, layoutmsg, focus u"
+            "$mod+Alt, Down, layoutmsg, focus d"
+            "$mod+Alt+Shift, Comma, layoutmsg, swapcol l"
+            "$mod+Alt+Shift, Period, layoutmsg, swapcol r"
+            "$mod+Alt, Return, layoutmsg, promote"
+            "$mod+Alt, Minus, layoutmsg, colresize -conf"
+            "$mod+Alt, Equal, layoutmsg, colresize +conf"
+          ]
+          ++ (builtins.concatLists (
+            builtins.genList (
+              i:
+              let
+                ws = i + 1;
+              in
+              [
+                "$mod, code:1${toString i}, workspace, ${toString ws}"
+                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+              ]
+            ) 9
+          ));
+        }
+        // lib.optionalAttrs (config.desktop.hyprland.monitors != [ ]) {
+          monitor = config.desktop.hyprland.monitors;
+        }
+        // lib.optionalAttrs (config.desktop.hyprland.workspaceRules != [ ]) {
+          workspace = config.desktop.hyprland.workspaceRules;
+        };
       };
 
       programs.rofi = {
@@ -356,25 +399,25 @@
             after_sleep_cmd = "hyprctl dispatch dpms on";
           };
           listener = [
-          {
-            timeout = 150;
-            on-timeout = "brightnessctl -sd rgb:kbd_backlight set 0";
-            on-resume = "brightnessctl -rd rgb:kbd_backlight";
-          }
-          {
-            timeout = 300;
-            on-timeout = "loginctl lock-session";
-          }
-          {
-            timeout = 330;
-            on-timeout = "hyprctl dispatch dpms off";
-            on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
-          }
-          {
-            timeout = 1800;
-            on-timeout = "systemctl suspend";
-          }
-        ];
+            {
+              timeout = 150;
+              on-timeout = "brightnessctl -sd rgb:kbd_backlight set 0";
+              on-resume = "brightnessctl -rd rgb:kbd_backlight";
+            }
+            {
+              timeout = 300;
+              on-timeout = "loginctl lock-session";
+            }
+            {
+              timeout = 330;
+              on-timeout = "hyprctl dispatch dpms off";
+              on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
+            }
+            {
+              timeout = 1800;
+              on-timeout = "systemctl suspend";
+            }
+          ];
         };
       };
     };

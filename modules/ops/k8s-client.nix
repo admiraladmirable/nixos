@@ -5,6 +5,7 @@
     {
       home.packages = with pkgs; [
         kubectl
+        kubectx
         kubernetes-helm
         cilium-cli
         hubble
