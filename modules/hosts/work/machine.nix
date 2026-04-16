@@ -21,7 +21,6 @@
         "9, monitor:eDP-2, persistent:true"
         "10, monitor:eDP-2, persistent:true"
       ];
-      home-manager.users.rmrf.home.sessionVariables.LIBVA_DRIVER_NAME = "radeonsi";
 
       system.stateVersion = "23.05";
       networking.hostName = "work";

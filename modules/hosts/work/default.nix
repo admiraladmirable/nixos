@@ -7,6 +7,7 @@
       pipewire
       framework16
       framework16AmdAi300
+      amd
       polkitAgent
       yubikeyWorkstation
       work
