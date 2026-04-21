@@ -18,6 +18,8 @@
         kdePackages.kcalc
         kdePackages.okular
         blender
+        openshot-qt
+        # davinci-resolve
         xlights
         libxcrypt
         p7zip-rar

@@ -57,4 +57,35 @@ in
   umo = prev.callPackage ./umo/default.nix { };
   vcv-rack-custom = prev.callPackage ./vcv-rack/default.nix { };
   falcon-sensor = prev.callPackage ./falcon-sensor/default.nix { };
+  # openshot-qt 3.5.1 calls libopenshot Settings.DefaultOMPThreads(), which
+  # was added in libopenshot 0.7.0. That in turn requires libopenshot-audio
+  # >= 0.6.0. nixpkgs libsForQt5 still ships the 0.4.0 pair.
+  libopenshot-audio = prev.libsForQt5.libopenshot-audio.overrideAttrs (old: rec {
+    version = "0.6.0";
+    src = prev.fetchFromGitHub {
+      owner = "OpenShot";
+      repo = "libopenshot-audio";
+      rev = "v${version}";
+      hash = "sha256-NfwjyX+9OiS4NoB4ubscNF52kF4i3GAVjb4Z/RwkaCI=";
+    };
+  });
+
+  libopenshot = (prev.libsForQt5.libopenshot.override {
+    libopenshot-audio = final.libopenshot-audio;
+  }).overrideAttrs (old: rec {
+    version = "0.7.0";
+    src = prev.fetchFromGitHub {
+      owner = "OpenShot";
+      repo = "libopenshot";
+      rev = "v${version}";
+      hash = "sha256-V5eHsCqIWKe5O1xFWo847oZpY6lgjkWYmgSy5DMxH6w=";
+    };
+    # 0.7.0 already handles FFmpeg 8 profile constants; the nixpkgs patch would fail.
+    postPatch = "";
+  });
+
+  openshot-qt = prev.callPackage ./openshot-qt/default.nix {
+    inherit (prev) openshot-qt;
+    libopenshot = final.libopenshot;
+  };
 }

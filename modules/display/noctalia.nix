@@ -19,7 +19,7 @@
         programs.noctalia-shell = {
           enable = true;
           package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
-          systemd.enable = true;
+          # systemd.enable = true;
           settings = lib.mkForce (builtins.fromJSON (builtins.readFile ./noctalia.json));
         };
       };

@@ -383,7 +383,7 @@
 
       home.file.".config/rofi/themes".source = ./rofi;
 
-      services.swww.enable = true;
+      services.awww.enable = true;
 
       programs.waybar = lib.mkIf (config.desktop.shell != "noctalia") {
         enable = true;
