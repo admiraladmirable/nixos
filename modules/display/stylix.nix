@@ -29,8 +29,8 @@
           };
 
           monospace = {
-            name = "Fira Mono";
-            package = pkgs.nerd-fonts.fira-mono;
+            name = "Iosevka";
+            package = pkgs.nerd-fonts.iosevka;
           };
 
           emoji = {
