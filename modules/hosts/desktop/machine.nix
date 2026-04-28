@@ -6,8 +6,8 @@
       # home-manager.users.rmrf.desktop.shell = "caelestia";
       home-manager.users.rmrf.desktop.shell = "noctalia";
       home-manager.users.rmrf.desktop.hyprland.monitors = [
-        "DP-2, highrr, auto-up, 1"
-        "DP-1, highrr, auto-down, 1"
+        "DP-2, highrr, auto-right, 1"
+        "DP-1, highrr, auto-left, 1"
       ];
 
       imports = [

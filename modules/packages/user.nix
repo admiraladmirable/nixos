@@ -28,6 +28,7 @@
         egl-wayland
         xeyes
         udiskie
+        pi-coding-agent
       ];
     };
 }
