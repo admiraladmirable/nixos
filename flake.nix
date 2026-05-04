@@ -25,7 +25,7 @@
     };
 
     hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
+      url = "github:hyprwm/hyprland-plugins/6acc0738f298f5efe40a99db2c12449112d65633";
       inputs.hyprland.follows = "hyprland";
     };
 
