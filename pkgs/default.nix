@@ -6,6 +6,13 @@ let
     prev.callPackage ./momw-tools-pack/tool.nix {
       inherit binaryName packageName;
     };
+
+  wiresharkSrc = version: prev.fetchFromGitLab {
+    owner = "wireshark";
+    repo = "wireshark";
+    tag = "v${version}";
+    hash = "sha256-Zvrwxjp4LK2J3QnxmPxKKrU01YHQvPyp54UWzeGNCjA=";
+  };
 in
 {
   delta-plugin = prev.callPackage ./momw-tools-pack/tool.nix {
@@ -53,10 +60,20 @@ in
 
   s3lightfixes = mkMomwTool "s3lightfixes" "s3lightfixes";
   tes3cmd = prev.callPackage ./momw-tools-pack/tes3cmd.nix { };
+
+  # nixos-unstable currently has a stale source hash for Wireshark 4.6.5.
+  wireshark = prev.wireshark.overrideAttrs (old: {
+    src = if old.version == "4.6.5" then wiresharkSrc old.version else old.src;
+  });
+  wireshark-cli = prev.wireshark-cli.overrideAttrs (old: {
+    src = if old.version == "4.6.5" then wiresharkSrc old.version else old.src;
+  });
+
   lmstudio = prev.callPackage ./lmstudio/default.nix { };
   umo = prev.callPackage ./umo/default.nix { };
   vcv-rack-custom = prev.callPackage ./vcv-rack/default.nix { };
   falcon-sensor = prev.callPackage ./falcon-sensor/default.nix { };
+  docker-sbx = prev.callPackage ./docker-sbx/default.nix { };
   # openshot-qt 3.5.1 calls libopenshot Settings.DefaultOMPThreads(), which
   # was added in libopenshot 0.7.0. That in turn requires libopenshot-audio
   # >= 0.6.0. nixpkgs libsForQt5 still ships the 0.4.0 pair.

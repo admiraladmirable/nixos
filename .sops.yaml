@@ -1,0 +1,14 @@
+# sops-nix recipients.
+# Replace the placeholder public keys below with the ones you generate
+# (see the setup steps), then run `sops updatekeys` on any existing secret.
+keys:
+  # Your personal/admin key (~/.config/sops/age/keys.txt) — lets you edit secrets.
+  - &admin age1wvwe80jl34d5zpx43rtskkmv4zzpakyve7gxe7wv4m7czhp5tf7skmhre0
+  # The work host's key (/var/lib/sops-nix/key.txt) — lets the host decrypt at boot.
+  - &work age1rvqqy5rurwlxxk6devnl9hus6dl0uq8vtk64h2a6temtmamnj5lsayhnhu
+creation_rules:
+  - path_regex: modules/security/secrets/[^/]+\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *work

@@ -147,11 +147,10 @@
 
       gtk = {
         enable = true;
-        gtk4.theme = config.gtk.theme;
-        cursorTheme = {
-          package = inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default;
-          name = "BreezeX-RosePine-Linux";
-        };
+        # Stylix's gtk/hm.nix already sets gtk4.theme = config.gtk.theme; lower
+        # our priority so the two identical definitions don't collide (gtk4.theme
+        # is a unique option). mkDefault keeps a fallback if Stylix is ever off.
+        gtk4.theme = lib.mkDefault config.gtk.theme;
         iconTheme = {
           name = "Papirus";
           package = pkgs.papirus-icon-theme;
@@ -174,7 +173,6 @@
         QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
         HYPRCURSOR_THEME = "rose-pine-hyprcursor";
         HYPRCURSOR_SIZE = "36";
-        XCURSOR_THEME = "BreezeX-RosePine-Linux";
         GSK_RENDERER = "ngl";
       };
 
@@ -210,6 +208,7 @@
           cursor = {
             no_break_fs_vrr = 1;
             min_refresh_rate = 60;
+            no_hardware_cursors = true;
           };
 
           input = {
@@ -248,7 +247,6 @@
           };
 
           dwindle = {
-            "pseudotile" = "yes";
             "preserve_split" = "yes";
           };
 
@@ -323,7 +321,7 @@
             "$mod, Space, exec, ${launcherCommand}"
 
             # Dwindle layout controls.
-            "$mod+Ctrl, E, togglesplit"
+            "$mod+Ctrl, E, layoutmsg, togglesplit"
 
             # Master layout controls.
             "$mod, Return, layoutmsg, swapwithmaster auto"

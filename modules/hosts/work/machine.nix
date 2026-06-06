@@ -1,12 +1,13 @@
 { ... }:
 {
   flake.modules.nixos.work =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
       home-manager.users.rmrf.desktop.shell = "noctalia";
       home-manager.users.rmrf.desktop.hyprland.monitors = [
-        "eDP-2, highrr, auto-right, 1"
+        "eDP-2, highrr, auto-right, 1.33"
         "DP-1, highrr, auto-left, 1"
+        ", preferred, auto, 1"
       ];
       home-manager.users.rmrf.desktop.hyprland.workspaceRules = [
         "1, monitor:DP-1, default:true, persistent:true"
@@ -42,6 +43,10 @@
         "amdgpu.dcdebugmask=0x410"
         "amdgpu.sg_display=0"
         "amdgpu.abmlevel=0"
+        # Recover a hung dGPU instead of wedging the whole machine: turns a
+        # black-screen-forever (requiring a power-button hold) into a brief
+        # flicker, and lets the ring-timeout fault actually persist to the journal.
+        "amdgpu.gpu_recovery=1"
       ];
 
       hardware = {
@@ -50,35 +55,24 @@
       };
 
       services.xserver = {
+        enable = true;
+        videoDrivers = [ "modesetting" ];
+        # The internal panel is wired to the 890M iGPU. Without this, Xorg
+        # can pick the RX 7700S dGPU and render SDDM to a disconnected screen.
+        deviceSection = ''
+          BusID "PCI:196:0:0"
+          Option "PrimaryGPU" "yes"
+        '';
         xkb.layout = "us";
         xkb.variant = "";
       };
 
+      # Keep the greeter off Wayland on this host; the Wayland SDDM
+      # compositor can fail to light up the internal panel by itself.
+      services.displayManager.sddm.wayland.enable = lib.mkForce false;
+
       networking.firewall = {
-        enable = false;
-        allowedTCPPorts = [
-          22
-          2049
-          4000
-          4001
-          4002
-          5050
-          5432
-          5433
-          20048
-          31190
-        ];
-        allowedUDPPorts = [
-          2049
-          4000
-          4001
-          4002
-          5050
-          5432
-          5433
-          20048
-          31190
-        ];
+        enable = true;
       };
 
       services.printing.enable = false;

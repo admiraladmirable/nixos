@@ -1,7 +1,21 @@
 { ... }:
 {
   flake.modules.homeManager.base =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
+    let
+      treeSitterGrammars = pkgs.linkFarm "tree-sitter-grammars-dir" (
+        lib.mapAttrsToList
+          (name: drv: {
+            inherit name;
+            path = drv.src;
+          })
+          (
+            lib.filterAttrs (
+              n: v: lib.hasPrefix "tree-sitter-" n && lib.isDerivation v && v ? src
+            ) pkgs.tree-sitter-grammars
+          )
+      );
+    in
     {
       home.packages = with pkgs; [
         btop
@@ -18,7 +32,7 @@
         kdePackages.kcalc
         kdePackages.okular
         blender
-        openshot-qt
+        # openshot-qt
         # davinci-resolve
         xlights
         libxcrypt
@@ -28,7 +42,14 @@
         egl-wayland
         xeyes
         udiskie
-        pi-coding-agent
+        tree-sitter
+        foundry
+        jujutsu
+        jjui
       ];
+
+      xdg.configFile."tree-sitter/config.json".text = builtins.toJSON {
+        parser-directories = [ "${treeSitterGrammars}" ];
+      };
     };
 }

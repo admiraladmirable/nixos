@@ -13,6 +13,7 @@
         "audio"
         "render"
         "video"
+        "kvm"
       ];
       hashedPassword = "$6$dAbP8R68N39TelAh$8TagDN12cSuGOrCvz9pCvKBwJzaJochIj1HE70MbDcPXeTyrfHXfUdy3Mo7E4ZtCvHWjJyFyr7j6crQBUZn.h/";
     };

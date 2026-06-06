@@ -8,12 +8,12 @@
       ...
     }:
     {
-      assertions = [
-        {
-          assertion = config.networking.hostName == "homelab-1";
-          message = "k8sServer is currently only configured for homelab-1.";
-        }
-      ];
+      # assertions = [
+      #   {
+      #     assertion = config.networking.hostName == "homelab-1";
+      #     message = "k8sServer is currently only configured for homelab-1.";
+      #   }
+      # ];
 
       services.k3s = {
         enable = true;

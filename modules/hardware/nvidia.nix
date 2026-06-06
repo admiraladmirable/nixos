@@ -43,6 +43,8 @@
             __GL_GSYNC_ALLOWED = "1";
             __GL_VRR_ALLOWED = "1";
           };
+
+          programs.obs-studio.package = pkgs.obs-studio.override { cudaSupport = true; };
         }
       ];
     };
