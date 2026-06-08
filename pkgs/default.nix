@@ -7,12 +7,12 @@ let
       inherit binaryName packageName;
     };
 
-  wiresharkSrc = version: prev.fetchFromGitLab {
-    owner = "wireshark";
-    repo = "wireshark";
-    tag = "v${version}";
-    hash = "sha256-Zvrwxjp4LK2J3QnxmPxKKrU01YHQvPyp54UWzeGNCjA=";
-  };
+  # wiresharkSrc = version: prev.fetchFromGitLab {
+  #   owner = "wireshark";
+  #   repo = "wireshark";
+  #   tag = "v${version}";
+  #   hash = "sha256-Zvrwxjp4LK2J3QnxmPxKKrU01YHQvPyp54UWzeGNCjA=";
+  # };
 in
 {
   delta-plugin = prev.callPackage ./momw-tools-pack/tool.nix {
@@ -26,11 +26,9 @@ in
   # Upstream installs a pkg-config file named cava.pc but some consumers look for libcava.pc.
   # Provide an alias so pkg-config lookups succeed without patching every consumer.
   libcava = prev.libcava.overrideAttrs (old: {
-    postInstall =
-      (old.postInstall or "")
-      + ''
-        ln -sf "$out/lib/pkgconfig/cava.pc" "$out/lib/pkgconfig/libcava.pc"
-      '';
+    postInstall = (old.postInstall or "") + ''
+      ln -sf "$out/lib/pkgconfig/cava.pc" "$out/lib/pkgconfig/libcava.pc"
+    '';
   });
 
   momw-configurator = prev.callPackage ./momw-tools-pack/tool.nix {
@@ -62,12 +60,12 @@ in
   tes3cmd = prev.callPackage ./momw-tools-pack/tes3cmd.nix { };
 
   # nixos-unstable currently has a stale source hash for Wireshark 4.6.5.
-  wireshark = prev.wireshark.overrideAttrs (old: {
-    src = if old.version == "4.6.5" then wiresharkSrc old.version else old.src;
-  });
-  wireshark-cli = prev.wireshark-cli.overrideAttrs (old: {
-    src = if old.version == "4.6.5" then wiresharkSrc old.version else old.src;
-  });
+  # wireshark = prev.wireshark.overrideAttrs (old: {
+  #   src = if old.version == "4.6.5" then wiresharkSrc old.version else old.src;
+  # });
+  # wireshark-cli = prev.wireshark-cli.overrideAttrs (old: {
+  #   src = if old.version == "4.6.5" then wiresharkSrc old.version else old.src;
+  # });
 
   lmstudio = prev.callPackage ./lmstudio/default.nix { };
   umo = prev.callPackage ./umo/default.nix { };
@@ -87,19 +85,21 @@ in
     };
   });
 
-  libopenshot = (prev.libsForQt5.libopenshot.override {
-    libopenshot-audio = final.libopenshot-audio;
-  }).overrideAttrs (old: rec {
-    version = "0.7.0";
-    src = prev.fetchFromGitHub {
-      owner = "OpenShot";
-      repo = "libopenshot";
-      rev = "v${version}";
-      hash = "sha256-V5eHsCqIWKe5O1xFWo847oZpY6lgjkWYmgSy5DMxH6w=";
-    };
-    # 0.7.0 already handles FFmpeg 8 profile constants; the nixpkgs patch would fail.
-    postPatch = "";
-  });
+  libopenshot =
+    (prev.libsForQt5.libopenshot.override {
+      libopenshot-audio = final.libopenshot-audio;
+    }).overrideAttrs
+      (old: rec {
+        version = "0.7.0";
+        src = prev.fetchFromGitHub {
+          owner = "OpenShot";
+          repo = "libopenshot";
+          rev = "v${version}";
+          hash = "sha256-V5eHsCqIWKe5O1xFWo847oZpY6lgjkWYmgSy5DMxH6w=";
+        };
+        # 0.7.0 already handles FFmpeg 8 profile constants; the nixpkgs patch would fail.
+        postPatch = "";
+      });
 
   openshot-qt = prev.callPackage ./openshot-qt/default.nix {
     inherit (prev) openshot-qt;

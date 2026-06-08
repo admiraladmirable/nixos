@@ -6,15 +6,17 @@
       home-manager.users.rmrf.desktop.shell = "noctalia";
       home-manager.users.rmrf.desktop.hyprland.monitors = [
         "eDP-2, highrr, auto-right, 1.33"
+        "DP-10, highrr, auto-left, 1"
         "DP-1, highrr, auto-left, 1"
         ", preferred, auto, 1"
       ];
+      # TODO: Revert when going home
       home-manager.users.rmrf.desktop.hyprland.workspaceRules = [
-        "1, monitor:DP-1, default:true, persistent:true"
-        "2, monitor:DP-1, persistent:true"
-        "3, monitor:DP-1, persistent:true"
-        "4, monitor:DP-1, persistent:true"
-        "5, monitor:DP-1, persistent:true"
+        "1, monitor:DP-10, default:true, persistent:true"
+        "2, monitor:DP-10, persistent:true"
+        "3, monitor:DP-10, persistent:true"
+        "4, monitor:DP-10, persistent:true"
+        "5, monitor:DP-10, persistent:true"
 
         "6, monitor:eDP-2, default:true, persistent:true"
         "7, monitor:eDP-2, persistent:true"
@@ -37,17 +39,29 @@
       # Everything is updateable through fwupd
       services.fwupd.enable = true;
 
-      # The following mitigations fix various graphics issues
-      # See https://gist.github.com/lbrame/f9034b1a9fe4fc2d2835c5542acb170a#user-content-quick-version-apply-the-mitigations-i-am-personally-using
+      # The graphics mitigations dcdebugmask=0x410 / sg_display=0 / abmlevel=0
+      # come from nixos-hardware's framework-16-amd-ai-300-series module
+      # (imported via modules/hardware/framework16-amd-ai-300.nix), so they are
+      # not repeated here. See
+      # https://gist.github.com/lbrame/f9034b1a9fe4fc2d2835c5542acb170a#user-content-quick-version-apply-the-mitigations-i-am-personally-using
       boot.kernelParams = [
-        "amdgpu.dcdebugmask=0x410"
-        "amdgpu.sg_display=0"
-        "amdgpu.abmlevel=0"
         # Recover a hung dGPU instead of wedging the whole machine: turns a
         # black-screen-forever (requiring a power-button hold) into a brief
         # flicker, and lets the ring-timeout fault actually persist to the journal.
         "amdgpu.gpu_recovery=1"
       ];
+
+      # # Keep the RX 7700S dGPU (PCI 1002:7480) out of D3cold runtime suspend.
+      # # The rear USB-C ports route their DisplayPort outputs through the dGPU,
+      # # and those connectors (DP-10/DP-11) only enumerate while it's in D0. When
+      # # it runtime-suspends the connectors disappear and an external-monitor
+      # # hotplug can't wake it -> "no signal", nothing detected. Pinning power
+      # # control to "on" keeps the outputs live so cold-plug works. Targeted by
+      # # PCI ID so it survives bus-path changes and never touches the iGPU.
+      # # Trade-off: a few watts of idle battery when mobile with no monitor.
+      # services.udev.extraRules = ''
+      #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x7480", ATTR{power/control}="on"
+      # '';
 
       hardware = {
         enableRedistributableFirmware = true;

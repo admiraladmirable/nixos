@@ -46,6 +46,7 @@
         foundry
         jujutsu
         jjui
+        lm_sensors
       ];
 
       xdg.configFile."tree-sitter/config.json".text = builtins.toJSON {
