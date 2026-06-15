@@ -1,6 +1,7 @@
 /notes
 .secrets
 .direnv
+result
 
 # AI
 .claude
