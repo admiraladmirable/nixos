@@ -31,8 +31,8 @@
         nixd
         kdePackages.kcalc
         kdePackages.okular
-        blender
-        # openshot-qt
+        (blender.override { cudaSupport = true; })
+        openshot-qt
         # davinci-resolve
         xlights
         libxcrypt
@@ -47,6 +47,7 @@
         jujutsu
         jjui
         lm_sensors
+        pi-coding-agent
       ];
 
       xdg.configFile."tree-sitter/config.json".text = builtins.toJSON {

@@ -9,7 +9,10 @@
         hyprland = {
           enable = true;
           withUWSM = true;
-          systemd.setPath.enable = true;
+          # Upstream's setPath uses systemd.user.extraConfig, removed in current
+          # nixpkgs. Default is false for Hyprland >= 0.41.2 and UWSM manages the
+          # session env, so keep it off to avoid the removed-option assertion.
+          systemd.setPath.enable = false;
           package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
           portalPackage =
             inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;

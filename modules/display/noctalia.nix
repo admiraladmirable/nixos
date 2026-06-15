@@ -16,7 +16,7 @@
       imports = [ inputs.noctalia.homeModules.default ];
 
       config = lib.mkIf (config.desktop.shell == "noctalia") {
-        programs.noctalia-shell = {
+        programs.noctalia = {
           enable = true;
           package = inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
           # systemd.enable = true;

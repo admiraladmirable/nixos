@@ -30,7 +30,7 @@
         feh
         lsof
         htop
-        wireshark
+        # wireshark
         nettools
         ripgrep
         fd

@@ -41,6 +41,9 @@ in
   };
   momw-configurator-linux-amd64 = final."momw-configurator";
   momw-tools-pack = prev.callPackage ./momw-tools-pack/default.nix { };
+  nethack = prev.callPackage ./nethack/default.nix { };
+  nethack-qt = final.nethack.override { qtMode = true; };
+  nethack-x11 = final.nethack.override { x11Mode = true; };
   openmw-validator = prev.callPackage ./momw-tools-pack/tool.nix {
     binaryName = "openmw-validator-linux-amd64";
     packageName = "openmw-validator";
@@ -50,6 +53,12 @@ in
     ];
   };
   openmw-validator-linux-amd64 = final."openmw-validator";
+
+  openldap = prev.openldap.overrideAttrs (old: {
+    # test017-syncreplication-refresh is intermittently failing for i686 in nixpkgs
+    # and breaks consumers like bottles via the multilib Wine/FHS chain.
+    doCheck = if prev.stdenv.hostPlatform.isi686 then false else (old.doCheck or true);
+  });
 
   # portmod-gui imports PySide6 at runtime; keep it in the wrapped app closure.
   portmod = prev.portmod.overrideAttrs (old: {
@@ -75,37 +84,7 @@ in
   vcv-rack-custom = prev.callPackage ./vcv-rack/default.nix { };
   falcon-sensor = prev.callPackage ./falcon-sensor/default.nix { };
   docker-sbx = prev.callPackage ./docker-sbx/default.nix { };
-  # openshot-qt 3.5.1 calls libopenshot Settings.DefaultOMPThreads(), which
-  # was added in libopenshot 0.7.0. That in turn requires libopenshot-audio
-  # >= 0.6.0. nixpkgs libsForQt5 still ships the 0.4.0 pair.
-  libopenshot-audio = prev.libsForQt5.libopenshot-audio.overrideAttrs (old: rec {
-    version = "0.6.0";
-    src = prev.fetchFromGitHub {
-      owner = "OpenShot";
-      repo = "libopenshot-audio";
-      rev = "v${version}";
-      hash = "sha256-NfwjyX+9OiS4NoB4ubscNF52kF4i3GAVjb4Z/RwkaCI=";
-    };
-  });
-
-  libopenshot =
-    (prev.libsForQt5.libopenshot.override {
-      libopenshot-audio = final.libopenshot-audio;
-    }).overrideAttrs
-      (old: rec {
-        version = "0.7.0";
-        src = prev.fetchFromGitHub {
-          owner = "OpenShot";
-          repo = "libopenshot";
-          rev = "v${version}";
-          hash = "sha256-V5eHsCqIWKe5O1xFWo847oZpY6lgjkWYmgSy5DMxH6w=";
-        };
-        # 0.7.0 already handles FFmpeg 8 profile constants; the nixpkgs patch would fail.
-        postPatch = "";
-      });
-
-  openshot-qt = prev.callPackage ./openshot-qt/default.nix {
-    inherit (prev) openshot-qt;
-    libopenshot = final.libopenshot;
-  };
+  # openshot-qt (3.5.1), libopenshot (0.7.0) and libopenshot-audio (0.6.0) are
+  # now provided directly by nixpkgs at top level (previously under libsForQt5),
+  # so the custom overrides that built those versions are no longer needed.
 }
