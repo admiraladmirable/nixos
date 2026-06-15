@@ -13,11 +13,36 @@
   };
 
   flake.modules.homeManager.base =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
       home.packages = with pkgs; [
         docker-compose
+        docker-credential-helpers
         docker-sbx
       ];
+
+      home.activation.configureDockerGhcrCredentialHelper = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        docker_config="$HOME/.docker/config.json"
+        docker_tmp="$docker_config.hm-ghcr-helper"
+        jq_filter='
+          .credHelpers = ((if (.credHelpers | type) == "object" then .credHelpers else {} end) + {"ghcr.io": "secretservice"})
+          | if (.auths | type) == "object" then
+              .auths |= del(.["ghcr.io"], .["https://ghcr.io"])
+            else
+              .
+            end
+        '
+
+        mkdir -p "$(dirname "$docker_config")"
+
+        if [ -s "$docker_config" ]; then
+          ${pkgs.jq}/bin/jq "$jq_filter" "$docker_config" > "$docker_tmp"
+        else
+          ${pkgs.jq}/bin/jq -n "$jq_filter" > "$docker_tmp"
+        fi
+
+        chmod 0600 "$docker_tmp"
+        mv "$docker_tmp" "$docker_config"
+      '';
     };
 }

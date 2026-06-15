@@ -67,6 +67,9 @@ in
   #   src = if old.version == "4.6.5" then wiresharkSrc old.version else old.src;
   # });
 
+  # Helm 4 is not in nixpkgs yet; override kubernetes-helm with a v4 build.
+  # kubernetes-helm = prev.callPackage ./kubernetes-helm/default.nix { };
+
   lmstudio = prev.callPackage ./lmstudio/default.nix { };
   umo = prev.callPackage ./umo/default.nix { };
   vcv-rack-custom = prev.callPackage ./vcv-rack/default.nix { };

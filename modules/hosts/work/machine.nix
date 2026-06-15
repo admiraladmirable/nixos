@@ -6,17 +6,17 @@
       home-manager.users.rmrf.desktop.shell = "noctalia";
       home-manager.users.rmrf.desktop.hyprland.monitors = [
         "eDP-2, highrr, auto-right, 1.33"
-        "DP-10, highrr, auto-left, 1"
-        "DP-1, highrr, auto-left, 1"
+        "DP-2, highrr, auto-left, 1"
+        # "DP-1, highrr, auto-left, 1"
         ", preferred, auto, 1"
       ];
       # TODO: Revert when going home
       home-manager.users.rmrf.desktop.hyprland.workspaceRules = [
-        "1, monitor:DP-10, default:true, persistent:true"
-        "2, monitor:DP-10, persistent:true"
-        "3, monitor:DP-10, persistent:true"
-        "4, monitor:DP-10, persistent:true"
-        "5, monitor:DP-10, persistent:true"
+        "1, monitor:DP-2, default:true, persistent:true"
+        "2, monitor:DP-2, persistent:true"
+        "3, monitor:DP-2, persistent:true"
+        "4, monitor:DP-2, persistent:true"
+        "5, monitor:DP-2, persistent:true"
 
         "6, monitor:eDP-2, default:true, persistent:true"
         "7, monitor:eDP-2, persistent:true"

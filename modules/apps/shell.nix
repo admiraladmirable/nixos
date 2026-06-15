@@ -1,8 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.base =
     { pkgs, ... }:
     {
+      home.packages = [ inputs.nixCats.packages.${pkgs.system}.default ];
+
       programs.git = {
         enable = true;
         lfs.enable = true;
@@ -48,16 +50,18 @@
       programs.bash = {
         enable = true;
         sessionVariables = {
-          KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
-          EDITOR = "nix run github:admiraladmirable/nixCats --refresh";
-          KUBE_EDITOR = "nix run github:admiraladmirable/nixCats --refresh";
+          # KUBECONFIG = "/etc/rancher/k3s/k3s.yaml";
+          KUBECONFIG = "/home/rmrf/.kube/config";
+          EDITOR = "nixCats";
+          KUBE_EDITOR = "nixCats";
         };
 
         shellAliases = {
           k = "kubectl";
-          nvim = "nix run github:admiraladmirable/nixCats --refresh";
+          nvim = "nixCats";
           kctx = "kubectx";
           kns = "kubens";
+          login-ghcr = "gh auth token | docker login ghcr.io --username $(gh api user --jq '.login') --password-stdin";
         };
 
         initExtra = ''

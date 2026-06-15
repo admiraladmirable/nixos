@@ -183,6 +183,8 @@
         systemd.variables = [ "--all" ];
         systemd.enable = false;
 
+        configType = "hyprlang";
+
         plugins = with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}; [
           borders-plus-plus
           hyprbars
