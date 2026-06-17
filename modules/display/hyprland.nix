@@ -83,9 +83,9 @@
         inputs.caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.caelestia-shell;
       noctaliaExe = lib.getExe noctaliaPackage;
       caelestiaExe = lib.getExe caelestiaPackage;
-      noctaliaIpc = "${noctaliaExe} ipc call";
+      noctaliaIpc = "${noctaliaExe} msg";
       launcherCommand =
-        if config.desktop.shell == "noctalia" then "${noctaliaIpc} launcher toggle" else "rofi -show combi";
+        if config.desktop.shell == "noctalia" then "${noctaliaIpc} panel-toggle launcher" else "rofi -show combi";
       defaultLayout = "dwindle";
       masterOrientation = "left";
       scrollingDirection = "right";
@@ -204,6 +204,10 @@
             "hyprdim"
             "udiskie"
             "${noctaliaExe}"
+            # Loudly surface a failed home-manager activation: when linkGeneration
+            # aborts, packages still update but dotfiles stay frozen on an old
+            # generation, so login silently uses stale configs. Warn at login.
+            "sh -c 'sleep 5; systemctl is-failed --quiet home-manager-rmrf.service && ${pkgs.libnotify}/bin/notify-send -u critical \"home-manager activation FAILED\" \"Dotfiles are stale — login is using an old generation. Check: systemctl status home-manager-rmrf.service\"'"
             "uwsm finalize"
           ];
 
