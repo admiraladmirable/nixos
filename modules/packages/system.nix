@@ -49,8 +49,6 @@
         obsidian
         spotify
         nh
-        audacity
-        gimp
         yt-dlp
         nethack
         devenv

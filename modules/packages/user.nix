@@ -31,19 +31,13 @@
         nixd
         kdePackages.kcalc
         kdePackages.okular
-        (blender.override { cudaSupport = true; })
-        openshot-qt
-        # davinci-resolve
-        xlights
         libxcrypt
         p7zip-rar
         piper
-        bolt-launcher
         egl-wayland
         xeyes
         udiskie
         tree-sitter
-        foundry
         jujutsu
         jjui
         lm_sensors

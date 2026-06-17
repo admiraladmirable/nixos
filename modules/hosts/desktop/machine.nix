@@ -42,6 +42,8 @@
         gaming
         printing
         openmw
+        creative
+        web3
       ];
     };
 }

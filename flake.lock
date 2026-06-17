@@ -895,11 +895,11 @@
         "plugins-vim-highlighter": "plugins-vim-highlighter"
       },
       "locked": {
-        "lastModified": 1779805799,
-        "narHash": "sha256-5RjImsrb/euwIRVfmkXD/59lKfiCg/ae9FT07bChcH0=",
+        "lastModified": 1781714717,
+        "narHash": "sha256-FY3O2j7Nlic687lmq3nDvMG0x6sGI4F6TNGXGRN6Sdg=",
         "owner": "admiraladmirable",
         "repo": "nixCats",
-        "rev": "496f22cd6fc46b60180c053506aa7a682a432636",
+        "rev": "9fd7ba4e8825658065433cdfc739387444f2adf5",
         "type": "github"
       },
       "original": {
@@ -1051,11 +1051,11 @@
     },
     "nixpkgs_7": {
       "locked": {
-        "lastModified": 1777826146,
-        "narHash": "sha256-wQ/iN5Zp5VIa3ebBibijPnLyKhor+xEbDy4d0goa9Zs=",
+        "lastModified": 1781607440,
+        "narHash": "sha256-rxO+uc/KFbSJp+pgyXRuAX6QlG9hJdnt0BXpEQRXY+U=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "73c703c22422b8951895a960959dbbaca7296492",
+        "rev": "3e41b24abd260e8f71dbe2f5737d24122f972158",
         "type": "github"
       },
       "original": {

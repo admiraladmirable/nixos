@@ -32,6 +32,7 @@
         winetricks
         protontricks
         wine64Packages.wayland
+        bolt-launcher
       ];
     };
 }

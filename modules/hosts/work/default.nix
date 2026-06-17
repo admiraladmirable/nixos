@@ -13,6 +13,7 @@
       work
       awsclientvpn
       falconSensor
+      web3
     ];
   };
 }

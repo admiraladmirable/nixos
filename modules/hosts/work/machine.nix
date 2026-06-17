@@ -1,8 +1,10 @@
-{ ... }:
+{ config, ... }:
 {
   flake.modules.nixos.work =
     { lib, pkgs, ... }:
     {
+      home-manager.sharedModules = with config.flake.modules.homeManager; [ web3 ];
+
       home-manager.users.rmrf.desktop.shell = "noctalia";
       home-manager.users.rmrf.desktop.hyprland.monitors = [
         "eDP-2, highrr, auto-right, 1.33"

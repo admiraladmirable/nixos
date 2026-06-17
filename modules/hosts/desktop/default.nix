@@ -13,6 +13,8 @@
       desktopNetworking
       polkitAgent
       yubikeyWorkstation
+      creative
+      web3
       desktop
     ];
   };
