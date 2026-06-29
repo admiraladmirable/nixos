@@ -14,6 +14,7 @@
         ethtool
         bmon
         iptables
+        iperf
       ];
     };
 

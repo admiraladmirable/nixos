@@ -48,6 +48,17 @@
         };
       };
 
+      # xdph spawns hyprland-share-picker (the "Screen Capture (PipeWire)"
+      # source selector OBS pops) as a slim Qt6 app. Stylix exports
+      # QT_STYLE_OVERRIDE=kvantum session-wide, and that Kvantum build
+      # infinite-recurses in QProxyStyle::standardPalette -> SIGSEGV, so the
+      # selector never appears. Full Qt apps are unaffected; force a plain
+      # style only for the portal and its child picker.
+      systemd.user.services.xdg-desktop-portal-hyprland = {
+        overrideStrategy = "asDropin";
+        environment.QT_STYLE_OVERRIDE = "Fusion";
+      };
+
       environment.etc."xdg/menus/applications.menu".source =
         "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 
