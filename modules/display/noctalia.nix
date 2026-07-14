@@ -33,7 +33,11 @@
             bar.default = {
               capsule = true;
               center = [ "workspaces" ];
-              start = [ "launcher" "clock" "wallpaper" ];
+              start = [
+                "launcher"
+                "clock"
+                "wallpaper"
+              ];
               end = [
                 "media"
                 "tray"
@@ -50,7 +54,10 @@
                 {
                   fill = "surface_variant";
                   id = "g1";
-                  members = [ "clipboard" "network" ];
+                  members = [
+                    "clipboard"
+                    "network"
+                  ];
                   opacity = 1.0;
                   padding = 6.0;
                 }
@@ -121,7 +128,7 @@
           };
 
           # Custom palette -> ~/.config/noctalia/palettes/stylix.json
-          customPalettes.stylix.dark = {
+          customPalettes.stylix.dark = lib.mkForce {
             mPrimary = c.base0E; # mauve
             mOnPrimary = c.base00; # base
             mSecondary = c.base0D; # blue

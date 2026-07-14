@@ -31,6 +31,16 @@ in
     '';
   });
 
+  # calligra 26.04.3 already includes the poppler 26.04 fix that nixpkgs still
+  # fetches as a patch, so patchPhase fails with "previously applied patch".
+  kdePackages = prev.kdePackages.overrideScope (
+    _kfinal: kprev: {
+      calligra = kprev.calligra.overrideAttrs (old: {
+        patches = if old.version == "26.04.3" then [ ] else old.patches or [ ];
+      });
+    }
+  );
+
   momw-configurator = prev.callPackage ./momw-tools-pack/tool.nix {
     binaryName = "momw-configurator-linux-amd64";
     packageName = "momw-configurator";
