@@ -10,7 +10,7 @@
   };
 
   flake.modules.homeManager.creative =
-    { pkgs, ... }:
+    { osConfig, pkgs, ... }:
     let
       # GIMP 3.2.4 ships unwrapped in nixpkgs (raw ELF, no wrapGAppsHook), so it
       # has no GSettings schema path of its own and falls back to ambient
@@ -35,7 +35,7 @@
     in
     {
       home.packages = with pkgs; [
-        (blender.override { cudaSupport = true; })
+        (blender.override { cudaSupport = osConfig.rmrf.cuda.enable; })
         gimp'
         # davinci-resolve
         openshot-qt

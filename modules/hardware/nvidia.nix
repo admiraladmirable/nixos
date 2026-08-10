@@ -5,8 +5,6 @@
     {
       hardware = {
         enableRedistributableFirmware = true;
-      };
-      hardware = {
         graphics = {
           extraPackages = with pkgs; [
             nvidia-vaapi-driver
@@ -44,7 +42,9 @@
             __GL_VRR_ALLOWED = "1";
           };
 
-          programs.obs-studio.package = pkgs.obs-studio.override { cudaSupport = true; };
+          programs.obs-studio.package = pkgs.obs-studio.override {
+            cudaSupport = config.rmrf.cuda.enable;
+          };
         }
       ];
     };

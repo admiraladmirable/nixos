@@ -20,23 +20,23 @@
           sizes.desktop = 12;
 
           serif = {
-            name = "Iosevka";
-            package = pkgs.nerd-fonts.iosevka;
+            name = "Noto Serif";
+            package = pkgs.noto-fonts;
           };
 
           sansSerif = {
-            name = "Iosevka";
-            package = pkgs.nerd-fonts.iosevka;
+            name = "Noto Sans";
+            package = pkgs.noto-fonts;
           };
 
           monospace = {
-            name = "Iosevka";
-            package = pkgs.nerd-fonts.iosevka;
+            name = "JetBrains Mono";
+            package = pkgs.jetbrains-mono;
           };
 
           emoji = {
-            name = "Fira Code";
-            package = pkgs.nerd-fonts.fira-code;
+            name = "Noto Color Emoji";
+            package = pkgs.noto-fonts-color-emoji;
           };
         };
       };

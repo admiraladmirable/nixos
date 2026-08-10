@@ -1,15 +1,21 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.base =
-    { pkgs, config, ... }:
+    {
+      pkgs,
+      config,
+      ...
+    }:
     {
       home.packages = with pkgs; [
         brave
         chromium
+        inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
       ];
 
       programs.firefox = {
         enable = true;
+        # package = inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.default;
         # nixpkgs' firefox wrapper hardcodes MOZ_LEGACY_PROFILES=1, which forces
         # the profile root to ~/.mozilla/firefox regardless of XDG. home-manager's
         # configPath only moves the managed files (profiles.ini etc.), so pointing

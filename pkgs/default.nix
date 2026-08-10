@@ -41,6 +41,38 @@ in
     }
   );
 
+  
+  
+  # outlines 1.2.12 declares Pillow in its wheel metadata, but nixpkgs omits it
+  # from runtime dependencies, causing pythonRuntimeDepsCheckHook to fail.
+  python313Packages = prev.python313Packages.overrideScope (
+    pyFinal: pyPrev: {
+      flashinfer = pyPrev.flashinfer.overridePythonAttrs (old: {
+        dependencies = (old.dependencies or [ ]) ++ [ pyFinal.requests ];
+      });
+
+      outlines = pyPrev.outlines.overridePythonAttrs (old: {
+        dependencies = (old.dependencies or [ ]) ++ [ pyFinal.pillow ];
+      });
+    }
+  );
+
+  python314Packages = prev.python314Packages.overrideScope (
+    pyFinal: pyPrev: {
+      patool = pyPrev.patool.override {
+        file = prev.file.overrideAttrs {
+          # Work around too strict landlock hardening
+          # https://bugs.astron.com/view.php?id=785
+          postPatch = ''
+            substituteInPlace src/landlock.c --replace-fail \
+              "LANDLOCK_ACCESS_FS_READ_FILE | LANDLOCK_ACCESS_FS_READ_DIR" \
+              "LANDLOCK_ACCESS_FS_READ_FILE | LANDLOCK_ACCESS_FS_READ_DIR | LANDLOCK_ACCESS_FS_EXECUTE"
+          '';
+        };
+      };
+    }
+  );
+
   momw-configurator = prev.callPackage ./momw-tools-pack/tool.nix {
     binaryName = "momw-configurator-linux-amd64";
     packageName = "momw-configurator";

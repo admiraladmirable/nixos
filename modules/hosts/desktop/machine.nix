@@ -20,6 +20,8 @@
 
       networking.hostName = "desktop";
 
+      rmrf.cuda.enable = true;
+
       boot = {
         loader = {
           systemd-boot.enable = true;
