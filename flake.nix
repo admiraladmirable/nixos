@@ -17,6 +17,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprland = {
+      url = "github:hyprwm/Hyprland/v0.55.2";
+    };
+
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins/v0.55.0";
+      inputs.hyprland.follows = "hyprland";
+    };
+
     lan-mouse = {
       url = "github:feschber/lan-mouse";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -13,8 +13,9 @@
           # nixpkgs. Default is false for Hyprland >= 0.41.2 and UWSM manages the
           # session env, so keep it off to avoid the removed-option assertion.
           systemd.setPath.enable = false;
-          package = pkgs.hyprland;
-          portalPackage = pkgs.xdg-desktop-portal-hyprland;
+          package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+          portalPackage =
+            inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
         };
       };
 
@@ -32,10 +33,12 @@
         enable = true;
         xdgOpenUsePortal = true;
         extraPortals = [
-          pkgs.xdg-desktop-portal-hyprland
+          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
           pkgs.kdePackages.xdg-desktop-portal-kde
         ];
-        configPackages = [ pkgs.xdg-desktop-portal-hyprland ];
+        configPackages = [
+          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
+        ];
         config.common = {
           default = [
             "hyprland"
@@ -196,7 +199,7 @@
 
         configType = "hyprlang";
 
-        plugins = with pkgs.hyprlandPlugins; [
+        plugins = with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}; [
           borders-plus-plus
           hyprbars
         ];
