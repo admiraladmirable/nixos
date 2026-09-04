@@ -17,15 +17,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    lan-mouse.url = "github:feschber/lan-mouse";
-
-    hyprland = {
-      url = "github:hyprwm/Hyprland/v0.55.2";
-    };
-
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins/v0.55.0";
-      inputs.hyprland.follows = "hyprland";
+    lan-mouse = {
+      url = "github:feschber/lan-mouse";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     caelestia-shell = {
@@ -41,7 +35,6 @@
     rose-pine-hyprcursor = {
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.hyprlang.follows = "hyprland/hyprlang";
     };
 
     nix-ld = {
