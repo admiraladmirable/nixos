@@ -61,9 +61,9 @@
       # # control to "on" keeps the outputs live so cold-plug works. Targeted by
       # # PCI ID so it survives bus-path changes and never touches the iGPU.
       # # Trade-off: a few watts of idle battery when mobile with no monitor.
-      # services.udev.extraRules = ''
-      #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x7480", ATTR{power/control}="on"
-      # '';
+      services.udev.extraRules = ''
+        ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x7480", ATTR{power/control}="on"
+      '';
 
       hardware = {
         enableRedistributableFirmware = true;
@@ -89,12 +89,25 @@
 
       networking.firewall = {
         enable = true;
+        checkReversePath = "loose";
         allowedUDPPorts = [
           4242
         ];
       };
 
       services.printing.enable = false;
+
+      # mDNS (.local) resolution so this host can reach LAN hosts like
+      # desktop.local. nss-mdns inserts mdns4_minimal ahead of systemd-resolved
+      # in nsswitch, so it answers .local before the AWS VPN client module's
+      # `services.resolved.domains = [ "~local" ]` can divert it to unicast DNS.
+      # No 5353 clash with resolved: the VPN module sets a routing domain only,
+      # not MulticastDNS=yes, so Avahi safely owns the mDNS responder.
+      services.avahi = {
+        enable = true;
+        nssmdns4 = true;
+        openFirewall = true;
+      };
 
       services.openssh = {
         enable = false;

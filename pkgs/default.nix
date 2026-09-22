@@ -121,10 +121,12 @@ in
   # Helm 4 is not in nixpkgs yet; override kubernetes-helm with a v4 build.
   # kubernetes-helm = prev.callPackage ./kubernetes-helm/default.nix { };
 
+  k6-studio = prev.callPackage ./k6-studio/default.nix { pkgs = prev; };
   lmstudio = prev.callPackage ./lmstudio/default.nix { };
   umo = prev.callPackage ./umo/default.nix { };
   vcv-rack-custom = prev.callPackage ./vcv-rack/default.nix { };
   falcon-sensor = prev.callPackage ./falcon-sensor/default.nix { };
+  drata-agent = prev.callPackage ./drata-agent/default.nix { pkgs = prev; };
   docker-sbx = prev.callPackage ./docker-sbx/default.nix { };
   # openshot-qt (3.5.1), libopenshot (0.7.0) and libopenshot-audio (0.6.0) are
   # now provided directly by nixpkgs at top level (previously under libsForQt5),

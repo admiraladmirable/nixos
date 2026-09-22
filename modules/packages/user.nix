@@ -42,6 +42,7 @@
         jjui
         lm_sensors
         pi-coding-agent
+        kind
       ];
 
       xdg.configFile."tree-sitter/config.json".text = builtins.toJSON {

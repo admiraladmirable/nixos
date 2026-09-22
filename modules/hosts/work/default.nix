@@ -13,6 +13,8 @@
       work
       awsclientvpn
       falconSensor
+      drata
+      updatePreview
       web3
     ];
   };

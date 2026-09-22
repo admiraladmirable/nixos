@@ -56,6 +56,11 @@
       # style only for the portal and its child picker.
       systemd.user.services.xdg-desktop-portal-hyprland = {
         overrideStrategy = "asDropin";
+        # Screenshot support is registered only when grim is on the portal PATH.
+        path = [
+          pkgs.grim
+          pkgs.slurp
+        ];
         environment.QT_STYLE_OVERRIDE = "Fusion";
       };
 
@@ -96,7 +101,30 @@
       caelestiaExe = lib.getExe caelestiaPackage;
       noctaliaIpc = "${noctaliaExe} msg";
       launcherCommand =
-        if config.desktop.shell == "noctalia" then "${noctaliaIpc} panel-toggle launcher" else "rofi -show combi";
+        if config.desktop.shell == "noctalia" then
+          "${noctaliaIpc} panel-toggle launcher"
+        else
+          "rofi -show combi";
+      screenshotEditor = pkgs.writeShellApplication {
+        name = "screenshot-editor";
+        runtimeInputs = with pkgs; [
+          grimblast
+          satty
+          wl-clipboard
+          coreutils
+        ];
+        text = ''
+          capture=$(mktemp --suffix=.ppm)
+          trap 'rm -f "$capture"' EXIT
+          # Avoid PNG compression before the editor opens.
+          grimblast --freeze --filetype ppm save "''${1:-area}" "$capture"
+          directory="${config.xdg.userDirs.pictures}/Screenshots"
+          mkdir -p "$directory"
+          satty --filename "$capture" \
+            --output-filename "$directory/Screenshot-%Y%m%d-%H%M%S.png" \
+            --copy-command wl-copy
+        '';
+      };
       defaultLayout = "dwindle";
       masterOrientation = "left";
       scrollingDirection = "right";
@@ -112,7 +140,7 @@
           hyprutils
           hyprpicker
           hyprprop
-          hyprshot
+          satty
           grimblast
           brightnessctl
           playerctl
@@ -148,7 +176,6 @@
           kdePackages.kwalletmanager
           catppuccin-qt5ct
           nwg-look
-          dunst
           cliphist
           wl-clipboard
           inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -304,6 +331,10 @@
             allow_tearing = true;
           };
 
+          windowrule = [
+            "match:class ^(org.satty.Satty)$, float on"
+          ];
+
           bind = [
             "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
             "$mod, T, exec, ghostty"
@@ -336,8 +367,8 @@
             "$mod+Shift, Comma, movecurrentworkspacetomonitor, +1"
             "$mod, Period, focusmonitor, -1"
             "$mod+Shift, Period, movecurrentworkspacetomonitor, -1"
-            ", Print, exec, hyprshot -z -m region --clipboard-only"
-            "$mod, Print, exec, hyprshot -z -m output --clipboard-only"
+            ", Print, exec, ${lib.getExe screenshotEditor} area"
+            "$mod, Print, exec, ${lib.getExe screenshotEditor} output"
             "$mod, Space, exec, ${launcherCommand}"
 
             # Dwindle layout controls.

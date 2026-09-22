@@ -51,10 +51,12 @@
         nh
         yt-dlp
         nethack
+        k6-studio
         devenv
         vial
         wine
         wine64
+        skills
       ];
     };
 }
