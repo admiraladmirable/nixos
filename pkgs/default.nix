@@ -23,6 +23,23 @@ in
   delta_plugin = final."delta-plugin";
   groundcoverify = mkMomwTool "groundcoverify" "groundcoverify";
 
+  # Hyprland 0.56 forwards the wrong scroll magnitude to input-capture clients.
+  # InputManager.cpp normalizes wheel input to 120-per-detent in deltaDiscrete
+  # (`e.deltaDiscrete = std::round(e.delta * 8.0)`), and the local scroll path
+  # uses it — but the input-capture call site passes the continuous `e.delta`
+  # into a parameter typed `int32_t value120`, which goes straight to
+  # libei sendScrollDiscrete. A wheel click arrives as 15 instead of 120, so a
+  # machine driven over lan-mouse scrolls at one eighth speed. Still wrong on
+  # main; not reported upstream as of 2026-09-18.
+  hyprland = prev.hyprland.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      substituteInPlace src/managers/input/InputManager.cpp \
+        --replace-fail \
+          "inputCapture->axisValue120(e.axis, e.delta)" \
+          "inputCapture->axisValue120(e.axis, e.deltaDiscrete)"
+    '';
+  });
+
   # Upstream installs a pkg-config file named cava.pc but some consumers look for libcava.pc.
   # Provide an alias so pkg-config lookups succeed without patching every consumer.
   libcava = prev.libcava.overrideAttrs (old: {

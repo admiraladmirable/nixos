@@ -1,0 +1,36 @@
+From: NixOS local patches
+Subject: [PATCH] fix(libei): convert captured timestamps to milliseconds
+
+reis events carry microsecond timestamps, but the wire events are consumed
+as milliseconds by the wlroots virtual pointer and keyboard protocols.
+Convert before narrowing to u32 so double clicks keep their real interval.
+
+--- a/input-event/src/libei.rs
++++ b/input-event/src/libei.rs
+@@ -67,7 +67,7 @@
+         EiEvent::Frame(_) => Events::None, /* FIXME */
+         EiEvent::PointerMotion(motion) => {
+             let motion_event = PointerEvent::Motion {
+-                time: motion.time as u32,
++                time: (motion.time / 1000) as u32,
+                 dx: motion.dx as f64,
+                 dy: motion.dy as f64,
+             };
+@@ -76,7 +76,7 @@
+         EiEvent::PointerMotionAbsolute(_) => Events::None,
+         EiEvent::Button(button) => {
+             let button_event = PointerEvent::Button {
+-                time: button.time as u32,
++                time: (button.time / 1000) as u32,
+                 button: button.button,
+                 state: match button.state {
+                     ButtonState::Released => 0,
+@@ -134,7 +134,7 @@
+                     KeyState::Press => 1,
+                     KeyState::Released => 0,
+                 },
+-                time: key.time as u32,
++                time: (key.time / 1000) as u32,
+             };
+             Events::One(Event::Keyboard(key_event))
+         }
