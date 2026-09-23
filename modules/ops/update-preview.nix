@@ -15,7 +15,6 @@
           prepare = pkgs.writeShellApplication {
             name = "nixos-update-preview";
             runtimeInputs = [
-              pkgs.git
               pkgs.nh
               pkgs.nix
               pkgs.coreutils
@@ -34,12 +33,6 @@
 
               trap 'notify "NixOS update failed" "View logs: journalctl --user -u nixos-update-preview.service"; exit 1' ERR
               cd ${pkgs.lib.escapeShellArg repository}
-
-              # Includes a lock-file update left for review by a previous run.
-              if [[ -n "$(git status --porcelain)" ]]; then
-                notify "NixOS update skipped" "Your configuration has uncommitted changes. Commit or stash them before preparing another update."
-                exit 0
-              fi
 
               nh os build --update --no-nom --hostname ${pkgs.lib.escapeShellArg hostname} \
                 --out-link ${pkgs.lib.escapeShellArg (stateDirectory + "/result")} \
