@@ -19,7 +19,12 @@
       home.packages = with pkgs; [
         claude-code
         inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
-        (llama-cpp.override { cudaSupport = osConfig.rmrf.cuda.enable; })
+        (llama-cpp.override {
+          cudaSupport = osConfig.rmrf.cuda.enable;
+          # Node 26.9.0's file-mode test fails on setuid chmod in the Nix sandbox.
+          # Use Node 24 for the web UI build until the Node 26 package is fixed.
+          nodejs_latest = pkgs.nodejs_24;
+        })
         # vllm 0.16.0 in current nixpkgs pin has 3 known CVEs. Use Python 3.13
         # because tensorflow-bin does not support Python 3.14 on x86_64-linux.
         # (cudaPkgs.python313Packages.toPythonApplication (

@@ -13,9 +13,8 @@
           # nixpkgs. Default is false for Hyprland >= 0.41.2 and UWSM manages the
           # session env, so keep it off to avoid the removed-option assertion.
           systemd.setPath.enable = false;
-          package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-          portalPackage =
-            inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+          package = pkgs.hyprland;
+          portalPackage = pkgs.xdg-desktop-portal-hyprland;
         };
       };
 
@@ -33,12 +32,10 @@
         enable = true;
         xdgOpenUsePortal = true;
         extraPortals = [
-          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
+          pkgs.xdg-desktop-portal-hyprland
           pkgs.kdePackages.xdg-desktop-portal-kde
         ];
-        configPackages = [
-          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland
-        ];
+        configPackages = [ pkgs.xdg-desktop-portal-hyprland ];
         config.common = {
           default = [
             "hyprland"
@@ -96,7 +93,10 @@
       caelestiaExe = lib.getExe caelestiaPackage;
       noctaliaIpc = "${noctaliaExe} msg";
       launcherCommand =
-        if config.desktop.shell == "noctalia" then "${noctaliaIpc} panel-toggle launcher" else "rofi -show combi";
+        if config.desktop.shell == "noctalia" then
+          "${noctaliaIpc} panel-toggle launcher"
+        else
+          "rofi -show combi";
       defaultLayout = "dwindle";
       masterOrientation = "left";
       scrollingDirection = "right";
@@ -199,7 +199,7 @@
 
         configType = "hyprlang";
 
-        plugins = with inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}; [
+        plugins = with pkgs.hyprlandPlugins; [
           borders-plus-plus
           hyprbars
         ];
@@ -235,6 +235,14 @@
             sensitivity = "0";
             accel_profile = "flat";
             force_no_accel = "1";
+          };
+
+          # 0.56 added a gate on forwarding modifiers to an input-capture
+          # client and defaulted it off, so SUPER stopped reaching the machine
+          # driven over lan-mouse. 0.55.2 had no such option. Upstream default
+          # is false; we capture, so we need it on.
+          "input-capture" = {
+            capture_modifiers = true;
           };
 
           xwayland.force_zero_scaling = true;

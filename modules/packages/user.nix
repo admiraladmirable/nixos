@@ -7,7 +7,17 @@
         lib.mapAttrsToList
           (name: drv: {
             inherit name;
-            path = drv.src;
+            path =
+              if name == "tree-sitter-cuda" && drv.src.rev == "v0.21.2" then
+                # The v0.21.2 archive no longer matches the hash in nixpkgs.
+                # Pin its commit until the nixpkgs source definition is updated.
+                pkgs.fetchFromGitHub {
+                  inherit (drv.src) owner repo;
+                  rev = "d58080a327756e4d1d16ec329ba7cb2048f6c6cd";
+                  hash = "sha256-s2qrZx5fEu/I6xE2paX/Nlmgvo6T27qqvy1cI8iznAA=";
+                }
+              else
+                drv.src;
           })
           (
             lib.filterAttrs (
@@ -42,6 +52,7 @@
         jjui
         lm_sensors
         pi-coding-agent
+        # ventoy
       ];
 
       xdg.configFile."tree-sitter/config.json".text = builtins.toJSON {

@@ -15,7 +15,8 @@
           powerManagement.enable = true;
           powerManagement.finegrained = false;
           nvidiaSettings = true;
-          package = config.boot.kernelPackages.nvidiaPackages.production;
+          # package = config.boot.kernelPackages.nvidiaPackages.production;
+          package = config.boot.kernelPackages.nvidiaPackages.new_feature;
           open = true;
         };
       };
