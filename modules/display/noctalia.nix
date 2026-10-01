@@ -18,8 +18,6 @@
       c = config.lib.stylix.colors.withHashtag;
     in
     {
-      imports = [ inputs.noctalia.homeModules.default ];
-
       config = lib.mkIf (config.desktop.shell == "noctalia") {
         programs.noctalia = {
           enable = true;

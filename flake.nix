@@ -44,6 +44,8 @@
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
+      # Keep Ghostty's libc compatible with the system Mesa drivers.
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     musnix = {
