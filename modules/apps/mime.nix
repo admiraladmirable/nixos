@@ -20,6 +20,7 @@
         "application/vnd.rar" = [ "org.kde.ark.desktop" ];
       };
       defaultApplications = {
+        "inode/directory" = [ "org.kde.dolphin.desktop" ];
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
         "text/html" = [ "firefox.desktop" ];

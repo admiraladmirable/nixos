@@ -7,6 +7,7 @@
       desktopMachine
       pipewire
       steam
+      curseforge
       nvidia
       peripherals
       printing

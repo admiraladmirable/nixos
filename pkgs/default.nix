@@ -48,6 +48,18 @@ in
     '';
   });
 
+  # Protobuf's current Abseil headers use C++20 comparison types, while
+  # libopenshot 0.7.0 still sets C++17 in its CMakeLists.txt.
+  libopenshot = prev.libopenshot.overrideAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      substituteInPlace CMakeLists.txt --replace-fail \
+        "set(CMAKE_CXX_STANDARD 17)" "set(CMAKE_CXX_STANDARD 20)"
+      for source in src/effects/AnalogTape.cpp src/effects/DenoiseImage.cpp src/effects/FilmGrain.cpp; do
+        substituteInPlace "$source" --replace-fail "lerp(" "openshot_lerp("
+      done
+    '';
+  });
+
   # calligra 26.04.3 already includes the poppler 26.04 fix that nixpkgs still
   # fetches as a patch, so patchPhase fails with "previously applied patch".
   kdePackages = prev.kdePackages.overrideScope (

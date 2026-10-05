@@ -173,6 +173,26 @@
         "type": "github"
       }
     },
+    "curseforge": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790436862,
+        "narHash": "sha256-gTCvmylTHXZsN3Gv3YdZE5J7a4L9JUOxpPnhsYfM8bM=",
+        "owner": "spitfire05",
+        "repo": "curseforge-appimage-nix",
+        "rev": "6682c2df0e02c7a4989dc8ba3635358fb695c136",
+        "type": "github"
+      },
+      "original": {
+        "owner": "spitfire05",
+        "repo": "curseforge-appimage-nix",
+        "type": "github"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -819,6 +839,7 @@
         "caelestia-shell": "caelestia-shell",
         "claude-code-nix": "claude-code-nix",
         "codex-cli-nix": "codex-cli-nix",
+        "curseforge": "curseforge",
         "firefox-nightly": "firefox-nightly",
         "flake-parts": "flake-parts",
         "ghostty": "ghostty",
