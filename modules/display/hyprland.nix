@@ -250,7 +250,7 @@
           ];
 
           cursor = {
-            no_break_fs_vrr = 1;
+            no_break_fs_vrr = 2;
             min_refresh_rate = 60;
             no_hardware_cursors = true;
           };
@@ -317,12 +317,14 @@
           };
 
           render = {
-            direct_scanout = 1;
+            # Keep direct scanout available for games, not regular fullscreen windows.
+            direct_scanout = 2;
           };
 
           misc = {
             force_default_wallpaper = 0;
-            vrr = 2;
+            # Regular fullscreen windows should stay at the monitor's normal rate.
+            vrr = 3;
           };
 
           decoration = {
