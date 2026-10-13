@@ -53,6 +53,7 @@
         lm_sensors
         pi-coding-agent
         kind
+        k9s
         # ventoy
       ];
 
