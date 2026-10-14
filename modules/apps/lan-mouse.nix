@@ -15,8 +15,12 @@
         package =
           inputs.lan-mouse.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs
             (old: {
+              # Include the input-event crate's scroll regression tests.
+              cargoTestFlags = (old.cargoTestFlags or [ ]) ++ [ "--workspace" ];
               patches = (old.patches or [ ]) ++ [
                 ./lan-mouse-libei-timestamps.patch
+                # Avoid forwarding both representations of one captured wheel step.
+                ./lan-mouse-libei-scroll-frames.patch
               ];
             });
       };
