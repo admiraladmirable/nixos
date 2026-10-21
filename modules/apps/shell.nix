@@ -10,8 +10,9 @@
         lfs.enable = true;
         signing.format = "openpgp";
         settings = {
+          commit.gpgsign = true;
+          gpg.openpgp.program = "/home/rmrf/.gnupg/git-sign.sh";
           user.name = "admiraladmirable";
-          user.email = "rick.morrow1204@gmail.com";
           aliases.undo = "reset HEAD~1 --mixed";
           credential.helper = "${pkgs.git.override { withLibsecret = true; }}/bin/git-credential-libsecret";
           color.ui = "auto";

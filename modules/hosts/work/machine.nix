@@ -35,7 +35,21 @@
           systemd-boot.enable = true;
           efi.canTouchEfiVariables = true;
         };
-        kernelPackages = pkgs.linuxPackages_latest;
+        kernelPackages = pkgs.linuxPackages_latest.extend (
+          _final: prev: {
+            # Use Kbuild installation to generate the module certificate.
+            # Remove once the pinned nixpkgs includes the upstream fix:
+            # https://github.com/NixOS/nixpkgs/issues/575192
+            framework-laptop-kmod = prev.framework-laptop-kmod.overrideAttrs {
+              installPhase = ''
+                runHook preInstall
+                make $makeFlags modules_install \
+                  INSTALL_MOD_PATH="$out" INSTALL_MOD_DIR=extra DEPMOD=true
+                runHook postInstall
+              '';
+            };
+          }
+        );
       };
 
       # Everything is updateable through fwupd
