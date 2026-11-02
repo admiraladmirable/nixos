@@ -214,26 +214,33 @@
         GSK_RENDERER = "ngl";
       };
 
-      wayland.windowManager.hyprland = {
-        enable = true;
-        package = null;
-        portalPackage = null;
-        systemd.variables = [ "--all" ];
-        systemd.enable = false;
+      # Hyprland 0.55+ reads $XDG_CONFIG_HOME/hypr/hyprland.lua and ignores
+      # hyprland.conf whenever the Lua file exists. Each `settings` attribute
+      # renders as an `hl.<name>(...)` call; see the Lua API stubs shipped in
+      # ${pkgs.hyprland}/share/hypr/stubs/hl.meta.lua.
+      wayland.windowManager.hyprland =
+        let
+          toLua = lib.generators.toLua { };
+          inline = lib.generators.mkLuaInline;
+          mod = "SUPER";
 
-        configType = "hyprlang";
+          # hl.bind(keys, action) where action is a raw Lua dispatcher or function.
+          bind = keys: action: {
+            _args = [
+              keys
+              (inline action)
+            ];
+          };
+          exec = cmd: "hl.dsp.exec_cmd(${toLua cmd})";
+          # Hyprlang fired every bind sharing a key; Lua keeps one bind per key,
+          # so run the dispatchers in sequence from a single function.
+          dispatchAll =
+            actions: "function()\n${lib.concatMapStrings (a: "  hl.dispatch(${a})\n") actions}end";
+          # Replaces `hyprctl keyword general:layout ...`.
+          setLayout = layout: "function() hl.config({ general = { layout = ${toLua layout} } }) end";
+          layoutMsg = msg: "hl.dsp.layout(${toLua msg})";
 
-        plugins = with pkgs.hyprlandPlugins; [
-          borders-plus-plus
-          hyprbars
-        ];
-
-        settings = {
-          "$mod" = "SUPER";
-          "$filemanager" = "dolphin";
-          "$menu" = "rofi -show combi";
-
-          exec-once = [
+          startupCommands = [
             "${pkgs.kdePackages.kwallet-pam}/libexec/pam_kwallet_init"
             "wl-paste --type text --watch cliphist store"
             "hyprdim"
@@ -246,179 +253,227 @@
             "uwsm finalize"
           ];
 
-          exec = [
+          bezier = name: p1: p2: {
+            _args = [
+              name
+              {
+                type = "bezier";
+                points = [
+                  p1
+                  p2
+                ];
+              }
+            ];
+          };
+          animation = leaf: speed: curve: style: {
+            inherit leaf speed;
+            enabled = true;
+            bezier = curve;
+          }
+          // lib.optionalAttrs (style != null) { inherit style; };
+        in
+        {
+          enable = true;
+          package = null;
+          portalPackage = null;
+          systemd.variables = [ "--all" ];
+          systemd.enable = false;
+
+          configType = "lua";
+
+          plugins = with pkgs.hyprlandPlugins; [
+            borders-plus-plus
+            hyprbars
           ];
 
-          cursor = {
-            no_break_fs_vrr = 2;
-            min_refresh_rate = 60;
-            no_hardware_cursors = true;
-          };
+          settings = {
+            config = {
+              cursor = {
+                no_break_fs_vrr = 2;
+                min_refresh_rate = 60;
+                no_hardware_cursors = true;
+              };
 
-          input = {
-            sensitivity = "0";
-            accel_profile = "flat";
-            force_no_accel = "1";
-          };
+              input = {
+                sensitivity = 0;
+                accel_profile = "flat";
+                force_no_accel = true;
+              };
 
-          # 0.56 added a gate on forwarding modifiers to an input-capture
-          # client and defaulted it off, so SUPER stopped reaching the machine
-          # driven over lan-mouse. 0.55.2 had no such option. Upstream default
-          # is false; we capture, so we need it on.
-          "input-capture" = {
-            capture_modifiers = true;
-          };
+              # 0.56 added a gate on forwarding modifiers to an input-capture
+              # client and defaulted it off, so SUPER stopped reaching the machine
+              # driven over lan-mouse. 0.55.2 had no such option. Upstream default
+              # is false; we capture, so we need it on.
+              input_capture.capture_modifiers = true;
 
-          xwayland.force_zero_scaling = true;
+              xwayland.force_zero_scaling = true;
 
-          plugin = {
-            borders-plus-plus = {
-              add_borders = 1;
-              natural_rounding = "yes";
+              # Plugin options `plugin:borders-plus-plus:x` become plugin.borders_plus_plus.x.
+              plugin.borders_plus_plus = {
+                add_borders = 1;
+                natural_rounding = true;
+              };
+
+              animations.enabled = true;
+
+              dwindle.preserve_split = true;
+
+              master = {
+                orientation = masterOrientation;
+                mfact = 0.55;
+                new_status = "slave";
+                new_on_top = true;
+              };
+
+              scrolling = {
+                direction = scrollingDirection;
+                column_width = scrollingColumnWidth;
+                # wrap_focus = true;
+                explicit_column_widths = "0.333, 0.5, 0.667, 1.0";
+              };
+
+              render = {
+                # Keep direct scanout available for games, not regular fullscreen windows.
+                direct_scanout = 2;
+              };
+
+              misc = {
+                force_default_wallpaper = 0;
+                # Regular fullscreen windows should stay at the monitor's normal rate.
+                vrr = 3;
+              };
+
+              decoration.rounding = 10;
+
+              general = {
+                layout = defaultLayout;
+                resize_on_border = true;
+                snap.enabled = true;
+                allow_tearing = true;
+              };
             };
-          };
 
-          animations = {
-            "enabled" = "yes";
-            "bezier" = [
-              "wind, 0.05, 0.9, 0.1, 1.05"
-              "winIn, 0.1, 1.1, 0.1, 1.1"
-              "winOut, 0.3, -0.3, 0, 1"
-              "liner, 1, 1, 1, 1"
+            # Rendered before `animation` via the default importantPrefixes.
+            curve = [
+              (bezier "wind" [ 0.05 0.9 ] [ 0.1 1.05 ])
+              (bezier "winIn" [ 0.1 1.1 ] [ 0.1 1.1 ])
+              (bezier "winOut" [ 0.3 (-0.3) ] [ 0 1 ])
+              (bezier "liner" [ 1 1 ] [ 1 1 ])
             ];
-            "animation" = [
-              "windows, 1, 6, wind, slide"
-              "windowsIn, 1, 6, winIn, slide"
-              "windowsOut, 1, 5, winOut, slide"
-              "windowsMove, 1, 5, wind, slide"
-              "border, 1, 1, liner"
-              "borderangle, 1, 30, liner, once"
-              "fade, 1, 10, default"
-              "workspaces, 1, 5, wind"
+
+            animation = [
+              (animation "windows" 6 "wind" "slide")
+              (animation "windowsIn" 6 "winIn" "slide")
+              (animation "windowsOut" 5 "winOut" "slide")
+              (animation "windowsMove" 5 "wind" "slide")
+              (animation "border" 1 "liner" null)
+              (animation "borderangle" 30 "liner" "once")
+              (animation "fade" 10 "default" null)
+              (animation "workspaces" 5 "wind" null)
             ];
+
+            on = {
+              _args = [
+                "hyprland.start"
+                (inline "function()\n${
+                  lib.concatMapStrings (c: "  hl.exec_cmd(${toLua c})\n") startupCommands
+                }end")
+              ];
+            };
+
+            window_rule = [
+              {
+                match.class = "^(org.satty.Satty)$";
+                float = true;
+              }
+            ];
+
+            bind = [
+              (bind "${mod} + V" (exec "cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
+              (bind "${mod} + T" (exec "ghostty"))
+              (bind "${mod} + C" "hl.dsp.window.close()")
+              (bind "${mod} + SHIFT + C" "hl.dsp.window.kill()")
+              (bind "${mod} + E" (setLayout "dwindle"))
+              (bind "${mod} + D" (setLayout "dwindle"))
+              (bind "${mod} + M" (setLayout "master"))
+              (bind "${mod} + S" (setLayout "scrolling"))
+              (bind "${mod} + F" "hl.dsp.window.fullscreen()")
+              (bind "${mod} + G" "hl.dsp.group.toggle()")
+              (bind "${mod} + SHIFT + G" "hl.dsp.window.move({ out_of_group = true })")
+              (bind "${mod} + P" (exec "1password --quick-access"))
+              (bind "${mod} + SHIFT + F" ''hl.dsp.window.float({ action = "toggle" })'')
+              (bind "${mod} + SHIFT + R" "hl.dsp.reload_config()")
+              (bind "${mod} + Left" ''hl.dsp.focus({ workspace = "m-1" })'')
+              (bind "${mod} + SHIFT + Left" ''hl.dsp.window.move({ workspace = "m-1", follow = false })'')
+              (bind "${mod} + Right" ''hl.dsp.focus({ workspace = "m+1" })'')
+              (bind "${mod} + SHIFT + Right" ''hl.dsp.window.move({ workspace = "m+1", follow = false })'')
+              (bind "${mod} + Up" (dispatchAll [
+                "hl.dsp.window.cycle_next({ tiled = true })"
+                "hl.dsp.group.next()"
+              ]))
+              (bind "${mod} + SHIFT + Up" (dispatchAll [
+                "hl.dsp.window.swap({ next = true })"
+                "hl.dsp.group.move_window()"
+              ]))
+              (bind "${mod} + Down" (dispatchAll [
+                "hl.dsp.window.cycle_next({ tiled = true, next = false })"
+                "hl.dsp.group.prev()"
+              ]))
+              (bind "${mod} + SHIFT + Down" (dispatchAll [
+                "hl.dsp.window.swap({ prev = true })"
+                "hl.dsp.group.move_window({ forward = false })"
+              ]))
+              (bind "${mod} + Tab" ''hl.dsp.focus({ workspace = "previous" })'')
+              (bind "${mod} + Comma" ''hl.dsp.focus({ monitor = "+1" })'')
+              (bind "${mod} + SHIFT + Comma" ''hl.dsp.workspace.move({ monitor = "+1" })'')
+              (bind "${mod} + Period" ''hl.dsp.focus({ monitor = "-1" })'')
+              (bind "${mod} + SHIFT + Period" ''hl.dsp.workspace.move({ monitor = "-1" })'')
+              (bind "Print" (exec "${lib.getExe screenshotEditor} area"))
+              (bind "${mod} + Print" (exec "${lib.getExe screenshotEditor} output"))
+              (bind "${mod} + Space" (exec launcherCommand))
+
+              # Dwindle layout controls.
+              (bind "${mod} + CTRL + E" (layoutMsg "togglesplit"))
+
+              # Master layout controls.
+              (bind "${mod} + Return" (layoutMsg "swapwithmaster auto"))
+              (bind "${mod} + CTRL + Left" (layoutMsg "orientationleft"))
+              (bind "${mod} + CTRL + Right" (layoutMsg "orientationright"))
+              (bind "${mod} + CTRL + Up" (layoutMsg "orientationtop"))
+              (bind "${mod} + CTRL + Down" (layoutMsg "orientationbottom"))
+
+              # Scrolling layout controls.
+              (bind "${mod} + ALT + Comma" (layoutMsg "move -col"))
+              (bind "${mod} + ALT + Period" (layoutMsg "move +col"))
+              (bind "${mod} + ALT + Up" (layoutMsg "focus u"))
+              (bind "${mod} + ALT + Down" (layoutMsg "focus d"))
+              (bind "${mod} + ALT + SHIFT + Comma" (layoutMsg "swapcol l"))
+              (bind "${mod} + ALT + SHIFT + Period" (layoutMsg "swapcol r"))
+              (bind "${mod} + ALT + Return" (layoutMsg "promote"))
+              (bind "${mod} + ALT + Minus" (layoutMsg "colresize -conf"))
+              (bind "${mod} + ALT + Equal" (layoutMsg "colresize +conf"))
+            ]
+            ++ builtins.concatLists (
+              builtins.genList (
+                i:
+                let
+                  ws = toString (i + 1);
+                  key = "code:1${toString i}";
+                in
+                [
+                  (bind "${mod} + ${key}" "hl.dsp.focus({ workspace = ${ws} })")
+                  (bind "${mod} + SHIFT + ${key}" "hl.dsp.window.move({ workspace = ${ws} })")
+                ]
+              ) 9
+            );
+          }
+          // lib.optionalAttrs (config.desktop.hyprland.monitors != [ ]) {
+            monitor = config.desktop.hyprland.monitors;
+          }
+          // lib.optionalAttrs (config.desktop.hyprland.workspaceRules != [ ]) {
+            workspace_rule = config.desktop.hyprland.workspaceRules;
           };
-
-          dwindle = {
-            "preserve_split" = "yes";
-          };
-
-          master = {
-            orientation = masterOrientation;
-            mfact = 0.55;
-            new_status = "slave";
-            new_on_top = true;
-          };
-
-          scrolling = {
-            direction = scrollingDirection;
-            column_width = scrollingColumnWidth;
-            # wrap_focus = true;
-            explicit_column_widths = "0.333, 0.5, 0.667, 1.0";
-          };
-
-          render = {
-            # Keep direct scanout available for games, not regular fullscreen windows.
-            direct_scanout = 2;
-          };
-
-          misc = {
-            force_default_wallpaper = 0;
-            # Regular fullscreen windows should stay at the monitor's normal rate.
-            vrr = 3;
-          };
-
-          decoration = {
-            rounding = 10;
-          };
-
-          general = {
-            layout = defaultLayout;
-            resize_on_border = true;
-            snap.enabled = true;
-            allow_tearing = true;
-          };
-
-          windowrule = [
-            "match:class ^(org.satty.Satty)$, float on"
-          ];
-
-          bind = [
-            "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-            "$mod, T, exec, ghostty"
-            "$mod, C, killactive"
-            "$mod+Shift, C, forcekillactive"
-            "$mod, E, exec, hyprctl keyword general:layout 'dwindle'"
-            "$mod, D, exec, hyprctl keyword general:layout 'dwindle'"
-            "$mod, M, exec, hyprctl keyword general:layout 'master'"
-            "$mod, S, exec, hyprctl keyword general:layout 'scrolling'"
-            "$mod, F, fullscreen"
-            "$mod, G, togglegroup"
-            "$mod+Shift, G, moveoutofgroup"
-            "$mod, P, exec, 1password --quick-access"
-            "$mod+Shift, F, togglefloating"
-            "$mod+Shift, R, exec, hyprctl reload"
-            "$mod, Left, workspace, m-1"
-            "$mod+Shift, Left, movetoworkspacesilent, m-1"
-            "$mod, Right, workspace, m+1"
-            "$mod+Shift, Right, movetoworkspacesilent, m+1"
-            "$mod, Up, cyclenext, tiled"
-            "$mod, Up, changegroupactive"
-            "$mod+Shift, Up, swapnext, tiled"
-            "$mod+Shift, Up, movegroupwindow"
-            "$mod, Down, cyclenext, tiled, prev"
-            "$mod, Down, changegroupactive, b"
-            "$mod+Shift, Down, swapnext, tiled, prev"
-            "$mod+Shift, Down, movegroupwindow, b"
-            "$mod, Tab, workspace, previous"
-            "$mod, Comma, focusmonitor, +1"
-            "$mod+Shift, Comma, movecurrentworkspacetomonitor, +1"
-            "$mod, Period, focusmonitor, -1"
-            "$mod+Shift, Period, movecurrentworkspacetomonitor, -1"
-            ", Print, exec, ${lib.getExe screenshotEditor} area"
-            "$mod, Print, exec, ${lib.getExe screenshotEditor} output"
-            "$mod, Space, exec, ${launcherCommand}"
-
-            # Dwindle layout controls.
-            "$mod+Ctrl, E, layoutmsg, togglesplit"
-
-            # Master layout controls.
-            "$mod, Return, layoutmsg, swapwithmaster auto"
-            "$mod+Ctrl, Left, layoutmsg, orientationleft"
-            "$mod+Ctrl, Right, layoutmsg, orientationright"
-            "$mod+Ctrl, Up, layoutmsg, orientationtop"
-            "$mod+Ctrl, Down, layoutmsg, orientationbottom"
-
-            # Scrolling layout controls.
-            "$mod+Alt, Comma, layoutmsg, move -col"
-            "$mod+Alt, Period, layoutmsg, move +col"
-            "$mod+Alt, Up, layoutmsg, focus u"
-            "$mod+Alt, Down, layoutmsg, focus d"
-            "$mod+Alt+Shift, Comma, layoutmsg, swapcol l"
-            "$mod+Alt+Shift, Period, layoutmsg, swapcol r"
-            "$mod+Alt, Return, layoutmsg, promote"
-            "$mod+Alt, Minus, layoutmsg, colresize -conf"
-            "$mod+Alt, Equal, layoutmsg, colresize +conf"
-          ]
-          ++ (builtins.concatLists (
-            builtins.genList (
-              i:
-              let
-                ws = i + 1;
-              in
-              [
-                "$mod, code:1${toString i}, workspace, ${toString ws}"
-                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-              ]
-            ) 9
-          ));
-        }
-        // lib.optionalAttrs (config.desktop.hyprland.monitors != [ ]) {
-          monitor = config.desktop.hyprland.monitors;
-        }
-        // lib.optionalAttrs (config.desktop.hyprland.workspaceRules != [ ]) {
-          workspace = config.desktop.hyprland.workspaceRules;
         };
-      };
 
       programs.rofi = {
         enable = true;

@@ -16,15 +16,15 @@
     };
 
     options.desktop.hyprland.monitors = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+      type = lib.types.listOf (lib.types.attrsOf lib.types.anything);
       default = [ ];
-      description = "Per-host Hyprland monitor configuration entries.";
+      description = "Per-host Hyprland monitor specs, each rendered as hl.monitor({ ... }).";
     };
 
     options.desktop.hyprland.workspaceRules = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+      type = lib.types.listOf (lib.types.attrsOf lib.types.anything);
       default = [ ];
-      description = "Per-host Hyprland workspace rules.";
+      description = "Per-host Hyprland workspace rules, each rendered as hl.workspace_rule({ ... }).";
     };
   };
 

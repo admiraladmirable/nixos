@@ -7,25 +7,40 @@
 
       home-manager.users.rmrf.desktop.shell = "noctalia";
       home-manager.users.rmrf.desktop.hyprland.monitors = [
-        "eDP-2, highrr, auto-right, 1.33"
-        "DP-1, highrr, auto-left, 1"
-        # "DP-1, highrr, auto-left, 1"
-        ", preferred, auto, 1"
+        {
+          output = "eDP-2";
+          mode = "highrr";
+          position = "auto-right";
+          scale = 1.33;
+        }
+        {
+          output = "DP-1";
+          mode = "highrr";
+          position = "auto-left";
+          scale = 1;
+        }
+        # Fallback for any other output.
+        {
+          output = "";
+          mode = "preferred";
+          position = "auto";
+          scale = 1;
+        }
       ];
       # TODO: Revert when going home
-      home-manager.users.rmrf.desktop.hyprland.workspaceRules = [
-        "1, monitor:DP-1, default:true, persistent:true"
-        "2, monitor:DP-1, persistent:true"
-        "3, monitor:DP-1, persistent:true"
-        "4, monitor:DP-1, persistent:true"
-        "5, monitor:DP-1, persistent:true"
-
-        "6, monitor:eDP-2, default:true, persistent:true"
-        "7, monitor:eDP-2, persistent:true"
-        "8, monitor:eDP-2, persistent:true"
-        "9, monitor:eDP-2, persistent:true"
-        "10, monitor:eDP-2, persistent:true"
-      ];
+      # Workspaces 1-5 live on DP-1, 6-10 on eDP-2; the first of each is the default.
+      home-manager.users.rmrf.desktop.hyprland.workspaceRules = lib.genList (
+        i:
+        let
+          ws = i + 1;
+        in
+        {
+          workspace = toString ws;
+          monitor = if ws <= 5 then "DP-1" else "eDP-2";
+          persistent = true;
+        }
+        // lib.optionalAttrs (ws == 1 || ws == 6) { default = true; }
+      ) 10;
 
       system.stateVersion = "23.05";
       networking.hostName = "work";
