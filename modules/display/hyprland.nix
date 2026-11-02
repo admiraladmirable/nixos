@@ -126,6 +126,7 @@
       masterOrientation = "left";
       scrollingDirection = "right";
       scrollingColumnWidth = 0.6;
+      c = config.lib.stylix.colors;
     in
     {
       xdg.configFile."uwsm/env".source =
@@ -231,6 +232,14 @@
               (inline action)
             ];
           };
+          # hl.bind(keys, action, { mouse = true }) for held-button drag binds.
+          bindMouse = keys: action: {
+            _args = [
+              keys
+              (inline action)
+              { mouse = true; }
+            ];
+          };
           exec = cmd: "hl.dsp.exec_cmd(${toLua cmd})";
           # Hyprlang fired every bind sharing a key; Lua keeps one bind per key,
           # so run the dispatchers in sequence from a single function.
@@ -265,12 +274,14 @@
               }
             ];
           };
-          animation = leaf: speed: curve: style: {
-            inherit leaf speed;
-            enabled = true;
-            bezier = curve;
-          }
-          // lib.optionalAttrs (style != null) { inherit style; };
+          animation =
+            leaf: speed: curve: style:
+            {
+              inherit leaf speed;
+              enabled = true;
+              bezier = curve;
+            }
+            // lib.optionalAttrs (style != null) { inherit style; };
         in
         {
           enable = true;
@@ -280,11 +291,6 @@
           systemd.enable = false;
 
           configType = "lua";
-
-          plugins = with pkgs.hyprlandPlugins; [
-            borders-plus-plus
-            hyprbars
-          ];
 
           settings = {
             config = {
@@ -307,12 +313,6 @@
               input_capture.capture_modifiers = true;
 
               xwayland.force_zero_scaling = true;
-
-              # Plugin options `plugin:borders-plus-plus:x` become plugin.borders_plus_plus.x.
-              plugin.borders_plus_plus = {
-                add_borders = 1;
-                natural_rounding = true;
-              };
 
               animations.enabled = true;
 
@@ -346,6 +346,19 @@
               decoration.rounding = 10;
 
               general = {
+                # Upstream example look (2px, 45deg two-tone active gradient,
+                # translucent inactive) in Stylix colors. Stylix's hyprland
+                # target writes these same flat keys with solid colors; force
+                # ours so only one definition is rendered.
+                border_size = 2;
+                "col.active_border" = lib.mkForce {
+                  colors = [
+                    "rgba(${c.base0D}ee)"
+                    "rgba(${c.base0B}ee)"
+                  ];
+                  angle = 45;
+                };
+                "col.inactive_border" = lib.mkForce "rgba(${c.base03}aa)";
                 layout = defaultLayout;
                 resize_on_border = true;
                 snap.enabled = true;
@@ -357,7 +370,13 @@
             curve = [
               (bezier "wind" [ 0.05 0.9 ] [ 0.1 1.05 ])
               (bezier "winIn" [ 0.1 1.1 ] [ 0.1 1.1 ])
-              (bezier "winOut" [ 0.3 (-0.3) ] [ 0 1 ])
+              (bezier "winOut"
+                [
+                  0.3
+                  (-0.3)
+                ]
+                [ 0 1 ]
+              )
               (bezier "liner" [ 1 1 ] [ 1 1 ])
             ];
 
@@ -375,9 +394,7 @@
             on = {
               _args = [
                 "hyprland.start"
-                (inline "function()\n${
-                  lib.concatMapStrings (c: "  hl.exec_cmd(${toLua c})\n") startupCommands
-                }end")
+                (inline "function()\n${lib.concatMapStrings (c: "  hl.exec_cmd(${toLua c})\n") startupCommands}end")
               ];
             };
 
@@ -431,6 +448,10 @@
               (bind "Print" (exec "${lib.getExe screenshotEditor} area"))
               (bind "${mod} + Print" (exec "${lib.getExe screenshotEditor} output"))
               (bind "${mod} + Space" (exec launcherCommand))
+
+              # Drag with SUPER + LMB to move, SUPER + RMB to resize.
+              (bindMouse "${mod} + mouse:272" "hl.dsp.window.drag()")
+              (bindMouse "${mod} + mouse:273" "hl.dsp.window.resize()")
 
               # Dwindle layout controls.
               (bind "${mod} + CTRL + E" (layoutMsg "togglesplit"))

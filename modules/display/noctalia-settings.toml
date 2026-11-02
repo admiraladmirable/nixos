@@ -16,7 +16,7 @@ end = [
 start = [ "launcher", "clock", "wallpaper" ]
 
     [[bar.default.capsule_group]]
-    fill = "surface_variant"
+    fill = "surface_container"
     id = "g1"
     members = [ "clipboard", "network" ]
     opacity = 1.0
