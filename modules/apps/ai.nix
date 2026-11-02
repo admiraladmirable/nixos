@@ -32,6 +32,7 @@
         # ))
         opencode
         opencode-desktop
+        bb-app
         pi-coding-agent
       ];
     };

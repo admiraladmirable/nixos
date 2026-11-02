@@ -150,8 +150,10 @@ in
   # Helm 4 is not in nixpkgs yet; override kubernetes-helm with a v4 build.
   # kubernetes-helm = prev.callPackage ./kubernetes-helm/default.nix { };
 
+  awscli2 = prev.callPackage ./awscli2/default.nix { awscli2 = prev.awscli2; };
   k6-studio = prev.callPackage ./k6-studio/default.nix { pkgs = prev; };
   lmstudio = prev.callPackage ./lmstudio/default.nix { };
+  bb-app = prev.callPackage ./bb-app/default.nix { };
   umo = prev.callPackage ./umo/default.nix { };
   vcv-rack-custom = prev.callPackage ./vcv-rack/default.nix { };
   falcon-sensor = prev.callPackage ./falcon-sensor/default.nix { };
