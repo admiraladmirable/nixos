@@ -9,7 +9,6 @@
     {
       home.packages = with pkgs; [
         brave
-        chromium
         inputs.firefox-nightly.packages.${pkgs.stdenv.hostPlatform.system}.firefox-nightly-bin
       ];
 

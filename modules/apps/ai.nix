@@ -30,8 +30,8 @@
         # (cudaPkgs.python313Packages.toPythonApplication (
         #   cudaPkgs.python313Packages.vllm.override { gpuTargets = [ "12.0" ]; }
         # ))
-        opencode
-        opencode-desktop
+        # opencode
+        # opencode-desktop
         bb-app
         pi-coding-agent
       ];
