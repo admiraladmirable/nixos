@@ -40,6 +40,23 @@ in
     '';
   });
 
+  # nixpkgs' cargo setup hook now forces system libraries for *-sys crates
+  # (AWS_LC_SYS_USE_SYSTEM, ZSTD_SYS_USE_PKG_CONFIG, JEMALLOC_OVERRIDE, ...),
+  # but the foundry package doesn't provide them, so the build fails.
+  foundry = prev.foundry.overrideAttrs (old: {
+    buildInputs = (old.buildInputs or [ ]) ++ [
+      final.aws-lc
+      final.zstd
+      final.rust-jemalloc-sys
+      final.sqlite
+      final.libusb1
+    ];
+  });
+  # Same cargo setup hook change: aws-lc-sys needs a system aws-lc.
+  newsflash = prev.newsflash.overrideAttrs (old: {
+    buildInputs = (old.buildInputs or [ ]) ++ [ final.aws-lc ];
+  });
+
   # Upstream installs a pkg-config file named cava.pc but some consumers look for libcava.pc.
   # Provide an alias so pkg-config lookups succeed without patching every consumer.
   libcava = prev.libcava.overrideAttrs (old: {
